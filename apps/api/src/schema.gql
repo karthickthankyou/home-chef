@@ -1,0 +1,863 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type Cook {
+  uid: String!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+type Kitchen {
+  id: Int!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  name: String!
+  image: String!
+  about: String!
+  open: Boolean!
+  cookId: String!
+  addressId: Int!
+}
+
+type FoodItem {
+  days: [Day!]!
+  id: Int!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  name: String!
+  description: String!
+  price: Int!
+  image: String!
+  maxQuantity: Int!
+  live: Boolean!
+  deliveryAvailable: Boolean!
+  vegan: Boolean!
+  time: DateTime!
+  kitchenId: Int!
+}
+
+"""Enum for days"""
+enum Day {
+  MONDAY
+  TUESDAY
+  WEDNESDAY
+  THURSDAY
+  FRIDAY
+  SATURDAY
+  SUNDAY
+}
+
+type Customer {
+  uid: String!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  name: String!
+  addressId: Int!
+}
+
+type Schedule {
+  days: [Day!]!
+  id: Int!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  live: Boolean!
+  customerId: String!
+  foodItemId: Int!
+  quantity: Int!
+}
+
+type Order {
+  status: Status!
+  id: Int!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  customerId: String!
+  quantity: Int!
+  price: Int!
+  scheduleId: Int!
+  time: DateTime!
+  tokenNumber: Int!
+}
+
+"""Enum for days"""
+enum Status {
+  UNDELIVERED
+  DELIVERED
+  CANCELLED
+}
+
+type Address {
+  id: Int!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  address: String!
+  zipCode: String!
+  lat: Int!
+  lng: Int!
+}
+
+type CustomerReview {
+  id: Int!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  rating: Int!
+  text: String!
+  customerId: String!
+  foodItemId: Int!
+}
+
+type LoginOutput {
+  kind: String!
+  localId: String!
+  email: String!
+  displayName: String!
+  idToken: String!
+  refreshToken: String!
+  expiresIn: String!
+}
+
+type RegisterOutput {
+  kind: String!
+  localId: String!
+  email: String!
+  displayName: String!
+  idToken: String!
+  refreshToken: String!
+  expiresIn: String!
+}
+
+type RefreshTokenOutput {
+  access_token: String!
+  expires_in: String!
+  token_type: String!
+  refresh_token: String!
+  id_token: String!
+  user_id: String!
+  project_id: String!
+}
+
+type Query {
+  cooks(where: CookWhereInput, orderBy: [CookOrderByWithRelationInput!], cursor: CookWhereUniqueInput, take: Int, skip: Int, distinct: [CookScalarFieldEnum!]): [Cook!]!
+  cook(where: CookWhereUniqueInput): Cook!
+  kitchens(where: KitchenWhereInput, orderBy: [KitchenOrderByWithRelationInput!], cursor: KitchenWhereUniqueInput, take: Int, skip: Int, distinct: [KitchenScalarFieldEnum!]): [Kitchen!]!
+  kitchen(where: KitchenWhereUniqueInput): Kitchen!
+  foodItems(where: FoodItemWhereInput, orderBy: [FoodItemOrderByWithRelationInput!], cursor: WhereUniqueInputNumber, take: Int, skip: Int, distinct: [FoodItemScalarFieldEnum!]): [FoodItem!]!
+  foodItem(where: FoodItemWhereUniqueInput): FoodItem!
+  customers(where: CustomerWhereInput, orderBy: [CustomerOrderByWithRelationInput!], cursor: CustomerWhereUniqueInput, take: Int, skip: Int, distinct: [CustomerScalarFieldEnum!]): [Customer!]!
+  customer(where: CustomerWhereUniqueInput): Customer!
+  schedules(where: ScheduleWhereInput, orderBy: [ScheduleOrderByWithRelationInput!], cursor: WhereUniqueInputNumber, take: Int, skip: Int, distinct: [ScheduleScalarFieldEnum!]): [Schedule!]!
+  schedule(where: ScheduleWhereUniqueInput): Schedule!
+  orders(where: OrderWhereInput, orderBy: [OrderOrderByWithRelationInput!], cursor: WhereUniqueInputNumber, take: Int, skip: Int, distinct: [OrderScalarFieldEnum!]): [Order!]!
+  order(where: OrderWhereUniqueInput): Order!
+  addresses(where: AddressWhereInput, orderBy: [AddressOrderByWithRelationInput!], cursor: WhereUniqueInputNumber, take: Int, skip: Int, distinct: [AddressScalarFieldEnum!]): [Address!]!
+  address(where: AddressWhereUniqueInput): Address!
+  customerReviews(where: CustomerReviewWhereInput, orderBy: [CustomerReviewOrderByWithRelationInput!], cursor: CustomerReviewWhereUniqueInput, take: Int, skip: Int, distinct: [CustomerReviewScalarFieldEnum!]): [CustomerReview!]!
+  customerReview(where: CustomerReviewWhereUniqueInput): CustomerReview!
+}
+
+input CookWhereInput {
+  uid: StringFilter
+  createdAt: DateTimeFilter
+  updatedAt: DateTimeFilter
+  kitchen: KitchenRelationFilter
+  AND: [CookWhereInput!]
+  OR: [CookWhereInput!]
+  NOT: [CookWhereInput!]
+}
+
+input StringFilter {
+  equals: String
+  in: [String!]
+  notIn: [String!]
+  lt: String
+  lte: String
+  gt: String
+  gte: String
+  contains: String
+  startsWith: String
+  endsWith: String
+  not: String
+  mode: QueryMode
+}
+
+enum QueryMode {
+  default
+  insensitive
+}
+
+input DateTimeFilter {
+  equals: String
+  in: [String!]
+  notIn: [String!]
+  lt: String
+  lte: String
+  gt: String
+  gte: String
+}
+
+input KitchenRelationFilter {
+  is: KitchenWhereInput
+  isNot: KitchenWhereInput
+}
+
+input KitchenWhereInput {
+  foodItems: FoodItemListRelationFilter
+  id: IntFilter
+  createdAt: DateTimeFilter
+  updatedAt: DateTimeFilter
+  name: StringFilter
+  image: StringFilter
+  about: StringFilter
+  open: BoolFilter
+  cookId: StringFilter
+  addressId: IntFilter
+  cook: CookRelationFilter
+  address: AddressRelationFilter
+  AND: [KitchenWhereInput!]
+  OR: [KitchenWhereInput!]
+  NOT: [KitchenWhereInput!]
+}
+
+input FoodItemListRelationFilter {
+  every: FoodItemWhereInput
+  some: FoodItemWhereInput
+  none: FoodItemWhereInput
+}
+
+input FoodItemWhereInput {
+  id: IntFilter
+  createdAt: DateTimeFilter
+  updatedAt: DateTimeFilter
+  name: StringFilter
+  description: StringFilter
+  price: FloatFilter
+  image: StringFilter
+  maxQuantity: IntFilter
+  live: BoolFilter
+  deliveryAvailable: BoolFilter
+  vegan: BoolFilter
+  time: DateTimeFilter
+  kitchenId: IntFilter
+  days: EnumDayListFilter
+  kitchen: KitchenRelationFilter
+  schedules: ScheduleListRelationFilter
+  customerReviews: CustomerReviewListRelationFilter
+  AND: [FoodItemWhereInput!]
+  OR: [FoodItemWhereInput!]
+  NOT: [FoodItemWhereInput!]
+}
+
+input IntFilter {
+  equals: Int
+  in: Int
+  notIn: Int
+  lt: Int
+  lte: Int
+  gt: Int
+  gte: Int
+  not: Int
+}
+
+input FloatFilter {
+  equals: Float
+  in: Float
+  notIn: Float
+  lt: Float
+  lte: Float
+  gt: Float
+  gte: Float
+  not: Float
+}
+
+input BoolFilter {
+  equals: Boolean
+  not: Boolean
+}
+
+input EnumDayListFilter {
+  equals: Day
+  in: [Day!]
+  notIn: [Day!]
+  not: Day
+}
+
+input ScheduleListRelationFilter {
+  every: ScheduleWhereInput
+  some: ScheduleWhereInput
+  none: ScheduleWhereInput
+}
+
+input ScheduleWhereInput {
+  id: IntFilter
+  createdAt: DateTimeFilter
+  updatedAt: DateTimeFilter
+  live: BoolFilter
+  customerId: StringFilter
+  foodItemId: IntFilter
+  quantity: IntFilter
+  days: EnumDayListFilter
+  customer: CustomerRelationFilter
+  foodItem: FoodItemRelationFilter
+  orders: OrderListRelationFilter
+  AND: [ScheduleWhereInput!]
+  OR: [ScheduleWhereInput!]
+  NOT: [ScheduleWhereInput!]
+}
+
+input CustomerRelationFilter {
+  is: CustomerWhereInput
+  isNot: CustomerWhereInput
+}
+
+input CustomerWhereInput {
+  AND: [CustomerWhereInput!]
+  OR: [CustomerWhereInput!]
+  NOT: [CustomerWhereInput!]
+  uid: StringFilter!
+  createdAt: DateTimeFilter!
+  updatedAt: DateTimeFilter!
+  name: StringFilter!
+  addressId: IntFilter!
+  address: AddressRelationFilter!
+  schedules: ScheduleListRelationFilter!
+  customerReviews: CustomerReviewListRelationFilter!
+  orders: OrderListRelationFilter!
+}
+
+input AddressRelationFilter {
+  is: AddressWhereInput
+  isNot: AddressWhereInput
+}
+
+input AddressWhereInput {
+  id: IntFilter
+  createdAt: DateTimeFilter
+  updatedAt: DateTimeFilter
+  address: StringFilter
+  zipCode: StringFilter
+  lat: FloatFilter
+  lng: FloatFilter
+  kitchen: KitchenRelationFilter
+  customer: CustomerRelationFilter
+  AND: [AddressWhereInput!]
+  OR: [AddressWhereInput!]
+  NOT: [AddressWhereInput!]
+}
+
+input CustomerReviewListRelationFilter {
+  every: CustomerReviewWhereInput
+  some: CustomerReviewWhereInput
+  none: CustomerReviewWhereInput
+}
+
+input CustomerReviewWhereInput {
+  id: IntFilter
+  createdAt: DateTimeFilter
+  updatedAt: DateTimeFilter
+  rating: IntFilter
+  text: StringFilter
+  customerId: StringFilter
+  foodItemId: IntFilter
+  customer: CustomerRelationFilter
+  foodItem: FoodItemRelationFilter
+  AND: [CustomerReviewWhereInput!]
+  OR: [CustomerReviewWhereInput!]
+  NOT: [CustomerReviewWhereInput!]
+}
+
+input FoodItemRelationFilter {
+  is: FoodItemWhereInput
+  isNot: FoodItemWhereInput
+}
+
+input OrderListRelationFilter {
+  every: OrderWhereInput
+  some: OrderWhereInput
+  none: OrderWhereInput
+}
+
+input OrderWhereInput {
+  id: IntFilter
+  createdAt: DateTimeFilter
+  updatedAt: DateTimeFilter
+  status: EnumStatusFilter
+  customerId: StringFilter
+  quantity: IntFilter
+  price: FloatFilter
+  scheduleId: IntFilter
+  time: DateTimeFilter
+  tokenNumber: IntFilter
+  customer: CustomerRelationFilter
+  schedule: ScheduleRelationFilter
+  AND: [OrderWhereInput!]
+  OR: [OrderWhereInput!]
+  NOT: [OrderWhereInput!]
+}
+
+input EnumStatusFilter {
+  equals: Status
+  in: [Status!]
+  notIn: [Status!]
+  not: Status
+}
+
+input ScheduleRelationFilter {
+  is: ScheduleWhereInput
+  isNot: ScheduleWhereInput
+}
+
+input CookRelationFilter {
+  is: CookWhereInput
+  isNot: CookWhereInput
+}
+
+input CookOrderByWithRelationInput {
+  uid: SortOrder
+  createdAt: SortOrder
+  updatedAt: SortOrder
+  kitchen: KitchenOrderByWithRelationInput
+}
+
+enum SortOrder {
+  asc
+  desc
+}
+
+input KitchenOrderByWithRelationInput {
+  id: SortOrder
+  createdAt: SortOrder
+  updatedAt: SortOrder
+  name: SortOrder
+  image: SortOrder
+  about: SortOrder
+  open: SortOrder
+  cookId: SortOrder
+  addressId: SortOrder
+  cook: CookOrderByWithRelationInput
+  address: AddressOrderByWithRelationInput
+  foodItems: FoodItemOrderByRelationAggregateInput
+}
+
+input AddressOrderByWithRelationInput {
+  id: SortOrder
+  createdAt: SortOrder
+  updatedAt: SortOrder
+  address: SortOrder
+  zipCode: SortOrder
+  lat: SortOrder
+  lng: SortOrder
+  kitchen: KitchenOrderByWithRelationInput
+  customer: CustomerOrderByWithRelationInput
+}
+
+input CustomerOrderByWithRelationInput {
+  uid: SortOrder
+  createdAt: SortOrder
+  updatedAt: SortOrder
+  name: SortOrder
+  addressId: SortOrder
+  address: AddressOrderByWithRelationInput
+  schedules: ScheduleOrderByRelationAggregateInput
+  customerReviews: CustomerReviewOrderByRelationAggregateInput
+  orders: OrderOrderByRelationAggregateInput
+}
+
+input ScheduleOrderByRelationAggregateInput {
+  _count: SortOrder
+}
+
+input CustomerReviewOrderByRelationAggregateInput {
+  _count: SortOrder
+}
+
+input OrderOrderByRelationAggregateInput {
+  _count: SortOrder
+}
+
+input FoodItemOrderByRelationAggregateInput {
+  _count: SortOrder
+}
+
+input CookWhereUniqueInput {
+  uid: String
+}
+
+enum CookScalarFieldEnum {
+  uid
+  createdAt
+  updatedAt
+}
+
+input KitchenWhereUniqueInput {
+  id: Int
+}
+
+enum KitchenScalarFieldEnum {
+  id
+  createdAt
+  updatedAt
+  name
+  image
+  about
+  open
+  cookId
+  addressId
+}
+
+input FoodItemOrderByWithRelationInput {
+  id: SortOrder
+  createdAt: SortOrder
+  updatedAt: SortOrder
+  name: SortOrder
+  description: SortOrder
+  price: SortOrder
+  image: SortOrder
+  maxQuantity: SortOrder
+  live: SortOrder
+  deliveryAvailable: SortOrder
+  vegan: SortOrder
+  time: SortOrder
+  kitchenId: SortOrder
+  days: SortOrder
+  kitchen: KitchenOrderByWithRelationInput
+  schedules: ScheduleOrderByRelationAggregateInput
+  customerReviews: CustomerReviewOrderByRelationAggregateInput
+}
+
+input WhereUniqueInputNumber {
+  id: Int
+}
+
+enum FoodItemScalarFieldEnum {
+  id
+  createdAt
+  updatedAt
+  name
+  description
+  price
+  image
+  maxQuantity
+  live
+  deliveryAvailable
+  vegan
+  time
+  kitchenId
+  days
+}
+
+input FoodItemWhereUniqueInput {
+  id: Int
+}
+
+input CustomerWhereUniqueInput {
+  uid: String
+}
+
+enum CustomerScalarFieldEnum {
+  uid
+  createdAt
+  updatedAt
+  name
+  addressId
+}
+
+input ScheduleOrderByWithRelationInput {
+  id: SortOrder
+  createdAt: SortOrder
+  updatedAt: SortOrder
+  live: SortOrder
+  customerId: SortOrder
+  foodItemId: SortOrder
+  quantity: SortOrder
+  days: SortOrder
+  customer: CustomerOrderByWithRelationInput
+  foodItem: FoodItemOrderByWithRelationInput
+  orders: OrderOrderByRelationAggregateInput
+}
+
+enum ScheduleScalarFieldEnum {
+  id
+  createdAt
+  updatedAt
+  live
+  customerId
+  foodItemId
+  quantity
+  days
+}
+
+input ScheduleWhereUniqueInput {
+  id: Int
+}
+
+input OrderOrderByWithRelationInput {
+  id: SortOrder
+  createdAt: SortOrder
+  updatedAt: SortOrder
+  status: SortOrder
+  customerId: SortOrder
+  quantity: SortOrder
+  price: SortOrder
+  scheduleId: SortOrder
+  time: SortOrder
+  tokenNumber: SortOrder
+  customer: CustomerOrderByWithRelationInput
+  schedule: ScheduleOrderByWithRelationInput
+}
+
+enum OrderScalarFieldEnum {
+  id
+  createdAt
+  updatedAt
+  status
+  customerId
+  quantity
+  price
+  scheduleId
+  time
+  tokenNumber
+}
+
+input OrderWhereUniqueInput {
+  id: Int
+}
+
+enum AddressScalarFieldEnum {
+  id
+  createdAt
+  updatedAt
+  address
+  zipCode
+  lat
+  lng
+}
+
+input AddressWhereUniqueInput {
+  id: Int
+}
+
+input CustomerReviewOrderByWithRelationInput {
+  id: SortOrder
+  createdAt: SortOrder
+  updatedAt: SortOrder
+  rating: SortOrder
+  text: SortOrder
+  customerId: SortOrder
+  foodItemId: SortOrder
+  customer: CustomerOrderByWithRelationInput
+  foodItem: FoodItemOrderByWithRelationInput
+}
+
+input CustomerReviewWhereUniqueInput {
+  id: Int
+}
+
+enum CustomerReviewScalarFieldEnum {
+  id
+  createdAt
+  updatedAt
+  rating
+  text
+  customerId
+  foodItemId
+}
+
+type Mutation {
+  login(credentials: LoginInput!): LoginOutput!
+  register(credentials: RegisterInput!): RegisterOutput!
+  refreshToken(refreshTokenInput: RefreshTokenInput!): RefreshTokenOutput!
+  setRole(setRoleInput: SetRoleInput!): Boolean!
+  setAdmin(uid: String!): Boolean!
+  createCook(createCookInput: CreateCookInput!): Cook!
+  updateCook(updateCookInput: UpdateCookInput!): Cook!
+  removeCook(where: CookWhereUniqueInput): Cook!
+  createKitchen(createKitchenInput: CreateKitchenInput!): Kitchen!
+  updateKitchen(updateKitchenInput: UpdateKitchenInput!): Kitchen!
+  removeKitchen(where: KitchenWhereUniqueInput): Kitchen!
+  createFoodItem(createFoodItemInput: CreateFoodItemInput!): FoodItem!
+  updateFoodItem(updateFoodItemInput: UpdateFoodItemInput!): FoodItem!
+  removeFoodItem(where: FoodItemWhereUniqueInput): FoodItem!
+  createCustomer(createCustomerInput: CreateCustomerInput!): Customer!
+  updateCustomer(updateCustomerInput: UpdateCustomerInput!): Customer!
+  removeCustomer(where: CustomerWhereUniqueInput): Customer!
+  createSchedule(createScheduleInput: CreateScheduleInput!): Schedule!
+  updateSchedule(updateScheduleInput: UpdateScheduleInput!): Schedule!
+  removeSchedule(where: ScheduleWhereUniqueInput): Schedule!
+  createOrder(createOrderInput: CreateOrderInput!): Order!
+  updateOrder(updateOrderInput: UpdateOrderInput!): Order!
+  removeOrder(where: OrderWhereUniqueInput): Order!
+  createAddress(createAddressInput: CreateAddressInput!): Address!
+  updateAddress(updateAddressInput: UpdateAddressInput!): Address!
+  removeAddress(where: AddressWhereUniqueInput): Address!
+  createCustomerReview(createCustomerReviewInput: CreateCustomerReviewInput!): CustomerReview!
+  updateCustomerReview(updateCustomerReviewInput: UpdateCustomerReviewInput!): CustomerReview!
+  removeCustomerReview(where: CustomerReviewWhereUniqueInput): CustomerReview!
+}
+
+input LoginInput {
+  email: String!
+  password: String!
+}
+
+input RegisterInput {
+  email: String!
+  password: String!
+  displayName: String
+}
+
+input RefreshTokenInput {
+  refresh_token: String!
+}
+
+input SetRoleInput {
+  uid: String!
+  role: RoleEnum!
+}
+
+"""Enum for roles"""
+enum RoleEnum {
+  admin
+  moderator
+}
+
+input CreateCookInput {
+  uid: String!
+}
+
+input UpdateCookInput {
+  uid: String!
+}
+
+input CreateKitchenInput {
+  name: String!
+  image: String!
+  about: String!
+  open: Boolean!
+  cookId: String!
+  addressId: Int!
+}
+
+input UpdateKitchenInput {
+  name: String
+  image: String
+  about: String
+  open: Boolean
+  cookId: String
+  addressId: Int
+  id: Int!
+}
+
+input CreateFoodItemInput {
+  days: [Day!]!
+  name: String!
+  description: String!
+  price: Int!
+  image: String!
+  maxQuantity: Int!
+  live: Boolean!
+  deliveryAvailable: Boolean!
+  vegan: Boolean!
+  time: DateTime!
+  kitchenId: Int!
+}
+
+input UpdateFoodItemInput {
+  days: [Day!]
+  name: String
+  description: String
+  price: Int
+  image: String
+  maxQuantity: Int
+  live: Boolean
+  deliveryAvailable: Boolean
+  vegan: Boolean
+  time: DateTime
+  kitchenId: Int
+  id: Int!
+}
+
+input CreateCustomerInput {
+  uid: String!
+  name: String!
+  addressId: Int!
+}
+
+input UpdateCustomerInput {
+  uid: String!
+  name: String
+  addressId: Int
+}
+
+input CreateScheduleInput {
+  days: [Day!]!
+  live: Boolean!
+  customerId: String!
+  foodItemId: Int!
+  quantity: Int!
+}
+
+input UpdateScheduleInput {
+  days: [Day!]
+  live: Boolean
+  customerId: String
+  foodItemId: Int
+  quantity: Int
+  id: Int!
+}
+
+input CreateOrderInput {
+  status: Status!
+  customerId: String!
+  quantity: Int!
+  price: Int!
+  scheduleId: Int!
+  time: DateTime!
+  tokenNumber: Int!
+}
+
+input UpdateOrderInput {
+  status: Status
+  customerId: String
+  quantity: Int
+  price: Int
+  scheduleId: Int
+  time: DateTime
+  tokenNumber: Int
+  id: Int!
+}
+
+input CreateAddressInput {
+  address: String!
+  zipCode: String!
+  lat: Int!
+  lng: Int!
+}
+
+input UpdateAddressInput {
+  address: String
+  zipCode: String
+  lat: Int
+  lng: Int
+  id: Int!
+}
+
+input CreateCustomerReviewInput {
+  rating: Int!
+  text: String!
+  customerId: String!
+  foodItemId: Int!
+}
+
+input UpdateCustomerReviewInput {
+  rating: Int
+  text: String
+  customerId: String
+  foodItemId: Int
+  id: Int!
+}

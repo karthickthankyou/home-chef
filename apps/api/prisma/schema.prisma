@@ -1,0 +1,162 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+    provider = "prisma-client-js"
+}
+
+datasource db {
+    provider = "postgresql"
+    url      = env("DATABASE_URL")
+}
+
+model Cook {
+    uid       String   @id
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+    kitchen   Kitchen?
+}
+
+model Kitchen {
+    id        Int      @id @default(autoincrement())
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    name  String?
+    image String?
+    about String?
+    open  Boolean @default(false)
+
+    cook   Cook?   @relation(fields: [cookId], references: [uid])
+    cookId String? @unique
+
+    address   Address?   @relation(fields: [addressId], references: [id])
+    addressId Int?       @unique
+    foodItems FoodItem[]
+}
+
+model FoodItem {
+    id        Int      @id @default(autoincrement())
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    name              String
+    description       String?
+    price             Float
+    image             String?
+    maxQuantity       Int
+    live              Boolean? @default(false)
+    deliveryAvailable Boolean? @default(false)
+    vegan             Boolean? @default(false)
+    time              DateTime @db.Timetz()
+
+    kitchen         Kitchen          @relation(fields: [kitchenId], references: [id])
+    kitchenId       Int
+    days            Day[]
+    schedules       Schedule[]
+    customerReviews CustomerReview[]
+}
+
+model Customer {
+    uid       String   @id
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+    name      String
+    address   Address? @relation(fields: [addressId], references: [id])
+    addressId Int?     @unique
+
+    schedules       Schedule[]
+    customerReviews CustomerReview[]
+    orders          Order[]
+}
+
+model Schedule {
+    id        Int      @id @default(autoincrement())
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    live       Boolean  @default(false)
+    customerId String
+    customer   Customer @relation(fields: [customerId], references: [uid])
+
+    foodItem   FoodItem @relation(fields: [foodItemId], references: [id])
+    foodItemId Int
+    quantity   Int?     @default(1)
+    days       Day[]
+    orders     Order[]
+
+    @@unique([customerId, foodItemId, days])
+}
+
+model Order {
+    id        Int      @id @default(autoincrement())
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    status Status?
+
+    customer   Customer @relation(fields: [customerId], references: [uid])
+    customerId String
+
+    quantity Int
+    price    Float
+
+    schedule   Schedule? @relation(fields: [scheduleId], references: [id])
+    scheduleId Int?
+
+    time        DateTime @db.Timestamptz()
+    tokenNumber Int?
+
+    @@unique([scheduleId, time])
+}
+
+model Address {
+    id        Int      @id @default(autoincrement())
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    address  String
+    zipCode  String?
+    lat      Float
+    lng      Float
+    kitchen  Kitchen?
+    customer Customer?
+}
+
+model CustomerReview {
+    id        Int      @id @default(autoincrement())
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    rating Int
+    text   String?
+
+    customer   Customer @relation(fields: [customerId], references: [uid])
+    customerId String
+    foodItem   FoodItem @relation(fields: [foodItemId], references: [id])
+    foodItemId Int
+
+    @@unique([customerId, foodItemId])
+}
+
+enum Status {
+    UNDELIVERED
+    DELIVERED
+
+    CANCELLED
+}
+
+enum RoleType {
+    ADMIN
+    COOK
+}
+
+enum Day {
+    MONDAY
+    TUESDAY
+    WEDNESDAY
+    THURSDAY
+    FRIDAY
+    SATURDAY
+    SUNDAY
+}
