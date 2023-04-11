@@ -8,6 +8,8 @@ export class AddressOrderByWithRelationInput
   implements Required<Prisma.AddressOrderByWithRelationInput>
 {
   @Field(() => Prisma.SortOrder, { nullable: true })
+  kitchenId: Prisma.SortOrder
+  @Field(() => Prisma.SortOrder, { nullable: true })
   id: Prisma.SortOrder
   @Field(() => Prisma.SortOrder, { nullable: true })
   createdAt: Prisma.SortOrder

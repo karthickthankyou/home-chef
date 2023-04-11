@@ -3,6 +3,7 @@ import { Address as AddressType } from '@prisma/client'
 
 @ObjectType()
 export class Address implements AddressType {
+  kitchenId: number
   id: number
   createdAt: Date
   updatedAt: Date

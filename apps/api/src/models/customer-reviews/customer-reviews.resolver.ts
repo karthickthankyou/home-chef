@@ -1,4 +1,11 @@
-import { Resolver, Query, Mutation, Args } from '@nestjs/graphql'
+import {
+  Resolver,
+  Query,
+  Mutation,
+  Args,
+  Parent,
+  ResolveField,
+} from '@nestjs/graphql'
 import { CustomerReviewsService } from './customer-reviews.service'
 import { CustomerReview } from './entities/customer-review.entity'
 import {
@@ -7,11 +14,15 @@ import {
 } from './dto/find.args'
 import { CreateCustomerReviewInput } from './dto/create-customer-review.input'
 import { UpdateCustomerReviewInput } from './dto/update-customer-review.input'
+import { Customer } from '../customers/entities/customer.entity'
+import { PrismaService } from 'src/common/prisma/prisma.service'
+import { FoodItem } from '../food-items/entities/food-item.entity'
 
 @Resolver(() => CustomerReview)
 export class CustomerReviewsResolver {
   constructor(
     private readonly customerReviewsService: CustomerReviewsService,
+    private readonly prisma: PrismaService,
   ) {}
 
   @Mutation(() => CustomerReview)
@@ -41,5 +52,19 @@ export class CustomerReviewsResolver {
   @Mutation(() => CustomerReview)
   removeCustomerReview(@Args() args: FindUniqueCustomerReviewArgs) {
     return this.customerReviewsService.remove(args)
+  }
+
+  @ResolveField(() => Customer)
+  customer(@Parent() customerReview: CustomerReview) {
+    return this.prisma.customer.findUnique({
+      where: { uid: customerReview.customerId },
+    })
+  }
+
+  @ResolveField(() => FoodItem)
+  foodItem(@Parent() customerReview: CustomerReview) {
+    return this.prisma.foodItem.findUnique({
+      where: { id: customerReview.foodItemId },
+    })
   }
 }

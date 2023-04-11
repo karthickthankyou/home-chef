@@ -1029,6 +1029,11 @@
     lodash.omit "4.5.0"
     tslib "2.5.0"
 
+"@nestjs/axios@^2.0.0":
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/@nestjs/axios/-/axios-2.0.0.tgz#2116fad483e232ef102a877b503a9f19926bd102"
+  integrity sha512-F6oceoQLEn031uun8NiommeMkRIojQqVryxQy/mK7fx0CI0KbgkJL3SloCQcsOD+agoEnqKJKXZpEvL6FNswJg==
+
 "@nestjs/cli@^9.0.0":
   version "9.3.0"
   resolved "https://registry.npmjs.org/@nestjs/cli/-/cli-9.3.0.tgz"
@@ -2864,6 +2869,13 @@ create-require@^1.1.0:
   version "1.1.1"
   resolved "https://registry.npmjs.org/create-require/-/create-require-1.1.1.tgz"
   integrity sha512-dcKFX3jn0MpIaXjisoRvexIJVEKzaq7z2rZKxf+MSr9TkdmHmsU4m2lcLojrj/FHl8mk5VxMmYA+ftRkP/3oKQ==
+
+cross-fetch@^3.1.5:
+  version "3.1.5"
+  resolved "https://registry.yarnpkg.com/cross-fetch/-/cross-fetch-3.1.5.tgz#e1389f44d9e7ba767907f7af8454787952ab534f"
+  integrity sha512-lvb1SBsI0Z7GDwmuid+mU3kWVBwTVUbe7S0H52yaaAdQOXq2YktTCZdlAcNKFzE6QtRz0snpw9bNiPeOIkkQvw==
+  dependencies:
+    node-fetch "2.6.7"
 
 cross-spawn@^6.0.5:
   version "6.0.5"
@@ -5645,6 +5657,13 @@ media-typer@0.3.0:
   resolved "https://registry.npmjs.org/media-typer/-/media-typer-0.3.0.tgz"
   integrity sha512-dq+qelQ9akHpcOl/gUVRTxVIOkAJ1wR3QAvb4RsVjS8oVoFjDGTc679wJYmUmknUF5HwMLOgb5O+a3KxfWapPQ==
 
+meilisearch@^0.32.3:
+  version "0.32.3"
+  resolved "https://registry.yarnpkg.com/meilisearch/-/meilisearch-0.32.3.tgz#cbc224014c3dddc818090f4b501029993f117b6a"
+  integrity sha512-EOgfBuRE5SiIPIpEDYe2HO0D7a4z5bexIgaAdJFma/dH5hx1kwO+u/qb2g3qKyjG+iA3l8MlmTj/Xd72uahaAw==
+  dependencies:
+    cross-fetch "^3.1.5"
+
 memfs@^3.4.1:
   version "3.5.0"
   resolved "https://registry.npmjs.org/memfs/-/memfs-3.5.0.tgz"
@@ -5910,6 +5929,13 @@ node-emoji@1.11.0:
   integrity sha512-wo2DpQkQp7Sjm2A0cq+sN7EHKO6Sl0ctXeBdFZrL9T9+UywORbufTcTZxom8YqpLQt/FqNMUkOpkZrJVYSKD3A==
   dependencies:
     lodash "^4.17.21"
+
+node-fetch@2.6.7:
+  version "2.6.7"
+  resolved "https://registry.yarnpkg.com/node-fetch/-/node-fetch-2.6.7.tgz#24de9fba827e3b4ae44dc8b20256a379160052ad"
+  integrity sha512-ZjMPFEfVx5j+y2yF35Kzx5sF7kDzxuDj6ziH4FFbOp87zKDZNx8yExJIb05OGF4Nlt9IHFIMBkRl41VdvcNdbQ==
+  dependencies:
+    whatwg-url "^5.0.0"
 
 node-fetch@^2.6.1, node-fetch@^2.6.7:
   version "2.6.9"

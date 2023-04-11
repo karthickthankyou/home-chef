@@ -4,7 +4,7 @@ import { GetUserType, Role } from '@common-kitchen-org/types'
 export const checkRowLevelPermission = (
   user: GetUserType,
   requestedUid?: string | string[],
-  roles: Role[] = ['admin', 'agent'],
+  roles: Role[] = ['admin'],
 ) => {
   if (!requestedUid) return false
 

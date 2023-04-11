@@ -6,6 +6,7 @@ type Cook {
   uid: String!
   createdAt: DateTime!
   updatedAt: DateTime!
+  kitchen: Kitchen!
 }
 
 """
@@ -23,6 +24,21 @@ type Kitchen {
   open: Boolean!
   cookId: String!
   addressId: Int!
+  cook: Cook!
+  address: Address!
+  foodItems: [FoodItem!]!
+}
+
+type Address {
+  kitchenId: Int!
+  id: Int!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  address: String!
+  zipCode: String!
+  lat: Int!
+  lng: Int!
+  customer: Customer!
 }
 
 type FoodItem {
@@ -40,6 +56,9 @@ type FoodItem {
   vegan: Boolean!
   time: DateTime!
   kitchenId: Int!
+  kitchen: Kitchen!
+  schedules: [Schedule!]!
+  customerReview: [CustomerReview!]!
 }
 
 """Enum for days"""
@@ -53,14 +72,6 @@ enum Day {
   SUNDAY
 }
 
-type Customer {
-  uid: String!
-  createdAt: DateTime!
-  updatedAt: DateTime!
-  name: String!
-  addressId: Int!
-}
-
 type Schedule {
   days: [Day!]!
   id: Int!
@@ -70,6 +81,32 @@ type Schedule {
   customerId: String!
   foodItemId: Int!
   quantity: Int!
+  orders: [Order!]!
+  foodItem: FoodItem!
+  customer: Customer!
+}
+
+type CustomerReview {
+  id: Int!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  rating: Int!
+  text: String!
+  customerId: String!
+  foodItemId: Int!
+  customer: Customer!
+  foodItem: FoodItem!
+}
+
+type Customer {
+  uid: String!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  name: String!
+  addressId: Int!
+  schedules: [Schedule!]!
+  customerReviews: [CustomerReview!]!
+  orders: [Order!]!
 }
 
 type Order {
@@ -83,6 +120,8 @@ type Order {
   scheduleId: Int!
   time: DateTime!
   tokenNumber: Int!
+  customer: Customer!
+  schedule: Schedule!
 }
 
 """Enum for days"""
@@ -90,26 +129,6 @@ enum Status {
   UNDELIVERED
   DELIVERED
   CANCELLED
-}
-
-type Address {
-  id: Int!
-  createdAt: DateTime!
-  updatedAt: DateTime!
-  address: String!
-  zipCode: String!
-  lat: Int!
-  lng: Int!
-}
-
-type CustomerReview {
-  id: Int!
-  createdAt: DateTime!
-  updatedAt: DateTime!
-  rating: Int!
-  text: String!
-  customerId: String!
-  foodItemId: Int!
 }
 
 type LoginOutput {
@@ -336,6 +355,7 @@ input AddressRelationFilter {
 }
 
 input AddressWhereInput {
+  kitchenId: IntFilter
   id: IntFilter
   createdAt: DateTimeFilter
   updatedAt: DateTimeFilter
@@ -445,6 +465,7 @@ input KitchenOrderByWithRelationInput {
 }
 
 input AddressOrderByWithRelationInput {
+  kitchenId: SortOrder
   id: SortOrder
   createdAt: SortOrder
   updatedAt: SortOrder
@@ -507,7 +528,6 @@ enum KitchenScalarFieldEnum {
   about
   open
   cookId
-  addressId
 }
 
 input FoodItemOrderByWithRelationInput {
@@ -636,9 +656,11 @@ enum AddressScalarFieldEnum {
   zipCode
   lat
   lng
+  kitchenId
 }
 
 input AddressWhereUniqueInput {
+  kitchenId: Int
   id: Int
 }
 

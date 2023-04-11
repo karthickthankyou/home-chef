@@ -14,11 +14,15 @@ export class AddressWhereUniqueInput
   implements Required<Prisma.AddressWhereUniqueInput>
 {
   @Field(() => Number, { nullable: true })
+  kitchenId: number
+  @Field(() => Number, { nullable: true })
   id: number
 }
 
 @InputType()
 export class AddressWhereInput implements Required<Prisma.AddressWhereInput> {
+  @Field(() => IntFilter, { nullable: true })
+  kitchenId: IntFilter
   @Field(() => IntFilter, { nullable: true })
   id: IntFilter
   @Field(() => DateTimeFilter, { nullable: true })
