@@ -31,7 +31,7 @@ type FoodItem {
   kitchenId: Int!
   kitchen: Kitchen!
   schedules: [Schedule!]!
-  customerReview: [CustomerReview!]!
+  customerReview: CustomerReview
   scheduleCount: AggregateCountOutput
 }
 

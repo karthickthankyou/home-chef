@@ -401,7 +401,7 @@ export type FloatFilter = {
 export type FoodItem = {
   __typename?: 'FoodItem'
   createdAt: Scalars['DateTime']
-  customerReview: Array<CustomerReview>
+  customerReview: CustomerReview
   days: Array<Day>
   deliveryAvailable: Scalars['Boolean']
   description: Scalars['String']
@@ -1593,11 +1593,11 @@ export type SchedulesForCustomerQuery = {
       name: string
       price: number
       time: any
-      customerReview: Array<{
+      customerReview: {
         __typename?: 'CustomerReview'
         rating: number
         text: string
-      }>
+      }
       kitchen: { __typename?: 'Kitchen'; name: string }
     }
   }>
