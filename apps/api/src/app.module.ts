@@ -16,7 +16,6 @@ import { AddressesModule } from './models/addresses/addresses.module'
 import { CustomerReviewsModule } from './models/customer-reviews/customer-reviews.module'
 import { FirebaseModule } from './common/firebase/firebase.module'
 import { AuthModule } from './common/auth/auth.module'
-import { MeiliSearchModule } from './meilisearch/meilisearch.module'
 
 @Module({
   imports: [
@@ -33,7 +32,6 @@ import { MeiliSearchModule } from './meilisearch/meilisearch.module'
     PrismaModule,
     FirebaseModule,
     AuthModule,
-    MeiliSearchModule,
 
     CooksModule,
     KitchensModule,

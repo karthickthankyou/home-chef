@@ -22,13 +22,11 @@ import {
 } from 'src/common/decorators/auth/auth.decorator'
 import { GetUserType } from '@common-kitchen-org/types'
 import { checkRowLevelPermission } from 'src/common/guards'
-import { MeiliSearchService } from 'src/meilisearch/meilisearch.service'
 
 @Resolver(() => FoodItem)
 export class FoodItemsResolver {
   constructor(
     private readonly foodItemsService: FoodItemsService,
-    private readonly meiliSearchService: MeiliSearchService,
     private readonly prisma: PrismaService,
   ) {}
 
@@ -43,7 +41,7 @@ export class FoodItemsResolver {
     })
     checkRowLevelPermission(user, kitchen.cookId)
     const foodItem = await this.foodItemsService.create(args)
-    await this.meiliSearchService.addDocuments('foodItems', [foodItem])
+
     return foodItem
   }
 
