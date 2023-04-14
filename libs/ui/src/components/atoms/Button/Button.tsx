@@ -7,7 +7,7 @@ export type IButtonProps = {
   variant?: 'contained' | 'outlined' | 'text'
   color?: 'primary' | 'success' | 'error' | 'white' | 'black'
   fullWidth?: boolean
-  isLoading?: boolean
+  loading?: boolean
 } & React.DetailedHTMLProps<
   React.ButtonHTMLAttributes<HTMLButtonElement>,
   HTMLButtonElement
@@ -54,7 +54,7 @@ export const Button = ({
   disabled = false,
   children,
   className,
-  isLoading = false,
+  loading = false,
   type = 'button',
   ...props
 }: IButtonProps) => {
@@ -63,17 +63,17 @@ export const Button = ({
   const sizeCls = sizes[size]
 
   const fwCls = fullWidth && 'w-full'
-  const disCls = (disabled || isLoading) && 'opacity-60 cursor-auto'
+  const disCls = (disabled || loading) && 'opacity-60 cursor-auto'
 
   return (
     <button
       // eslint-disable-next-line react/button-has-type
       type={type}
-      disabled={disabled || isLoading}
-      className={`rounded-sm relative font-medium ${sizeCls} ${fwCls} ${variantCls} ${disCls}  ${className} `}
+      disabled={disabled || loading}
+      className={`rounded relative font-medium ${sizeCls} ${fwCls} ${variantCls} ${disCls}  ${className} `}
       {...props}
     >
-      {isLoading ? (
+      {loading ? (
         <>
           <div className="absolute inset-0 flex items-center justify-center">
             <IconRefresh className="w-5 h-5 animate-spin-reverse" />

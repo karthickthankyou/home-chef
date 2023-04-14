@@ -1,3 +1,5 @@
+import { BrandIcon } from '../BrandIcon'
+
 export interface IBrandProps {
   shortForm?: boolean
   className?: string
@@ -5,11 +7,17 @@ export interface IBrandProps {
 
 export const Brand = ({ shortForm = false, className }: IBrandProps) => {
   return (
-    <div className="inline-block shadow-gray-100 shadow-[5px_5px_0px_-0px_rgba(0,0,0,0.3)]">
-      <div
-        className={`bg-gray-50 px-2 leading-none select-none border-2 border-white font-black text-2xl ${className}`}
-      >
-        {shortForm ? 'CK.' : 'Common Kitchen.'}
+    <div className={`grid place-items-center ${className}`}>
+      <div className="text-xl ">
+        {shortForm ? (
+          <div className="flex gap-1">
+            <BrandIcon animate className="mb-1 stroke-2 " /> HC
+          </div>
+        ) : (
+          <div className="flex items-center gap-1 tracking-tighter font-playfair">
+            <BrandIcon animate className="mb-1 stroke-2 " /> Home Chefs
+          </div>
+        )}
       </div>
     </div>
   )

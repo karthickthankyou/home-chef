@@ -11,16 +11,13 @@ import { Address } from './entities/address.entity'
 import { FindManyAddressArgs, FindUniqueAddressArgs } from './dto/find.args'
 import { CreateAddressInput } from './dto/create-address.input'
 import { UpdateAddressInput } from './dto/update-address.input'
-import { Order } from '@prisma/client'
 import { Customer } from '../customers/entities/customer.entity'
 import { PrismaService } from 'src/common/prisma/prisma.service'
-import { Kitchen } from '../kitchens/entities/kitchen.entity'
 import {
   AllowAuthenticated,
   GetUser,
 } from 'src/common/decorators/auth/auth.decorator'
 import { GetUserType } from '@home-chefs-org/types'
-import { checkRowLevelPermission } from 'src/common/guards'
 
 @Resolver(() => Address)
 export class AddressesResolver {

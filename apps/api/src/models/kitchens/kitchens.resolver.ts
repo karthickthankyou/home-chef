@@ -101,8 +101,9 @@ export class KitchensResolver {
   }
   @ResolveField(() => Address)
   address(@Parent() kitchen: Kitchen) {
+    console.log('Kitchen ', kitchen)
     return this.prisma.address.findUnique({
-      where: { id: kitchen.addressId },
+      where: { kitchenId: kitchen.id },
     })
   }
   @ResolveField(() => [FoodItem])

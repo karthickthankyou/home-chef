@@ -1,4 +1,8 @@
-import '@zillow/styles/globals.css'
+import '@home-chefs/styles/globals.css'
+import 'mapbox-gl/dist/mapbox-gl.css'
+import 'react-quill/dist/quill.snow.css'
+import 'react-quill/dist/quill.bubble.css'
+
 import type { AppProps } from 'next/app'
 import { ReduxProvider } from '@home-chefs-org/store/provider'
 import { ApolloProvider } from '@home-chefs-org/network/src/config/apollo'

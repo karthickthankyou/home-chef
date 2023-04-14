@@ -104,13 +104,15 @@ export class FoodItemsResolver {
     })
   }
 
-  @ResolveField(() => AggregateCountOutput)
-  scheduleCount(@Parent() foodItem: FoodItem) {
-    return this.prisma.schedule.aggregate({
+  @ResolveField(() => AggregateCountOutput, { nullable: true })
+  async scheduleCount(@Parent() foodItem: FoodItem) {
+    const agg = await this.prisma.schedule.aggregate({
       where: {
         foodItemId: { equals: foodItem.id },
       },
       _count: { foodItemId: true },
     })
+
+    return { count: agg._count.foodItemId || 0 }
   }
 }

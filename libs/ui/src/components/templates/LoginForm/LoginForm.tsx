@@ -66,7 +66,7 @@ const LoginForm = ({ className }: ILoginFormProps) => {
           {...register('password')}
         />
       </HtmlLabel>
-      <Button isLoading={loading} type="submit" fullWidth>
+      <Button loading={loading} type="submit" fullWidth>
         Login
       </Button>
       {error ? <FormError error={error} /> : null}

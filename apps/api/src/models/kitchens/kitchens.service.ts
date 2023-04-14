@@ -7,9 +7,13 @@ import { UpdateKitchenInput } from './dto/update-kitchen.input'
 @Injectable()
 export class KitchensService {
   constructor(private readonly prisma: PrismaService) {}
-  create(createKitchenInput: CreateKitchenInput) {
+  create({ address, foodItems, ...kitchen }: CreateKitchenInput) {
     return this.prisma.kitchen.create({
-      data: createKitchenInput,
+      data: {
+        ...kitchen,
+        address: { create: address },
+        foodItems: { create: foodItems },
+      },
     })
   }
 

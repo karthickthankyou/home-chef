@@ -10,7 +10,7 @@ import { CooksService } from './cooks.service'
 import { Cook } from './entities/cook.entity'
 import { FindManyCookArgs, FindUniqueCookArgs } from './dto/find.args'
 import { CreateCookInput } from './dto/create-cook.input'
-import { UpdateCookInput } from './dto/update-cook.input'
+
 import { Kitchen } from '../kitchens/entities/kitchen.entity'
 import {
   AllowAuthenticated,
@@ -33,6 +33,7 @@ export class CooksResolver {
     @Args('createCookInput') args: CreateCookInput,
     @GetUser() user: GetUserType,
   ) {
+    console.log('user', user)
     checkRowLevelPermission(user, args.uid)
     return this.cooksService.create(args)
   }
@@ -43,19 +44,9 @@ export class CooksResolver {
     return this.cooksService.findAll(args)
   }
 
-  @Query(() => Cook, { name: 'cook' })
+  @Query(() => Cook, { name: 'cook', nullable: true })
   findOne(@Args() args: FindUniqueCookArgs) {
     return this.cooksService.findOne(args)
-  }
-
-  @AllowAuthenticated()
-  @Mutation(() => Cook)
-  updateCook(
-    @Args('updateCookInput') args: UpdateCookInput,
-    @GetUser() user: GetUserType,
-  ) {
-    checkRowLevelPermission(user, args.uid)
-    return this.cooksService.update(args)
   }
 
   @AllowAuthenticated()
@@ -65,6 +56,7 @@ export class CooksResolver {
     return this.cooksService.remove(args)
   }
 
+  @AllowAuthenticated()
   @ResolveField(() => Kitchen)
   kitchen(@Parent() cook: Cook, @GetUser() user: GetUserType) {
     checkRowLevelPermission(user, cook.uid)

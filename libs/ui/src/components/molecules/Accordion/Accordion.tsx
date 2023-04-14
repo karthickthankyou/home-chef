@@ -1,10 +1,10 @@
-import { ReactElement } from 'react'
+import { ReactElement, ReactNode } from 'react'
 import { Disclosure } from '@headlessui/react'
 import { IconChevronDown } from '@tabler/icons-react'
 
 export interface IAccordionProps {
-  title: string
-  children: ReactElement | ReactElement[]
+  title: ReactNode
+  children: ReactNode
   className?: string
   defaultOpen?: boolean
 }
@@ -34,7 +34,7 @@ export const Accordion = ({
             } w-5 h-5 `}
           />
         </Disclosure.Button>
-        <Disclosure.Panel className="w-full pb-3 pr-12 text-gray-600">
+        <Disclosure.Panel className="w-full px-6 pb-3 text-gray-600">
           {children}
         </Disclosure.Panel>
       </>

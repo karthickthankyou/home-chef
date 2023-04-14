@@ -29,8 +29,8 @@ export type Address = {
   customer: Customer
   id: Scalars['Int']
   kitchenId: Scalars['Int']
-  lat: Scalars['Int']
-  lng: Scalars['Int']
+  lat: Scalars['Float']
+  lng: Scalars['Float']
   updatedAt: Scalars['DateTime']
   zipCode: Scalars['String']
 }
@@ -137,12 +137,13 @@ export type CookWhereUniqueInput = {
 
 export type CreateAddressInput = {
   address: Scalars['String']
-  lat: Scalars['Int']
-  lng: Scalars['Int']
+  lat: Scalars['Float']
+  lng: Scalars['Float']
   zipCode: Scalars['String']
 }
 
 export type CreateCookInput = {
+  kitchen: CreateKitchenInputWithoutCookId
   uid: Scalars['String']
 }
 
@@ -173,10 +174,33 @@ export type CreateFoodItemInput = {
   vegan: Scalars['Boolean']
 }
 
+export type CreateFoodItemInputWithoutKitchenId = {
+  days: Array<Day>
+  deliveryAvailable: Scalars['Boolean']
+  description: Scalars['String']
+  image: Scalars['String']
+  live: Scalars['Boolean']
+  maxQuantity: Scalars['Int']
+  name: Scalars['String']
+  price: Scalars['Int']
+  time: Scalars['DateTime']
+  vegan: Scalars['Boolean']
+}
+
 export type CreateKitchenInput = {
   about: Scalars['String']
-  addressId: Scalars['Int']
+  address: CreateAddressInput
   cookId: Scalars['String']
+  foodItems: Array<CreateFoodItemInputWithoutKitchenId>
+  image: Scalars['String']
+  name: Scalars['String']
+  open: Scalars['Boolean']
+}
+
+export type CreateKitchenInputWithoutCookId = {
+  about: Scalars['String']
+  address: CreateAddressInput
+  foodItems: Array<CreateFoodItemInputWithoutKitchenId>
   image: Scalars['String']
   name: Scalars['String']
   open: Scalars['Boolean']
@@ -388,7 +412,7 @@ export type FoodItem = {
   maxQuantity: Scalars['Int']
   name: Scalars['String']
   price: Scalars['Int']
-  scheduleCount: AggregateCountOutput
+  scheduleCount?: Maybe<AggregateCountOutput>
   schedules: Array<Schedule>
   time: Scalars['DateTime']
   updatedAt: Scalars['DateTime']
@@ -601,7 +625,6 @@ export type Mutation = {
   setAdmin: Scalars['Boolean']
   setRole: Scalars['Boolean']
   updateAddress: Address
-  updateCook: Cook
   updateCustomer: Customer
   updateCustomerReview: CustomerReview
   updateFoodItem: FoodItem
@@ -696,10 +719,6 @@ export type MutationSetRoleArgs = {
 
 export type MutationUpdateAddressArgs = {
   updateAddressInput: UpdateAddressInput
-}
-
-export type MutationUpdateCookArgs = {
-  updateCookInput: UpdateCookInput
 }
 
 export type MutationUpdateCustomerArgs = {
@@ -815,7 +834,7 @@ export type Query = {
   __typename?: 'Query'
   address: Address
   addresses: Array<Address>
-  cook: Cook
+  cook?: Maybe<Cook>
   cooks: Array<Cook>
   customer: Customer
   customerReview: CustomerReview
@@ -1160,13 +1179,9 @@ export type StringFilter = {
 export type UpdateAddressInput = {
   address?: InputMaybe<Scalars['String']>
   id: Scalars['Int']
-  lat?: InputMaybe<Scalars['Int']>
-  lng?: InputMaybe<Scalars['Int']>
+  lat?: InputMaybe<Scalars['Float']>
+  lng?: InputMaybe<Scalars['Float']>
   zipCode?: InputMaybe<Scalars['String']>
-}
-
-export type UpdateCookInput = {
-  uid: Scalars['String']
 }
 
 export type UpdateCustomerInput = {
@@ -1200,7 +1215,6 @@ export type UpdateFoodItemInput = {
 
 export type UpdateKitchenInput = {
   about?: InputMaybe<Scalars['String']>
-  addressId?: InputMaybe<Scalars['Int']>
   cookId?: InputMaybe<Scalars['String']>
   id: Scalars['Int']
   image?: InputMaybe<Scalars['String']>

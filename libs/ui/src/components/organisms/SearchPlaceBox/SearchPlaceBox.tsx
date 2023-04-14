@@ -29,6 +29,9 @@ const SearchPlaceBox = ({ setLocationInfo }: ISearchPlaceBoxProps) => {
       isOptionEqualToValue={(option, value) =>
         option.placeName === value.placeName
       }
+      classes={{
+        root: 'rounded overflow-hidden',
+      }}
       onChange={(_, v) => {
         if (v) {
           const { latLng, placeName } = v

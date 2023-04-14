@@ -70,7 +70,7 @@ const ResetPassword = () => {
               />
             </HtmlLabel>
 
-            <Button type="submit" variant="contained" isLoading={loading}>
+            <Button type="submit" variant="contained" loading={loading}>
               Send verification code
             </Button>
           </form>

@@ -1,5 +1,5 @@
 import { Field, ObjectType, registerEnumType } from '@nestjs/graphql'
-import { Day, FoodItem as FoodItemType, Status } from '@prisma/client'
+import { Day, FoodItem as FoodItemType } from '@prisma/client'
 
 registerEnumType(Day, { name: 'Day', description: 'Enum for days' })
 

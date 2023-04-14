@@ -12,34 +12,34 @@ const Template: ComponentStory<typeof Masonry2> = (args) => (
 )
 
 const children = [
-  <div className="h-full p-3 rounded-lg shadow-lg bg-red/30" key="1">
+  <div className="h-full p-3 rounded shadow-lg bg-red/30" key="1">
     Hello
   </div>,
-  <div className="h-full p-3 rounded-lg shadow-lg bg-green/30" key="2">
+  <div className="h-full p-3 rounded shadow-lg bg-green/30" key="2">
     Hello 2
   </div>,
-  <div className="h-full p-3 rounded-lg shadow-lg bg-red/30" key="3">
+  <div className="h-full p-3 rounded shadow-lg bg-red/30" key="3">
     Hello 3
   </div>,
-  <div className="h-full p-3 rounded-lg shadow-lg bg-red/30" key="4">
+  <div className="h-full p-3 rounded shadow-lg bg-red/30" key="4">
     Hello
   </div>,
-  <div className="h-full p-3 rounded-lg shadow-lg bg-green/30" key="5">
+  <div className="h-full p-3 rounded shadow-lg bg-green/30" key="5">
     Hello 2
   </div>,
-  <div className="h-full p-3 rounded-lg shadow-lg bg-red/30" key="6">
+  <div className="h-full p-3 rounded shadow-lg bg-red/30" key="6">
     Hello 3
   </div>,
-  <div className="h-full p-3 rounded-lg shadow-lg bg-red/30" key="7">
+  <div className="h-full p-3 rounded shadow-lg bg-red/30" key="7">
     Hello
   </div>,
-  <div className="h-full p-3 rounded-lg shadow-lg bg-green/30" key="8">
+  <div className="h-full p-3 rounded shadow-lg bg-green/30" key="8">
     Hello 2
   </div>,
-  <div className="h-full p-3 rounded-lg shadow-lg bg-red/30" key="9">
+  <div className="h-full p-3 rounded shadow-lg bg-red/30" key="9">
     Hello 3
   </div>,
-  <div className="h-full p-3 rounded-lg shadow-lg bg-green/30" key="10">
+  <div className="h-full p-3 rounded shadow-lg bg-green/30" key="10">
     Hello 2
   </div>,
 ]

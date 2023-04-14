@@ -1,15 +1,31 @@
-import { Injectable } from '@nestjs/common'
+import { BadRequestException, Injectable } from '@nestjs/common'
 import { FindManyCookArgs, FindUniqueCookArgs } from './dto/find.args'
 import { PrismaService } from 'src/common/prisma/prisma.service'
 import { CreateCookInput } from './dto/create-cook.input'
-import { UpdateCookInput } from './dto/update-cook.input'
 
 @Injectable()
 export class CooksService {
   constructor(private readonly prisma: PrismaService) {}
-  create(createCookInput: CreateCookInput) {
+  async create({
+    uid,
+    kitchen: { address, foodItems, ...kitchen },
+  }: CreateCookInput) {
+    console.log(uid, kitchen)
+    const cook = await this.prisma.cook.findUnique({ where: { uid } })
+    if (cook?.uid) {
+      throw new BadRequestException('Cook already exists')
+    }
     return this.prisma.cook.create({
-      data: createCookInput,
+      data: {
+        uid,
+        kitchen: {
+          create: {
+            ...kitchen,
+            address: { create: address },
+            foodItems: { create: foodItems },
+          },
+        },
+      },
     })
   }
 
@@ -19,14 +35,6 @@ export class CooksService {
 
   findOne(args: FindUniqueCookArgs) {
     return this.prisma.cook.findUnique(args)
-  }
-
-  update(updateCookInput: UpdateCookInput) {
-    const { uid, ...data } = updateCookInput
-    return this.prisma.cook.update({
-      where: { uid },
-      data: data,
-    })
   }
 
   remove(args: FindUniqueCookArgs) {

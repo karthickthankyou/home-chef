@@ -46,7 +46,7 @@ const TemplatePictures: ComponentStory<typeof HScroll> = () => (
             <img
               src={item}
               alt=""
-              className="border border-white rounded-lg shadow-md"
+              className="border border-white rounded shadow-md"
             />
           </HScroll.Child>
         ))}
@@ -89,7 +89,7 @@ const TemplatePicturesArrowTop: ComponentStory<typeof HScroll> = () => (
             <img
               src={item}
               alt=""
-              className="border border-white rounded-lg shadow-md "
+              className="border border-white rounded shadow-md "
             />
           </HScroll.Child>
         ))}

@@ -59,7 +59,7 @@ Primary.args = {
       <div className="mt-4">
         <button
           type="button"
-          className="inline-flex justify-center px-4 py-2 text-sm font-medium text-white bg-black border border-transparent rounded-sm hover:bg-gray-900"
+          className="inline-flex justify-center px-4 py-2 text-sm font-medium text-white bg-black border border-transparent rounded hover:bg-gray-900"
         >
           Got it, thanks!
         </button>

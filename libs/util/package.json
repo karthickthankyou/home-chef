@@ -4,6 +4,7 @@
   "main": "index.js",
   "license": "MIT",
   "dependencies": {
-    "@home-chefs-org/types": "*"
+    "@home-chefs-org/types": "*",
+    "@home-chefs-org/network": "*"
   }
 }

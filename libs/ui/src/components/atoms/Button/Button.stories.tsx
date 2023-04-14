@@ -11,7 +11,7 @@ const Template: ComponentStory<typeof Button> = (args) => <Button {...args} />
 
 export const Loading = Template.bind({})
 Loading.args = {
-  isLoading: true,
+  loading: true,
   children: 'Loading...',
 }
 

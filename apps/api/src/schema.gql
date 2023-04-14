@@ -32,7 +32,7 @@ type FoodItem {
   kitchen: Kitchen!
   schedules: [Schedule!]!
   customerReview: [CustomerReview!]!
-  scheduleCount: AggregateCountOutput!
+  scheduleCount: AggregateCountOutput
 }
 
 """Enum for days"""
@@ -84,14 +84,14 @@ type Kitchen {
 }
 
 type Address {
+  lat: Float!
+  lng: Float!
   kitchenId: Int!
   id: Int!
   createdAt: DateTime!
   updatedAt: DateTime!
   address: String!
   zipCode: String!
-  lat: Int!
-  lng: Int!
   customer: Customer!
 }
 
@@ -187,7 +187,7 @@ type RefreshTokenOutput {
 
 type Query {
   cooks(where: CookWhereInput, orderBy: [CookOrderByWithRelationInput!], cursor: CookWhereUniqueInput, take: Int, skip: Int, distinct: [CookScalarFieldEnum!]): [Cook!]!
-  cook(where: CookWhereUniqueInput): Cook!
+  cook(where: CookWhereUniqueInput): Cook
   kitchens(where: KitchenWhereInput, orderBy: [KitchenOrderByWithRelationInput!], cursor: KitchenWhereUniqueInput, take: Int, skip: Int, distinct: [KitchenScalarFieldEnum!]): [Kitchen!]!
   searchKitchens(locationFilter: LocationFilterInput!, where: KitchenWhereInput, orderBy: [KitchenOrderByWithRelationInput!], cursor: KitchenWhereUniqueInput, take: Int, skip: Int, distinct: [KitchenScalarFieldEnum!]): [Kitchen!]!
   kitchen(where: KitchenWhereUniqueInput): Kitchen!
@@ -735,7 +735,6 @@ type Mutation {
   setRole(setRoleInput: SetRoleInput!): Boolean!
   setAdmin(uid: String!): Boolean!
   createCook(createCookInput: CreateCookInput!): Cook!
-  updateCook(updateCookInput: UpdateCookInput!): Cook!
   removeCook(where: CookWhereUniqueInput): Cook!
   createKitchen(createKitchenInput: CreateKitchenInput!): Kitchen!
   updateKitchen(updateKitchenInput: UpdateKitchenInput!): Kitchen!
@@ -788,10 +787,36 @@ enum RoleEnum {
 
 input CreateCookInput {
   uid: String!
+  kitchen: CreateKitchenInputWithoutCookId!
 }
 
-input UpdateCookInput {
-  uid: String!
+input CreateKitchenInputWithoutCookId {
+  name: String!
+  image: String!
+  about: String!
+  open: Boolean!
+  foodItems: [CreateFoodItemInputWithoutKitchenId!]!
+  address: CreateAddressInput!
+}
+
+input CreateFoodItemInputWithoutKitchenId {
+  days: [Day!]!
+  name: String!
+  description: String!
+  price: Int!
+  image: String!
+  maxQuantity: Int!
+  live: Boolean!
+  deliveryAvailable: Boolean!
+  vegan: Boolean!
+  time: DateTime!
+}
+
+input CreateAddressInput {
+  lat: Float!
+  lng: Float!
+  address: String!
+  zipCode: String!
 }
 
 input CreateKitchenInput {
@@ -800,7 +825,8 @@ input CreateKitchenInput {
   about: String!
   open: Boolean!
   cookId: String!
-  addressId: Int!
+  foodItems: [CreateFoodItemInputWithoutKitchenId!]!
+  address: CreateAddressInput!
 }
 
 input UpdateKitchenInput {
@@ -809,7 +835,6 @@ input UpdateKitchenInput {
   about: String
   open: Boolean
   cookId: String
-  addressId: Int
   id: Int!
 }
 
@@ -892,18 +917,11 @@ input UpdateOrderInput {
   id: Int!
 }
 
-input CreateAddressInput {
-  address: String!
-  zipCode: String!
-  lat: Int!
-  lng: Int!
-}
-
 input UpdateAddressInput {
+  lat: Float
+  lng: Float
   address: String
   zipCode: String
-  lat: Int
-  lng: Int
   id: Int!
 }
 

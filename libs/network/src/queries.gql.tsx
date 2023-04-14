@@ -215,13 +215,6 @@ export const removeFoodItem = gql`
   }
 `
 
-export const updateCook = gql`
-  mutation updateCook($updateCookInput: UpdateCookInput!) {
-    updateCook(updateCookInput: $updateCookInput) {
-      uid
-    }
-  }
-`
 export const updateKitchen = gql`
   mutation updateKitchen($updateKitchenInput: UpdateKitchenInput!) {
     updateKitchen(updateKitchenInput: $updateKitchenInput) {
