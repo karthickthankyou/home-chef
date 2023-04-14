@@ -1,0 +1,1 @@
+export { DynamicHero } from './DynamicHero'
