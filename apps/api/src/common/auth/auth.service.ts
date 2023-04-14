@@ -11,7 +11,7 @@ import {
   RegisterOutput,
 } from './dto/auth.input'
 
-import { Role } from '@common-kitchen-org/types'
+import { Role } from '@home-chefs-org/types'
 import { FirebaseService } from 'src/common/firebase/firebase.service'
 
 @Injectable()

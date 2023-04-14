@@ -14,6 +14,60 @@ A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date
 """
 scalar DateTime
 
+type FoodItem {
+  days: [Day!]!
+  id: Int!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  name: String!
+  description: String!
+  price: Int!
+  image: String!
+  maxQuantity: Int!
+  live: Boolean!
+  deliveryAvailable: Boolean!
+  vegan: Boolean!
+  time: DateTime!
+  kitchenId: Int!
+  kitchen: Kitchen!
+  schedules: [Schedule!]!
+  customerReview: [CustomerReview!]!
+  scheduleCount: AggregateCountOutput!
+}
+
+"""Enum for days"""
+enum Day {
+  MONDAY
+  TUESDAY
+  WEDNESDAY
+  THURSDAY
+  FRIDAY
+  SATURDAY
+  SUNDAY
+}
+
+type AggregateCountOutput {
+  count: Int!
+}
+
+type PartialFoodItem {
+  id: Int!
+  name: String!
+  kitchenId: Int!
+  quantity: Int!
+  kitchenName: String
+}
+
+type DayItems {
+  time: String!
+  foodItems: [PartialFoodItem!]!
+}
+
+type SchedulesForKitchenOutput {
+  day: String!
+  items: [DayItems!]!
+}
+
 type Kitchen {
   id: Int!
   createdAt: DateTime!
@@ -39,37 +93,6 @@ type Address {
   lat: Int!
   lng: Int!
   customer: Customer!
-}
-
-type FoodItem {
-  days: [Day!]!
-  id: Int!
-  createdAt: DateTime!
-  updatedAt: DateTime!
-  name: String!
-  description: String!
-  price: Int!
-  image: String!
-  maxQuantity: Int!
-  live: Boolean!
-  deliveryAvailable: Boolean!
-  vegan: Boolean!
-  time: DateTime!
-  kitchenId: Int!
-  kitchen: Kitchen!
-  schedules: [Schedule!]!
-  customerReview: [CustomerReview!]!
-}
-
-"""Enum for days"""
-enum Day {
-  MONDAY
-  TUESDAY
-  WEDNESDAY
-  THURSDAY
-  FRIDAY
-  SATURDAY
-  SUNDAY
 }
 
 type Schedule {
@@ -105,6 +128,7 @@ type Customer {
   name: String!
   addressId: Int!
   schedules: [Schedule!]!
+  address: Address!
   customerReviews: [CustomerReview!]!
   orders: [Order!]!
 }
@@ -165,6 +189,7 @@ type Query {
   cooks(where: CookWhereInput, orderBy: [CookOrderByWithRelationInput!], cursor: CookWhereUniqueInput, take: Int, skip: Int, distinct: [CookScalarFieldEnum!]): [Cook!]!
   cook(where: CookWhereUniqueInput): Cook!
   kitchens(where: KitchenWhereInput, orderBy: [KitchenOrderByWithRelationInput!], cursor: KitchenWhereUniqueInput, take: Int, skip: Int, distinct: [KitchenScalarFieldEnum!]): [Kitchen!]!
+  searchKitchens(locationFilter: LocationFilterInput!, where: KitchenWhereInput, orderBy: [KitchenOrderByWithRelationInput!], cursor: KitchenWhereUniqueInput, take: Int, skip: Int, distinct: [KitchenScalarFieldEnum!]): [Kitchen!]!
   kitchen(where: KitchenWhereUniqueInput): Kitchen!
   foodItems(where: FoodItemWhereInput, orderBy: [FoodItemOrderByWithRelationInput!], cursor: WhereUniqueInputNumber, take: Int, skip: Int, distinct: [FoodItemScalarFieldEnum!]): [FoodItem!]!
   foodItem(where: FoodItemWhereUniqueInput): FoodItem!
@@ -172,8 +197,14 @@ type Query {
   customer(where: CustomerWhereUniqueInput): Customer!
   schedules(where: ScheduleWhereInput, orderBy: [ScheduleOrderByWithRelationInput!], cursor: WhereUniqueInputNumber, take: Int, skip: Int, distinct: [ScheduleScalarFieldEnum!]): [Schedule!]!
   schedule(where: ScheduleWhereUniqueInput): Schedule!
+  schedulesForKitchen(where: ScheduleWhereInput, orderBy: [ScheduleOrderByWithRelationInput!], cursor: WhereUniqueInputNumber, take: Int, skip: Int, distinct: [ScheduleScalarFieldEnum!], kitchenId: String!): [Schedule!]!
+  schedulesForCustomer(where: ScheduleWhereInput, orderBy: [ScheduleOrderByWithRelationInput!], cursor: WhereUniqueInputNumber, take: Int, skip: Int, distinct: [ScheduleScalarFieldEnum!], customerId: String!): [Schedule!]!
+  schedulesForCustomerRaw(customerId: String!): [SchedulesForKitchenOutput!]!
+  schedulesForKitchenRaw(kitchenId: String!): [SchedulesForKitchenOutput!]!
   orders(where: OrderWhereInput, orderBy: [OrderOrderByWithRelationInput!], cursor: WhereUniqueInputNumber, take: Int, skip: Int, distinct: [OrderScalarFieldEnum!]): [Order!]!
   order(where: OrderWhereUniqueInput): Order!
+  ordersForCustomer(where: OrderWhereInput, orderBy: [OrderOrderByWithRelationInput!], cursor: WhereUniqueInputNumber, take: Int, skip: Int, distinct: [OrderScalarFieldEnum!], customerId: String!): [Order!]!
+  ordersForKitchen(where: OrderWhereInput, orderBy: [OrderOrderByWithRelationInput!], cursor: WhereUniqueInputNumber, take: Int, skip: Int, distinct: [OrderScalarFieldEnum!], kitchenId: Int!): [Order!]!
   addresses(where: AddressWhereInput, orderBy: [AddressOrderByWithRelationInput!], cursor: WhereUniqueInputNumber, take: Int, skip: Int, distinct: [AddressScalarFieldEnum!]): [Address!]!
   address(where: AddressWhereUniqueInput): Address!
   customerReviews(where: CustomerReviewWhereInput, orderBy: [CustomerReviewOrderByWithRelationInput!], cursor: CustomerReviewWhereUniqueInput, take: Int, skip: Int, distinct: [CustomerReviewScalarFieldEnum!]): [CustomerReview!]!
@@ -528,6 +559,13 @@ enum KitchenScalarFieldEnum {
   about
   open
   cookId
+}
+
+input LocationFilterInput {
+  ne_lat: Float!
+  ne_lng: Float!
+  sw_lat: Float!
+  sw_lng: Float!
 }
 
 input FoodItemOrderByWithRelationInput {

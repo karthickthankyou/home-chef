@@ -1,4 +1,4 @@
-import { GetUserType, Role } from '@common-kitchen-org/types'
+import { GetUserType, Role } from '@home-chefs-org/types'
 import { Injectable } from '@nestjs/common'
 import * as admin from 'firebase-admin'
 import { PrismaService } from '../prisma/prisma.service'

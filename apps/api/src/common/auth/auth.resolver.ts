@@ -4,7 +4,7 @@ import {
   AllowAuthenticated,
   GetUser,
 } from 'src/common/decorators/auth/auth.decorator'
-import { GetUserType, Role } from '@common-kitchen-org/types'
+import { GetUserType, Role } from '@home-chefs-org/types'
 
 import { AuthService } from './auth.service'
 

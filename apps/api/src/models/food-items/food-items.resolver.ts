@@ -20,8 +20,9 @@ import {
   AllowAuthenticated,
   GetUser,
 } from 'src/common/decorators/auth/auth.decorator'
-import { GetUserType } from '@common-kitchen-org/types'
+import { GetUserType } from '@home-chefs-org/types'
 import { checkRowLevelPermission } from 'src/common/guards'
+import { AggregateCountOutput } from 'src/common/dtos/common.input'
 
 @Resolver(() => FoodItem)
 export class FoodItemsResolver {
@@ -100,6 +101,16 @@ export class FoodItemsResolver {
   customerReview(@Parent() foodItem: FoodItem) {
     return this.prisma.customerReview.findMany({
       where: { foodItemId: foodItem.id },
+    })
+  }
+
+  @ResolveField(() => AggregateCountOutput)
+  scheduleCount(@Parent() foodItem: FoodItem) {
+    return this.prisma.schedule.aggregate({
+      where: {
+        foodItemId: { equals: foodItem.id },
+      },
+      _count: { foodItemId: true },
     })
   }
 }

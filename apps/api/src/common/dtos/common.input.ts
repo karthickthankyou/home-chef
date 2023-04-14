@@ -1,5 +1,13 @@
-import { Field, Float, InputType, registerEnumType } from '@nestjs/graphql'
+import {
+  Field,
+  Float,
+  InputType,
+  ObjectType,
+  PickType,
+  registerEnumType,
+} from '@nestjs/graphql'
 import { Prisma } from '@prisma/client'
+import { FoodItem } from 'src/models/food-items/entities/food-item.entity'
 
 @InputType()
 export class DateTimeFilter implements Prisma.DateTimeFilter {
@@ -137,3 +145,52 @@ export enum SortOrder {
 registerEnumType(Prisma.SortOrder, {
   name: 'SortOrder',
 })
+
+@ObjectType()
+export class AggregateCountOutput {
+  @Field(() => Number)
+  count: number
+}
+
+@InputType()
+export class LocationFilterInput {
+  @Field(() => Float)
+  ne_lat: number
+
+  @Field(() => Float)
+  ne_lng: number
+
+  @Field(() => Float)
+  sw_lat: number
+
+  @Field(() => Float)
+  sw_lng: number
+}
+
+@ObjectType()
+export class PartialFoodItem extends PickType(FoodItem, [
+  'id',
+  'name',
+  'kitchenId',
+]) {
+  @Field()
+  quantity: number
+  @Field({ nullable: true })
+  kitchenName: string
+}
+
+@ObjectType()
+export class DayItems {
+  @Field()
+  time: string
+  @Field(() => [PartialFoodItem])
+  foodItems: PartialFoodItem[]
+}
+
+@ObjectType()
+export class SchedulesForKitchenOutput {
+  @Field()
+  day: string
+  @Field(() => [DayItems])
+  items: DayItems[]
+}

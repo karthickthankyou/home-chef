@@ -1,0 +1,13 @@
+{
+  "name": "@home-chefs-org/hooks",
+  "version": "1.0.0",
+  "main": "src/index.ts",
+  "license": "MIT",
+  "dependencies": {
+    "@home-chefs-org/store": "*",
+    "@home-chefs-org/hooks": "*"
+  },
+  "scripts": {
+    "tsc": "tsc"
+  }
+}

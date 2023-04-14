@@ -1,5 +1,5 @@
 import { Field, InputType, ObjectType, registerEnumType } from '@nestjs/graphql'
-import { Role } from '@common-kitchen-org/types'
+import { Role } from '@home-chefs-org/types'
 
 @InputType()
 export class LoginInput {

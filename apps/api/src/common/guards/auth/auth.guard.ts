@@ -7,7 +7,7 @@ import {
 import { Reflector } from '@nestjs/core'
 import { GqlExecutionContext } from '@nestjs/graphql'
 import { FirebaseService } from 'src/common/firebase/firebase.service'
-import { Role } from '@common-kitchen-org/types'
+import { Role } from '@home-chefs-org/types'
 
 const authorizeUsingAccesstoken = async (
   accessToken: string,

@@ -20,8 +20,9 @@ import {
   AllowAuthenticated,
   GetUser,
 } from 'src/common/decorators/auth/auth.decorator'
-import { GetUserType } from '@common-kitchen-org/types'
+import { GetUserType } from '@home-chefs-org/types'
 import { checkRowLevelPermission } from 'src/common/guards'
+import { Address } from '../addresses/entities/address.entity'
 
 @Resolver(() => Customer)
 export class CustomersResolver {
@@ -79,6 +80,15 @@ export class CustomersResolver {
 
     return this.prisma.schedule.findMany({
       where: { customerId: customer.uid },
+    })
+  }
+
+  @ResolveField(() => Address)
+  address(@Parent() customer: Customer, @GetUser() user: GetUserType) {
+    checkRowLevelPermission(user, customer.uid)
+
+    return this.prisma.address.findUnique({
+      where: { id: customer.addressId },
     })
   }
 

@@ -19,8 +19,9 @@ import {
   AllowAuthenticated,
   GetUser,
 } from 'src/common/decorators/auth/auth.decorator'
-import { GetUserType } from '@common-kitchen-org/types'
+import { GetUserType } from '@home-chefs-org/types'
 import { checkRowLevelPermission } from 'src/common/guards'
+import { LocationFilterInput } from 'src/common/dtos/common.input'
 
 @Resolver(() => Kitchen)
 export class KitchensResolver {
@@ -42,6 +43,27 @@ export class KitchensResolver {
   @Query(() => [Kitchen], { name: 'kitchens' })
   findAll(@Args() args: FindManyKitchenArgs) {
     return this.kitchensService.findAll(args)
+  }
+
+  @Query(() => [Kitchen], { name: 'searchKitchens' })
+  async searchKitchens(
+    @Args('locationFilter') locationFilter: LocationFilterInput,
+    @Args({ nullable: true }) args: FindManyKitchenArgs,
+  ) {
+    const { where = {}, ...cookFilters } = args || {}
+    const { ne_lat, ne_lng, sw_lat, sw_lng } = locationFilter
+
+    return this.prisma.kitchen.findMany({
+      ...cookFilters,
+      where: {
+        ...where,
+        // open: { equals: true },
+        address: {
+          lat: { lte: ne_lat, gte: sw_lat },
+          lng: { lte: ne_lng, gte: sw_lng },
+        },
+      },
+    })
   }
 
   @Query(() => Kitchen, { name: 'kitchen' })
