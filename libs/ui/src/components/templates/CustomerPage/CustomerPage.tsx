@@ -252,7 +252,7 @@ export const CustomerSchedules = () => {
             <TableCell align="right">Rating</TableCell>
           </TableRow>
         </TableHead>
-        {data?.schedulesForCustomer
+        {[...(data?.schedulesForCustomer || [])]
           .sort((a, b) => a.foodItem.time.localeCompare(b.foodItem.time))
           .map((schedule) => (
             <CustomerSubscriptionRow key={schedule.id} schedule={schedule} />

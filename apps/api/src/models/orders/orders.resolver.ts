@@ -53,7 +53,7 @@ export class OrdersResolver {
   ) {
     checkRowLevelPermission(user, customerId)
 
-    return this.prisma.order.findMany({
+    const orders = await this.prisma.order.findMany({
       cursor,
       distinct,
       orderBy: [{ time: SortOrder.desc }],
@@ -61,6 +61,9 @@ export class OrdersResolver {
       take,
       where: { ...where, customerId: { equals: customerId } },
     })
+
+    console.log('orders', orders)
+    return orders
   }
 
   @AllowAuthenticated()

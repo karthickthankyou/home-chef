@@ -16,6 +16,8 @@ import { AddressesModule } from './models/addresses/addresses.module'
 import { CustomerReviewsModule } from './models/customer-reviews/customer-reviews.module'
 import { FirebaseModule } from './common/firebase/firebase.module'
 import { AuthModule } from './common/auth/auth.module'
+import { SchedulerModule } from './scheduler/scheduler.module'
+import { ScheduleModule } from '@nestjs/schedule'
 
 @Module({
   imports: [
@@ -28,10 +30,12 @@ import { AuthModule } from './common/auth/auth.module'
         numberScalarMode: 'integer',
       },
     }),
+    ScheduleModule.forRoot(),
 
     PrismaModule,
     FirebaseModule,
     AuthModule,
+    SchedulerModule,
 
     CooksModule,
     KitchensModule,

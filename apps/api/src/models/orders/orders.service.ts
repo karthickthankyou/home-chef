@@ -32,4 +32,27 @@ export class OrdersService {
   remove(args: FindUniqueOrderArgs) {
     return this.prisma.order.delete(args)
   }
+
+  async getTokenNumber(kitchenId: number, date: string) {
+    console.log('Date: ', date)
+    const {
+      _count: { id },
+    } = await this.prisma.order.aggregate({
+      where: {
+        schedule: {
+          foodItem: {
+            kitchenId,
+          },
+        },
+        createdAt: {
+          gte: new Date(date),
+        },
+      },
+      _count: {
+        id: true,
+      },
+    })
+
+    return id + 1
+  }
 }
