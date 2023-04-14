@@ -83,6 +83,7 @@ export class CustomersResolver {
     })
   }
 
+  @AllowAuthenticated()
   @ResolveField(() => Address)
   address(@Parent() customer: Customer, @GetUser() user: GetUserType) {
     checkRowLevelPermission(user, customer.uid)

@@ -870,13 +870,13 @@ input UpdateFoodItemInput {
 input CreateCustomerInput {
   uid: String!
   name: String!
-  addressId: Int!
+  address: CreateAddressInput!
 }
 
 input UpdateCustomerInput {
   uid: String!
   name: String
-  addressId: Int
+  address: CreateAddressInput
 }
 
 input CreateScheduleInput {

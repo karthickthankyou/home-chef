@@ -48,13 +48,17 @@ export class KitchensResolver {
   @Query(() => [Kitchen], { name: 'searchKitchens' })
   async searchKitchens(
     @Args('locationFilter') locationFilter: LocationFilterInput,
-    @Args({ nullable: true }) args: FindManyKitchenArgs,
+    @Args({ nullable: true })
+    { cursor, distinct, orderBy, skip, take, where }: FindManyKitchenArgs,
   ) {
-    const { where = {}, ...cookFilters } = args || {}
     const { ne_lat, ne_lng, sw_lat, sw_lng } = locationFilter
 
     return this.prisma.kitchen.findMany({
-      ...cookFilters,
+      cursor,
+      distinct,
+      orderBy,
+      skip,
+      take,
       where: {
         ...where,
         // open: { equals: true },

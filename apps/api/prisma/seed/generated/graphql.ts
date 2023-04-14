@@ -148,7 +148,7 @@ export type CreateCookInput = {
 }
 
 export type CreateCustomerInput = {
-  addressId: Scalars['Int']
+  address: CreateAddressInput
   name: Scalars['String']
   uid: Scalars['String']
 }
@@ -1185,7 +1185,7 @@ export type UpdateAddressInput = {
 }
 
 export type UpdateCustomerInput = {
-  addressId?: InputMaybe<Scalars['Int']>
+  address?: InputMaybe<CreateAddressInput>
   name?: InputMaybe<Scalars['String']>
   uid: Scalars['String']
 }

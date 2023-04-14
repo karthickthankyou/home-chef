@@ -31,7 +31,7 @@ const Header = ({
 const Footer = ({
   children,
   show,
-}: Pick<ISidebarProps, 'children' | 'show'>) => (
+}: Pick<ISidebarProps, 'children' | 'show' | 'className'>) => (
   <Transition
     show={show}
     enter="transition-all duration-300"

@@ -6,11 +6,13 @@ import { composeWithDevTools } from '@redux-devtools/extension'
 import { userReducer } from './user'
 
 import utilReducer from './utils/utilsStore'
+import { mapReducer } from './map'
 
 export const store = configureStore({
   reducer: {
     user: userReducer,
     utils: utilReducer,
+    map: mapReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
