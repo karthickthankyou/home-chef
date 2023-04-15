@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@home-chefs-org/3d": "*",
     "@home-chefs-org/network": "*",
     "@home-chefs-org/store": "*",
     "@home-chefs-org/ui": "*",
