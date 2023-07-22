@@ -1,20 +1,10 @@
 import React, { useEffect, useRef, useState } from 'react'
 
 import { Canvas, useFrame } from '@react-three/fiber'
-import { DottedLine } from './DottedLine2'
-import { MovingObject } from './MovingObject'
-import { DishIcon } from './DishIcon'
 import { SimpleLine } from './SimpleLine'
-import {
-  OrbitControls,
-  PerspectiveCamera,
-  Plane,
-  Image,
-} from '@react-three/drei'
+import { OrbitControls, PerspectiveCamera, Image } from '@react-three/drei'
 import { Spawner } from './Spawner'
-import { TextureLoader, Vector3 } from 'three'
-import dishIcon from '../assets/dish_icon.svg'
-import { ClientSideSvg } from './ClientSvg'
+import { Vector3 } from 'three'
 import { degToRad } from 'three/src/math/MathUtils'
 
 export type LocationVector = { x: number; y: number; z: number }
@@ -108,6 +98,14 @@ function createPath(
 
   return path
 }
+
+const defaultKitchens = [{ x: 1, y: 0, z: 1 }]
+const defaultHomes = [
+  { x: 3, y: 0, z: 1 },
+  { x: -1, y: 0, z: 1 },
+  { x: 1, y: 0, z: 3 },
+  { x: 1, y: 0, z: -1 },
+]
 
 const MovingTopDownCamera = ({ speed = 0.002 }) => {
   const [x, setX] = useState(-20)
@@ -229,13 +227,20 @@ export const HeroSection: React.FC = () => {
 
   console.log('locations: ', kitchens, homes)
 
-  const paths = [...Array(20).keys()].map((id) => ({
+  const paths = [...Array(2).keys()].map((id) => ({
     id,
     position: createPath(
       kitchens[randomInt(0, kitchens.length - 1)],
       homes[randomInt(0, homes.length - 1)],
     ),
   }))
+
+  for (let i = 0; i < 4; i++) {
+    paths.concat({
+      id: i + 21,
+      position: createPath(defaultKitchens[0], defaultHomes[i]),
+    })
+  }
 
   console.log('paths ', paths)
 

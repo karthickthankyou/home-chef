@@ -48,8 +48,6 @@ export const BecomeCook = ({ uid }: { uid: string }) => {
     formState: { errors },
   } = useFormCreateCook()
 
-  const formData = useWatch({ control })
-
   const [{ percent }, uploadImages] = useImageUpload()
 
   const formdata = useWatch({ control })
