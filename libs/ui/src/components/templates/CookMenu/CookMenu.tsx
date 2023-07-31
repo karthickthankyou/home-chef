@@ -25,7 +25,11 @@ import {
   useImageUpload,
 } from '@home-chefs-org/util'
 import { DayIcons } from '../../molecules/WeekCalendar/WeekCalendar'
-import { QuillEditor } from '../../organisms/QuillEditor'
+import dynamic from 'next/dynamic'
+const QuillEditor = dynamic(
+  () => import('../../organisms/QuillEditor').then((mod) => mod.QuillEditor),
+  { ssr: false },
+)
 import { IconPencil, IconPlus, IconUser } from '@tabler/icons-react'
 import { useAppDispatch, useAppSelector } from '@home-chefs-org/store'
 import { useFormUpdateFoodItem } from '@home-chefs-org/forms/src/foodItems/updateFoodItem'
