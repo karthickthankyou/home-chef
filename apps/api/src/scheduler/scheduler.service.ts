@@ -2,6 +2,7 @@ import { Injectable, Logger } from '@nestjs/common'
 import { Cron, CronExpression } from '@nestjs/schedule'
 import { Day } from '@prisma/client'
 import { PrismaService } from 'src/common/prisma/prisma.service'
+import { makeId } from 'src/common/util'
 import { OrdersService } from 'src/models/orders/orders.service'
 
 @Injectable()
@@ -27,7 +28,7 @@ export class SchedulerService {
     return tomorrow
   }
 
-  @Cron(CronExpression.EVERY_30_SECONDS)
+  @Cron(CronExpression.EVERY_2_HOURS)
   async handleCron() {
     const day = this.getDayOfWeek()
     console.log('Day ', day)
@@ -44,15 +45,18 @@ export class SchedulerService {
           schedule.foodItem.kitchenId,
           time.toISOString(),
         )
-
-        const order = await this.ordersService.create({
-          customerId: schedule.customerId,
-          status: 'UNDELIVERED',
-          time,
-          scheduleId: schedule.id,
-          tokenNumber,
-          price: schedule.foodItem.price,
-          quantity: schedule.quantity,
+        const passcode = makeId()
+        const order = await this.prismaService.order.create({
+          data: {
+            customerId: schedule.customerId,
+            status: 'UNDELIVERED',
+            time,
+            scheduleId: schedule.id,
+            tokenNumber,
+            price: schedule.foodItem.price,
+            quantity: schedule.quantity,
+            passcode,
+          },
         })
 
         return order

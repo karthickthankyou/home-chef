@@ -1,18 +1,14 @@
 import {
+  CustomerMeQuery,
   Day,
   SchedulesForCustomerRawQuery,
-  SearchKitchensQuery,
   useCreateScheduleMutation,
-  useGetCustomerLazyQuery,
   useGetKitchenLazyQuery,
-  useGetKitchenLocationQuery,
-  useGetKitchenQuery,
   useOrdersForCustomerQuery,
   useSchedulesForCustomerRawLazyQuery,
-  useSchedulesForCustomerRawQuery,
   useSearchKitchensLazyQuery,
-  useSearchKitchensQuery,
 } from '@home-chefs-org/network/src/generated'
+import { useFormContext, useWatch } from 'react-hook-form'
 import { useFormCreateSchedule } from '@home-chefs-org/forms/src/orders/schedule'
 import {
   Dispatch,
@@ -25,17 +21,18 @@ import {
 import {
   Layer,
   LngLatBounds,
-  MapProvider,
   Marker,
   Source,
   useMap,
   ViewState,
+  ViewStateChangeEvent,
 } from 'react-map-gl'
 import { Map } from '../../organisms/Map'
 import { Panel } from '@home-chefs-org/ui/src/components/organisms/Map/Panel'
 import { SearchPlaceBox } from '@home-chefs-org/ui/src/components/organisms/SearchPlaceBox'
 import { BrandIcon } from '@home-chefs-org/ui/src/components/atoms/BrandIcon'
 import { useAppDispatch, useAppSelector } from '@home-chefs-org/store'
+import { FormTypeSearchKitchens } from '@home-chefs-org/forms/src/searchKitchens'
 import {
   LngLatTuple,
   setDirectionEnd,
@@ -73,7 +70,7 @@ import { PlainButton } from '@home-chefs-org/ui/src/components/atoms/PlainButton
 import Image from 'next/image'
 import { Sidebar } from '@home-chefs-org/ui/src/components/organisms/Sidebar'
 import Link from 'next/link'
-import { Dialog } from '../../molecules/Dialog'
+import { Dialog } from '../../atoms/Dialog'
 import { notification$ } from '@home-chefs-org/util/subjects'
 import { selectUid } from '@home-chefs-org/store/user'
 import { DefaultZoomControls } from '../../organisms/Map/ZoomControls/ZoomControls'
@@ -85,24 +82,43 @@ const QuillEditor = dynamic(
     ),
   { ssr: false },
 )
-export interface ISearchKitchensProps {}
+export interface ISearchKitchensProps {
+  customer: CustomerMeQuery['customerMe']
+}
 
-export const isWithinBounds = ({
-  lat,
-  lng,
-  bounds,
+export const MoveToHome = ({
+  lat = 0,
+  lng = 0,
 }: {
   lat?: number
   lng?: number
-  bounds?: LngLatBounds
 }) => {
-  if (!lat || !lng || !bounds) return false
+  const { locationFilter } = useWatch<FormTypeSearchKitchens>()
 
-  const neLat = bounds.getNorthEast().lat
-  const neLng = bounds.getNorthEast().lng
-  const swLat = bounds.getSouthWest().lat
-  const swLng = bounds.getSouthWest().lng
-  return lat >= swLat && lat <= neLat && lng >= swLng && lng <= neLng
+  const nw_lat = locationFilter?.nw_lat || 0
+  const nw_lng = locationFilter?.nw_lng || 0
+  const se_lat = locationFilter?.se_lat || 0
+  const se_lng = locationFilter?.se_lng || 0
+
+  const insideBounds =
+    lat <= nw_lat && lat >= se_lat && lng >= nw_lng && lng <= se_lng
+
+  const { current: map } = useMap()
+  if (insideBounds) {
+    return null
+  }
+
+  return (
+    <Panel position="center-bottom">
+      <PlainButton
+        onClick={() => {
+          map?.getMap().flyTo({ center: { lat, lng }, essential: true })
+        }}
+      >
+        Move to home
+      </PlainButton>
+    </Panel>
+  )
 }
 
 export const GoToHome = ({ lat, lng }: { lat?: number; lng?: number }) => {
@@ -194,79 +210,21 @@ export const Directions = () => {
     }),
     [coordinates],
   )
-
-  return (
-    //   @ts-ignore
-    <Source type="geojson" data={dataOne}>
-      <Layer
-        id="lineLayer"
-        type="line"
-        source="my-data"
-        paint={{
-          'line-color': 'rgb(0,0,0)',
-          'line-width': 2,
-        }}
-      />
-    </Source>
-  )
-}
-
-export const SearchKitchens = ({}: ISearchKitchensProps) => {
-  const uid = useAppSelector(selectUid)
-  const [getCustomer, { data, loading }] = useGetCustomerLazyQuery()
-
-  useEffect(() => {
-    if (uid) getCustomer({ variables: { where: { uid } } })
-  }, [uid])
-
   const dispatch = useAppDispatch()
-
-  useEffect(() => {
-    const lng = data?.customer?.address?.lng
-    const lat = data?.customer?.address?.lat
-    if (lat && lng) {
-      dispatch(setDirectionStart([lng, lat]))
-    }
-  }, [data?.customer?.address?.lat, data?.customer?.address?.lng, dispatch])
-
-  const direction = useAppSelector((state) => state.map.direction)
-
-  useEffect(() => {
-    const latitude = data?.customer?.address?.lat
-    const longitude = data?.customer?.address?.lng
-    if (!latitude || !longitude) return undefined
-    const updatedViewState = {
-      latitude,
-      longitude,
-      zoom: 15,
-    } as ViewState
-
-    dispatch(setUpdatedViewState(updatedViewState))
-  }, [data?.customer?.address?.lat, data?.customer?.address?.lng, dispatch])
-
-  const [openSidebarFoodItem, setOpenSidebarFoodItem] = useState(false)
-  const [openSidebarCustomer, setOpenSidebarCustomer] = useState(false)
-
   return (
-    <Map>
-      <Panel position="right-center">
-        <DefaultZoomControls />
-      </Panel>
-      {data?.customer?.address?.lat ? (
-        <Marker
-          latitude={data?.customer.address?.lat}
-          longitude={data?.customer.address?.lng}
-          onClick={() => {
-            dispatch(setSelectedHome(true))
+    <>
+      {/* @ts-ignore */}
+      <Source type="geojson" data={dataOne}>
+        <Layer
+          id="lineLayer"
+          type="line"
+          source="my-data"
+          paint={{
+            'line-color': 'rgb(0,0,0)',
+            'line-width': 2,
           }}
-        >
-          <IconHome className="text-black bg-white rounded cursor-pointer fill-black/50 " />
-          <MarkerText>You</MarkerText>
-        </Marker>
-      ) : null}
-      <DisplayAllKitchens />
-      <Directions />
-
+        />
+      </Source>
       {direction?.start && direction?.end ? (
         <Panel position="left-bottom">
           <Button
@@ -278,31 +236,85 @@ export const SearchKitchens = ({}: ISearchKitchensProps) => {
           </Button>
         </Panel>
       ) : null}
-      <SidebarFoodItem
-        open={openSidebarFoodItem}
-        setOpen={setOpenSidebarFoodItem}
-      />
-      <SidebarCustomer
-        open={openSidebarCustomer}
-        setOpen={setOpenSidebarCustomer}
-      />
-      {/* <Panel position="right-top" className="h-[90vh] "></Panel> */}
-      {/* {!isWithinBounds({
-        bounds,
-        lat: data?.customer?.address?.lat,
-        lng: data?.customer?.address?.lng,
-      }) ? (
-        <Panel position="center-bottom">
-          <GoToHome
-            lat={data?.customer?.address?.lat}
-            lng={data?.customer?.address?.lng}
-          />
-        </Panel>
-      ) : null} */}
+    </>
+  )
+}
+
+export const SearchKitchens = ({ customer }: ISearchKitchensProps) => {
+  const dispatch = useAppDispatch()
+  const { setValue } = useFormContext<FormTypeSearchKitchens>()
+  // Set direction start
+  useEffect(() => {
+    const lng = customer?.address?.lng
+    const lat = customer?.address?.lat
+    if (lat && lng) {
+      dispatch(setDirectionStart([lng, lat]))
+    }
+  }, [customer?.address?.lat, customer?.address?.lng, dispatch])
+
+  function handleMapChange(target: ViewStateChangeEvent['target']) {
+    const bounds = target.getBounds()
+
+    const locationFilter = {
+      nw_lat: bounds?.getNorthWest().lat || 0,
+      nw_lng: bounds?.getNorthWest().lng || 0,
+      se_lat: bounds?.getSouthEast().lat || 0,
+      se_lng: bounds?.getSouthEast().lng || 0,
+    }
+
+    setValue('locationFilter', locationFilter)
+  }
+
+  return (
+    <Map
+      initialViewState={{
+        latitude: customer.address?.lat,
+        longitude: customer.address?.lng,
+        zoom: 12,
+      }}
+      onZoomEnd={(e) => handleMapChange(e.target)}
+      onDragEnd={(e) => handleMapChange(e.target)}
+      onLoad={(e) => handleMapChange(e.target)}
+    >
+      <Panel position="right-center">
+        <DefaultZoomControls />
+      </Panel>
+      <DisplayCustomer customer={customer} />
+      <DisplayAllKitchens />
+      <Directions />
+      <MoveToHome lat={customer.address?.lat} lng={customer.address?.lng} />
+
       <Panel position="left-top">
         <SearchPlaceBoxContainer />
       </Panel>
     </Map>
+  )
+}
+
+export const DisplayCustomer = ({ customer }: ISearchKitchensProps) => {
+  const [openSidebarCustomer, setOpenSidebarCustomer] = useState(false)
+  const dispatch = useAppDispatch()
+
+  return (
+    <div>
+      {customer?.address?.lat ? (
+        <Marker
+          latitude={customer.address.lat}
+          longitude={customer.address.lng}
+          onClick={() => {
+            setOpenSidebarCustomer(true)
+            dispatch(setSelectedHome(true))
+          }}
+        >
+          <IconHome className="text-black bg-white rounded cursor-pointer fill-black/50 " />
+          <MarkerText>You</MarkerText>
+        </Marker>
+      ) : null}
+      <SidebarCustomer
+        open={openSidebarCustomer}
+        setOpen={setOpenSidebarCustomer}
+      />
+    </div>
   )
 }
 
@@ -315,20 +327,13 @@ export const SubscribeFoodItem = ({
 }) => {
   const [openUpdate, setOpenUpdate] = useState(false)
 
-  const {
-    register,
-    control,
-    handleSubmit,
-    formState: { errors },
-  } = useFormCreateSchedule({
+  const { register, control, handleSubmit } = useFormCreateSchedule({
     defaultValues: { days: [], quantity: 1, live: true },
   })
 
   const [createScheduleMutation, { loading }] = useCreateScheduleMutation()
 
   const uid = useAppSelector((state) => state.user.uid)
-
-  const dispatch = useAppDispatch()
 
   return (
     <div>
@@ -340,7 +345,7 @@ export const SubscribeFoodItem = ({
       >
         Subscribe
       </Button>
-      <Dialog open={openUpdate} setOpen={setOpenUpdate}>
+      <Dialog open={openUpdate} setOpen={setOpenUpdate} title={foodItem.name}>
         <div className="text-4xl font-semibold">{foodItem.name}</div>
         <div>Rs. {foodItem.price}</div>
         <QuillEditor
@@ -498,7 +503,7 @@ const SidebarCustomer = ({
   }, [uid])
 
   const { loading, data } = useOrdersForCustomerQuery({
-    variables: { customerId: uid! },
+    variables: {},
   })
 
   useEffect(() => {
@@ -541,7 +546,7 @@ export const MenuForDay = ({
     <div className="text-base text-gray-600">{daysData.day}</div>
     <div>
       {daysData.items.length === 0 ? (
-        <div className="flex flex-col items-center justify-center gap-1 text-gray-600 bg-gray-100 border-2 border-dashed h-36">
+        <div className="flex flex-col items-center justify-center gap-1 text-gray-600 border-2 border-gray-100 border-dashed bg-gray-25 h-36">
           No items.
         </div>
       ) : null}
@@ -699,66 +704,50 @@ export const DisplaySelectedKitchen = () => {
 }
 
 export const DisplayAllKitchens = () => {
-  const { current: map } = useMap()
+  const { locationFilter } = useWatch<FormTypeSearchKitchens>()
 
-  const [bounds, setBounds] = useState<LngLatBounds>()
-  useEffect(() => {
-    const bounds = map?.getBounds()
-    setBounds(bounds)
-  }, [])
-
-  const locationFilter = useMemo(
-    () => ({
-      ne_lat: bounds?.getNorthEast().lat || 0,
-      ne_lng: bounds?.getNorthEast().lng || 0,
-      sw_lat: bounds?.getSouthWest().lat || 0,
-      sw_lng: bounds?.getSouthWest().lng || 0,
-    }),
-    [bounds],
-  )
-
-  const [refetch, { data, loading }] = useSearchKitchensLazyQuery({
-    variables: {
-      locationFilter,
-    },
-  })
+  const [refetch, { data, loading }] = useSearchKitchensLazyQuery()
 
   useEffect(() => {
-    refetch()
-  }, [bounds, refetch])
+    if (locationFilter) {
+      refetch({
+        variables: {
+          locationFilter: {
+            nw_lat: locationFilter.nw_lat || 0,
+            nw_lng: locationFilter.nw_lng || 0,
+            se_lat: locationFilter.se_lat || 0,
+            se_lng: locationFilter.se_lng || 0,
+          },
+        },
+      })
+    }
+  }, [locationFilter, refetch])
 
-  return (
-    <div>
-      {data?.searchKitchens.map((kitchen) => (
-        <MarkerWithPopup key={kitchen.id} marker={kitchen} />
-      ))}
-    </div>
-  )
-}
-
-export const MarkerWithPopup = ({
-  marker,
-}: {
-  marker: SearchKitchensQuery['searchKitchens'][number]
-}) => {
+  const [openSidebarFoodItem, setOpenSidebarFoodItem] = useState(false)
   const dispatch = useAppDispatch()
-  if (!marker.address?.lat || !marker.address?.lng || !marker.id) {
-    return null
-  }
 
   return (
-    <div key={marker?.id}>
-      <Marker
-        anchor="bottom"
-        latitude={marker.address.lat}
-        longitude={marker.address.lng}
-        onClick={() => {
-          dispatch(setSelectedKitchen(+marker.id))
-        }}
-      >
-        <BrandIcon className="cursor-pointer" animate />
-        <MarkerText>{marker.name}</MarkerText>
-      </Marker>
-    </div>
+    <>
+      {data?.searchKitchens.map((kitchen) => (
+        <div key={kitchen?.id}>
+          <Marker
+            anchor="bottom"
+            latitude={kitchen.address?.lat}
+            longitude={kitchen.address?.lng}
+            onClick={() => {
+              setOpenSidebarFoodItem(true)
+              dispatch(setSelectedKitchen(+kitchen.id))
+            }}
+          >
+            <BrandIcon className="cursor-pointer" animate />
+            <MarkerText>{kitchen.name}</MarkerText>
+          </Marker>
+        </div>
+      ))}
+      <SidebarFoodItem
+        open={openSidebarFoodItem}
+        setOpen={setOpenSidebarFoodItem}
+      />
+    </>
   )
 }

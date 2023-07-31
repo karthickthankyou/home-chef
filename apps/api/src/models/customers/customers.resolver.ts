@@ -51,6 +51,11 @@ export class CustomersResolver {
   findOne(@Args() args: FindUniqueCustomerArgs) {
     return this.customersService.findOne(args)
   }
+  @AllowAuthenticated()
+  @Query(() => Customer, { name: 'customerMe' })
+  customerMe(@GetUser() user: GetUserType) {
+    return this.customersService.findOne({ where: { uid: user.uid } })
+  }
 
   @AllowAuthenticated()
   @Mutation(() => Customer)
@@ -84,7 +89,7 @@ export class CustomersResolver {
   }
 
   @AllowAuthenticated()
-  @ResolveField(() => Address)
+  @ResolveField(() => Address, { nullable: true })
   address(@Parent() customer: Customer, @GetUser() user: GetUserType) {
     checkRowLevelPermission(user, customer.uid)
 

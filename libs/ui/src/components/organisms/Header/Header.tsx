@@ -15,27 +15,10 @@ import { Brand } from '../../atoms/Brand'
 
 import { Button } from '../../atoms/Button'
 import { Container } from '../../atoms/Container'
-import { useAppDispatch, useAppSelector } from '@home-chefs-org/store'
+import { useAppSelector } from '@home-chefs-org/store'
 import { signOut } from '@home-chefs-org/network/src/auth'
 import { Role, selectUser } from '@home-chefs-org/store/user'
-
-const MENUITEMS = [
-  ['Search', '/kitchens'],
-  ['Cook', '/cook'],
-  ['Customer', '/customer'],
-]
-const SUBMENUITEMS = [
-  ...MENUITEMS,
-  ['About', '/about'],
-  ['How it works', '/how-it-works'],
-  ['Contact', '/contact'],
-  ['FAQs', '/faqs'],
-]
-
-const ROLELINKS = [
-  { name: 'Admin page', href: '/admin', role: 'admin' },
-  { name: 'Manager page', href: '/manager', role: 'manager' },
-]
+import { MenuItem } from '@home-chefs-org/types'
 
 export const NavLink = ({ label, href }: { label: string; href: string }) => (
   <Link
@@ -50,12 +33,13 @@ export const NavLink = ({ label, href }: { label: string; href: string }) => (
 const NavSidebarUser = ({
   open,
   setOpen,
+  menuItems,
 }: {
   open: boolean
   setOpen: Dispatch<SetStateAction<boolean>>
+  menuItems?: MenuItem[]
 }) => {
   const user = useAppSelector(selectUser)
-  const dispatch = useAppDispatch()
 
   return (
     <Sidebar open={open} setOpen={setOpen}>
@@ -80,13 +64,13 @@ const NavSidebarUser = ({
       <Sidebar.Body>
         <div className="flex flex-col items-start w-full pt-12">
           <div className="py-1 bg-gray-100 h-0.5" />
-          {SUBMENUITEMS.map(([name, href]) => (
+          {menuItems?.map(({ label, href }) => (
             <Link
-              key={name}
+              key={label}
               href={href}
               className="py-1.5 font-medium hover:underline text-gray-600 capitalize"
             >
-              {name}
+              {label}
             </Link>
           ))}
         </div>
@@ -130,9 +114,11 @@ const NavSidebarUser = ({
 export const NavSidebar = ({
   open,
   setOpen,
+  menuItems,
 }: {
   open: boolean
   setOpen: Dispatch<SetStateAction<boolean>>
+  menuItems?: MenuItem[]
 }) => {
   const user = useAppSelector(selectUser)
 
@@ -143,7 +129,7 @@ export const NavSidebar = ({
       </Sidebar.Header>
       <Sidebar.Body>
         <div className="flex flex-col items-start space-y-1">
-          {MENUITEMS.map(([label, href]) => (
+          {menuItems?.map(({ label, href }) => (
             <Link key={label} href={href}>
               {label}
             </Link>
@@ -178,24 +164,34 @@ export const NavSidebar = ({
   )
 }
 
-export const Header = () => {
+export type IHeaderProps = {
+  menuItems?: MenuItem[]
+  sideMenuItems?: MenuItem[]
+  type?: Role
+}
+
+export const Header = ({ menuItems, sideMenuItems, type }: IHeaderProps) => {
   const [open, setOpen] = useState(false)
   const [openUser, setOpenUser] = useState(false)
   const user = useAppSelector(selectUser)
 
   return (
-    <header className="z-40">
+    <header className="z-40 bg-white">
       <nav className="fixed top-0 w-full shadow-md shadow-gray-300/10 bg-white/50 backdrop-blur-md">
         <Container className="relative z-50 flex items-center justify-between h-16 py-2">
-          <NavSidebar open={open} setOpen={setOpen} />
-          <NavSidebarUser open={openUser} setOpen={setOpenUser} />
+          <NavSidebar open={open} setOpen={setOpen} menuItems={menuItems} />
+          <NavSidebarUser
+            open={openUser}
+            setOpen={setOpenUser}
+            menuItems={sideMenuItems}
+          />
           <div className="relative z-10 flex items-center justify-between w-full gap-16">
             <Link href="/" aria-label="Home" className="w-auto">
               <Brand className="hidden h-10 -ml-2 sm:block" />
               <Brand shortForm className="block sm:hidden" />
             </Link>
             <div className="items-center hidden ml-auto lg:flex lg:gap-10">
-              {MENUITEMS.map(([label, href]) => (
+              {menuItems?.map(({ label, href }) => (
                 <NavLink label={label} href={href} key={label} />
               ))}
             </div>

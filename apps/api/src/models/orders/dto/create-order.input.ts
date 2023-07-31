@@ -12,6 +12,7 @@ export class CreateOrderInput extends PickType(
     'status',
     'time',
     'tokenNumber',
+    'passcode',
   ],
   InputType,
 ) {}

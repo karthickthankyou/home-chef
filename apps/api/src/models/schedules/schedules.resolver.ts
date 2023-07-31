@@ -23,7 +23,11 @@ import {
 import { GetUserType } from '@home-chefs-org/types'
 import { checkRowLevelPermission } from 'src/common/guards'
 import { BadRequestException } from '@nestjs/common'
-import { SchedulesForKitchenOutput } from 'src/common/dtos/common.input'
+import {
+  AggregateCountOutput,
+  SchedulesForKitchenOutput,
+} from 'src/common/dtos/common.input'
+import { ScheduleWhereInput } from './dto/where.args'
 
 @Resolver(() => Schedule)
 export class SchedulesResolver {
@@ -56,17 +60,15 @@ export class SchedulesResolver {
 
   @AllowAuthenticated()
   @Query(() => [Schedule], { name: 'schedulesForKitchen' })
-  schedulesForKitchen(
+  async schedulesForKitchen(
     @Args()
     { cursor, distinct, orderBy, skip, take, where }: FindManyScheduleArgs,
-    @Args('kitchenId') kitchenId: string,
+
     @GetUser() user: GetUserType,
   ) {
-    if (!kitchenId) {
-      throw new BadRequestException('Kitchen id missing.')
-    }
-
-    checkRowLevelPermission(user, kitchenId)
+    const kitchen = await this.prisma.kitchen.findUnique({
+      where: { cookId: user.uid },
+    })
 
     return this.prisma.schedule.findMany({
       cursor,
@@ -74,7 +76,7 @@ export class SchedulesResolver {
       orderBy,
       skip,
       take,
-      where: { ...where, foodItem: { kitchenId: +kitchenId } },
+      where: { ...where, foodItem: { kitchenId: kitchen.id } },
     })
   }
 
@@ -83,22 +85,15 @@ export class SchedulesResolver {
   schedulesForCustomer(
     @Args()
     { cursor, distinct, orderBy, skip, take, where }: FindManyScheduleArgs,
-    @Args('customerId') customerId: string,
     @GetUser() user: GetUserType,
   ) {
-    if (!customerId) {
-      throw new BadRequestException('Customer id missing.')
-    }
-
-    checkRowLevelPermission(user, customerId)
-    console.log('customer id ', customerId)
     return this.schedulesService.findAll({
       cursor,
       distinct,
       orderBy,
       skip,
       take,
-      where: { ...where, customerId: { equals: customerId } },
+      where: { ...where, customerId: { equals: user.uid } },
     })
   }
 
@@ -143,6 +138,20 @@ export class SchedulesResolver {
     }))
 
     return result
+  }
+
+  @Query(() => AggregateCountOutput, {
+    name: 'schedulesCount',
+  })
+  async schedulesCount(
+    @Args('where', { nullable: true })
+    where: ScheduleWhereInput,
+  ) {
+    const schedules = await this.prisma.schedule.aggregate({
+      _count: { _all: true },
+      where,
+    })
+    return { count: schedules._count._all }
   }
 
   @Query(() => [SchedulesForKitchenOutput], { name: 'schedulesForKitchenRaw' })

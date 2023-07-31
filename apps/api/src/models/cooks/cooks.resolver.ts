@@ -44,9 +44,15 @@ export class CooksResolver {
     return this.cooksService.findAll(args)
   }
 
-  @Query(() => Cook, { name: 'cook', nullable: true })
+  @Query(() => Cook, { name: 'cook' })
   findOne(@Args() args: FindUniqueCookArgs) {
     return this.cooksService.findOne(args)
+  }
+
+  @AllowAuthenticated()
+  @Query(() => Cook, { name: 'cookMe' })
+  cookMe(@GetUser() user: GetUserType) {
+    return this.cooksService.findOne({ where: { uid: user.uid } })
   }
 
   @AllowAuthenticated()
@@ -57,7 +63,7 @@ export class CooksResolver {
   }
 
   @AllowAuthenticated()
-  @ResolveField(() => Kitchen)
+  @ResolveField(() => Kitchen, { nullable: true })
   kitchen(@Parent() cook: Cook, @GetUser() user: GetUserType) {
     checkRowLevelPermission(user, cook.uid)
     return this.prisma.kitchen.findUnique({

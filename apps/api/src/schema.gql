@@ -6,7 +6,7 @@ type Cook {
   uid: String!
   createdAt: DateTime!
   updatedAt: DateTime!
-  kitchen: Kitchen!
+  kitchen: Kitchen
 }
 
 """
@@ -15,22 +15,23 @@ A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date
 scalar DateTime
 
 type FoodItem {
+  description: String
+  image: String
+  live: Boolean
+  deliveryAvailable: Boolean
+  vegan: Boolean
   days: [Day!]!
   id: Int!
   createdAt: DateTime!
   updatedAt: DateTime!
   name: String!
-  description: String!
   price: Int!
-  image: String!
   maxQuantity: Int!
-  live: Boolean!
-  deliveryAvailable: Boolean!
-  vegan: Boolean!
   time: DateTime!
   kitchenId: Int!
   kitchen: Kitchen!
   schedules: [Schedule!]!
+  customerReviews: [CustomerReview!]!
   customerReview: CustomerReview
   scheduleCount: AggregateCountOutput
 }
@@ -69,33 +70,35 @@ type SchedulesForKitchenOutput {
 }
 
 type Kitchen {
+  name: String
+  image: String
+  about: String
+  cookId: String
   id: Int!
   createdAt: DateTime!
   updatedAt: DateTime!
-  name: String!
-  image: String!
-  about: String!
   open: Boolean!
-  cookId: String!
   addressId: Int!
-  cook: Cook!
-  address: Address!
+  cook: Cook
+  address: Address
   foodItems: [FoodItem!]!
 }
 
 type Address {
+  kitchenId: Int
+  zipCode: String
   lat: Float!
   lng: Float!
-  kitchenId: Int!
   id: Int!
   createdAt: DateTime!
   updatedAt: DateTime!
   address: String!
-  zipCode: String!
-  customer: Customer!
+  customer: Customer
+  kitchen: Kitchen
 }
 
 type Schedule {
+  quantity: Int
   days: [Day!]!
   id: Int!
   createdAt: DateTime!
@@ -103,18 +106,17 @@ type Schedule {
   live: Boolean!
   customerId: String!
   foodItemId: Int!
-  quantity: Int!
   orders: [Order!]!
   foodItem: FoodItem!
   customer: Customer!
 }
 
 type CustomerReview {
+  text: String
   id: Int!
   createdAt: DateTime!
   updatedAt: DateTime!
   rating: Int!
-  text: String!
   customerId: String!
   foodItemId: Int!
   customer: Customer!
@@ -122,30 +124,31 @@ type CustomerReview {
 }
 
 type Customer {
+  addressId: Int
   uid: String!
   createdAt: DateTime!
   updatedAt: DateTime!
   name: String!
-  addressId: Int!
   schedules: [Schedule!]!
-  address: Address!
+  address: Address
   customerReviews: [CustomerReview!]!
   orders: [Order!]!
 }
 
 type Order {
-  status: Status!
+  status: Status
+  scheduleId: Int
+  tokenNumber: Int
+  passcode: String!
   id: Int!
   createdAt: DateTime!
   updatedAt: DateTime!
   customerId: String!
   quantity: Int!
   price: Int!
-  scheduleId: Int!
   time: DateTime!
-  tokenNumber: Int!
   customer: Customer!
-  schedule: Schedule!
+  schedule: Schedule
 }
 
 """Enum for days"""
@@ -188,10 +191,12 @@ type RefreshTokenOutput {
 type Query {
   orders(where: OrderWhereInput, orderBy: [OrderOrderByWithRelationInput!], cursor: WhereUniqueInputNumber, take: Int, skip: Int, distinct: [OrderScalarFieldEnum!]): [Order!]!
   order(where: OrderWhereUniqueInput): Order!
-  ordersForCustomer(where: OrderWhereInput, orderBy: [OrderOrderByWithRelationInput!], cursor: WhereUniqueInputNumber, take: Int, skip: Int, distinct: [OrderScalarFieldEnum!], customerId: String!): [Order!]!
-  ordersForKitchen(where: OrderWhereInput, orderBy: [OrderOrderByWithRelationInput!], cursor: WhereUniqueInputNumber, take: Int, skip: Int, distinct: [OrderScalarFieldEnum!], kitchenId: Int!): [Order!]!
+  ordersForCustomer(where: OrderWhereInput, orderBy: [OrderOrderByWithRelationInput!], cursor: WhereUniqueInputNumber, take: Int, skip: Int, distinct: [OrderScalarFieldEnum!]): [Order!]!
+  ordersForKitchen(where: OrderWhereInput, orderBy: [OrderOrderByWithRelationInput!], cursor: WhereUniqueInputNumber, take: Int, skip: Int, distinct: [OrderScalarFieldEnum!]): [Order!]!
+  ordersCount(where: OrderWhereInput): AggregateCountOutput!
   cooks(where: CookWhereInput, orderBy: [CookOrderByWithRelationInput!], cursor: CookWhereUniqueInput, take: Int, skip: Int, distinct: [CookScalarFieldEnum!]): [Cook!]!
-  cook(where: CookWhereUniqueInput): Cook
+  cook(where: CookWhereUniqueInput): Cook!
+  cookMe: Cook!
   kitchens(where: KitchenWhereInput, orderBy: [KitchenOrderByWithRelationInput!], cursor: KitchenWhereUniqueInput, take: Int, skip: Int, distinct: [KitchenScalarFieldEnum!]): [Kitchen!]!
   searchKitchens(locationFilter: LocationFilterInput!, where: KitchenWhereInput, orderBy: [KitchenOrderByWithRelationInput!], cursor: KitchenWhereUniqueInput, take: Int, skip: Int, distinct: [KitchenScalarFieldEnum!]): [Kitchen!]!
   kitchen(where: KitchenWhereUniqueInput): Kitchen!
@@ -199,11 +204,13 @@ type Query {
   foodItem(where: FoodItemWhereUniqueInput): FoodItem!
   customers(where: CustomerWhereInput, orderBy: [CustomerOrderByWithRelationInput!], cursor: CustomerWhereUniqueInput, take: Int, skip: Int, distinct: [CustomerScalarFieldEnum!]): [Customer!]!
   customer(where: CustomerWhereUniqueInput): Customer!
+  customerMe: Customer!
   schedules(where: ScheduleWhereInput, orderBy: [ScheduleOrderByWithRelationInput!], cursor: WhereUniqueInputNumber, take: Int, skip: Int, distinct: [ScheduleScalarFieldEnum!]): [Schedule!]!
   schedule(where: ScheduleWhereUniqueInput): Schedule!
-  schedulesForKitchen(where: ScheduleWhereInput, orderBy: [ScheduleOrderByWithRelationInput!], cursor: WhereUniqueInputNumber, take: Int, skip: Int, distinct: [ScheduleScalarFieldEnum!], kitchenId: String!): [Schedule!]!
-  schedulesForCustomer(where: ScheduleWhereInput, orderBy: [ScheduleOrderByWithRelationInput!], cursor: WhereUniqueInputNumber, take: Int, skip: Int, distinct: [ScheduleScalarFieldEnum!], customerId: String!): [Schedule!]!
+  schedulesForKitchen(where: ScheduleWhereInput, orderBy: [ScheduleOrderByWithRelationInput!], cursor: WhereUniqueInputNumber, take: Int, skip: Int, distinct: [ScheduleScalarFieldEnum!]): [Schedule!]!
+  schedulesForCustomer(where: ScheduleWhereInput, orderBy: [ScheduleOrderByWithRelationInput!], cursor: WhereUniqueInputNumber, take: Int, skip: Int, distinct: [ScheduleScalarFieldEnum!]): [Schedule!]!
   schedulesForCustomerRaw(customerId: String!): [SchedulesForKitchenOutput!]!
+  schedulesCount(where: ScheduleWhereInput): AggregateCountOutput!
   schedulesForKitchenRaw(kitchenId: String!): [SchedulesForKitchenOutput!]!
   addresses(where: AddressWhereInput, orderBy: [AddressOrderByWithRelationInput!], cursor: WhereUniqueInputNumber, take: Int, skip: Int, distinct: [AddressScalarFieldEnum!]): [Address!]!
   address(where: AddressWhereUniqueInput): Address!
@@ -212,6 +219,7 @@ type Query {
 }
 
 input OrderWhereInput {
+  passcode: StringFilter
   id: IntFilter
   createdAt: DateTimeFilter
   updatedAt: DateTimeFilter
@@ -227,6 +235,26 @@ input OrderWhereInput {
   AND: [OrderWhereInput!]
   OR: [OrderWhereInput!]
   NOT: [OrderWhereInput!]
+}
+
+input StringFilter {
+  equals: String
+  in: [String!]
+  notIn: [String!]
+  lt: String
+  lte: String
+  gt: String
+  gte: String
+  contains: String
+  startsWith: String
+  endsWith: String
+  not: String
+  mode: QueryMode
+}
+
+enum QueryMode {
+  default
+  insensitive
 }
 
 input IntFilter {
@@ -257,26 +285,6 @@ input EnumStatusFilter {
   not: Status
 }
 
-input StringFilter {
-  equals: String
-  in: [String!]
-  notIn: [String!]
-  lt: String
-  lte: String
-  gt: String
-  gte: String
-  contains: String
-  startsWith: String
-  endsWith: String
-  not: String
-  mode: QueryMode
-}
-
-enum QueryMode {
-  default
-  insensitive
-}
-
 input FloatFilter {
   equals: Float
   in: Float
@@ -294,18 +302,18 @@ input CustomerRelationFilter {
 }
 
 input CustomerWhereInput {
+  uid: StringFilter
+  createdAt: DateTimeFilter
+  updatedAt: DateTimeFilter
+  name: StringFilter
+  addressId: IntFilter
+  address: AddressRelationFilter
+  schedules: ScheduleListRelationFilter
+  customerReviews: CustomerReviewListRelationFilter
+  orders: OrderListRelationFilter
   AND: [CustomerWhereInput!]
   OR: [CustomerWhereInput!]
   NOT: [CustomerWhereInput!]
-  uid: StringFilter!
-  createdAt: DateTimeFilter!
-  updatedAt: DateTimeFilter!
-  name: StringFilter!
-  addressId: IntFilter!
-  address: AddressRelationFilter!
-  schedules: ScheduleListRelationFilter!
-  customerReviews: CustomerReviewListRelationFilter!
-  orders: OrderListRelationFilter!
 }
 
 input AddressRelationFilter {
@@ -469,6 +477,7 @@ input ScheduleRelationFilter {
 }
 
 input OrderOrderByWithRelationInput {
+  passcode: SortOrder
   id: SortOrder
   createdAt: SortOrder
   updatedAt: SortOrder
@@ -594,6 +603,7 @@ enum OrderScalarFieldEnum {
   createdAt
   updatedAt
   status
+  passcode
   customerId
   quantity
   price
@@ -632,10 +642,10 @@ enum KitchenScalarFieldEnum {
 }
 
 input LocationFilterInput {
-  ne_lat: Float!
-  ne_lng: Float!
-  sw_lat: Float!
-  sw_lng: Float!
+  nw_lat: Float!
+  nw_lng: Float!
+  se_lat: Float!
+  se_lng: Float!
 }
 
 enum FoodItemScalarFieldEnum {
@@ -787,23 +797,25 @@ enum RoleEnum {
 }
 
 input CreateOrderInput {
-  status: Status!
+  status: Status
+  scheduleId: Int
+  tokenNumber: Int
+  passcode: String!
   customerId: String!
   quantity: Int!
   price: Int!
-  scheduleId: Int!
   time: DateTime!
-  tokenNumber: Int!
 }
 
 input UpdateOrderInput {
   status: Status
+  scheduleId: Int
+  tokenNumber: Int
+  passcode: String
   customerId: String
   quantity: Int
   price: Int
-  scheduleId: Int
   time: DateTime
-  tokenNumber: Int
   id: Int!
 }
 
@@ -813,40 +825,40 @@ input CreateCookInput {
 }
 
 input CreateKitchenInputWithoutCookId {
-  name: String!
-  image: String!
-  about: String!
+  name: String
+  image: String
+  about: String
   open: Boolean!
   foodItems: [CreateFoodItemInputWithoutKitchenId!]!
   address: CreateAddressInput!
 }
 
 input CreateFoodItemInputWithoutKitchenId {
+  description: String
+  image: String
+  live: Boolean
+  deliveryAvailable: Boolean
+  vegan: Boolean
   days: [Day!]!
   name: String!
-  description: String!
   price: Int!
-  image: String!
   maxQuantity: Int!
-  live: Boolean!
-  deliveryAvailable: Boolean!
-  vegan: Boolean!
   time: DateTime!
 }
 
 input CreateAddressInput {
+  zipCode: String
   lat: Float!
   lng: Float!
   address: String!
-  zipCode: String!
 }
 
 input CreateKitchenInput {
-  name: String!
-  image: String!
-  about: String!
+  name: String
+  image: String
+  about: String
+  cookId: String
   open: Boolean!
-  cookId: String!
   foodItems: [CreateFoodItemInputWithoutKitchenId!]!
   address: CreateAddressInput!
 }
@@ -855,35 +867,35 @@ input UpdateKitchenInput {
   name: String
   image: String
   about: String
-  open: Boolean
   cookId: String
+  open: Boolean
   id: Int!
 }
 
 input CreateFoodItemInput {
+  description: String
+  image: String
+  live: Boolean
+  deliveryAvailable: Boolean
+  vegan: Boolean
   days: [Day!]!
   name: String!
-  description: String!
   price: Int!
-  image: String!
   maxQuantity: Int!
-  live: Boolean!
-  deliveryAvailable: Boolean!
-  vegan: Boolean!
   time: DateTime!
   kitchenId: Int!
 }
 
 input UpdateFoodItemInput {
-  days: [Day!]
-  name: String
   description: String
-  price: Int
   image: String
-  maxQuantity: Int
   live: Boolean
   deliveryAvailable: Boolean
   vegan: Boolean
+  days: [Day!]
+  name: String
+  price: Int
+  maxQuantity: Int
   time: DateTime
   kitchenId: Int
   id: Int!
@@ -902,40 +914,40 @@ input UpdateCustomerInput {
 }
 
 input CreateScheduleInput {
+  quantity: Int
   days: [Day!]!
   live: Boolean!
   customerId: String!
   foodItemId: Int!
-  quantity: Int!
 }
 
 input UpdateScheduleInput {
+  quantity: Int
   days: [Day!]
   live: Boolean
   customerId: String
   foodItemId: Int
-  quantity: Int
   id: Int!
 }
 
 input UpdateAddressInput {
+  zipCode: String
   lat: Float
   lng: Float
   address: String
-  zipCode: String
   id: Int!
 }
 
 input CreateCustomerReviewInput {
+  text: String
   rating: Int!
-  text: String!
   customerId: String!
   foodItemId: Int!
 }
 
 input UpdateCustomerReviewInput {
-  rating: Int
   text: String
+  rating: Int
   customerId: String
   foodItemId: Int
   id: Int!

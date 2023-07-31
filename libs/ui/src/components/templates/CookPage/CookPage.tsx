@@ -3,6 +3,7 @@ import { Form } from '@home-chefs-org/ui/src/components/atoms/Form'
 import { HtmlInput } from '@home-chefs-org/ui/src/components/atoms/HtmlInput'
 import { HtmlLabel } from '@home-chefs-org/ui/src/components/atoms/HtmlLabel'
 import { ProgressBar } from '@home-chefs-org/ui/src/components/atoms/ProgressBar'
+import Link from 'next/link'
 import { Price } from '@home-chefs-org/ui/src/components/molecules/Price'
 import { useFormUpdateCook } from '@home-chefs-org/forms/src/cook/updateCookProfile'
 
@@ -10,14 +11,12 @@ import { useFormCreateFoodItem } from '@home-chefs-org/forms/src/foodItems/creat
 import { useFormUpdateFoodItem } from '@home-chefs-org/forms/src/foodItems/updateFoodItem'
 import { Map } from '@home-chefs-org/ui/src/components/organisms/Map'
 import {
+  CookMeQuery,
   Day,
-  GetCookQuery,
   OrdersForKitchenQuery,
   Status,
+  namedOperations,
   useCreateFoodItemMutation,
-  useGetCookLazyQuery,
-  useGetCookQuery,
-  useOrdersForKitchenQuery,
   useRemoveFoodItemMutation,
   useUpdateAddressMutation,
   useUpdateFoodItemMutation,
@@ -26,8 +25,7 @@ import {
 } from '@home-chefs-org/network/src/generated'
 
 import Image from 'next/image'
-import Link from 'next/link'
-import { ReactNode, useEffect, useState } from 'react'
+import { ReactNode, useState } from 'react'
 import { Controller, useWatch } from 'react-hook-form'
 import dynamic from 'next/dynamic'
 
@@ -43,19 +41,12 @@ import {
 
 import Badge from '@home-chefs-org/ui/src/components/atoms/Badge'
 import { HtmlTextArea } from '@home-chefs-org/ui/src/components/atoms/HtmlTextArea'
-import {
-  Popup,
-  PopupContent,
-} from '@home-chefs-org/ui/src/components/organisms/Map/Popup/Popup'
 
 import { Marker } from 'react-map-gl'
 import { Panel } from '@home-chefs-org/ui/src/components/organisms/Map/Panel'
 import Tooltip from '@home-chefs-org/ui/src/components/atoms/Tooltip'
-import { Accordion } from '@home-chefs-org/ui/src/components/molecules/Accordion'
 import {
-  Table,
   TableCell,
-  TableHead,
   TableRow,
 } from '@home-chefs-org/ui/src/components/organisms/Table/Table'
 
@@ -67,17 +58,14 @@ import {
   useImageUpload,
 } from '@home-chefs-org/util'
 import { useAppDispatch, useAppSelector } from '@home-chefs-org/store'
-import { Dialog } from '../../molecules/Dialog/Dialog'
+import { Dialog } from '../../atoms/Dialog/Dialog'
 import { ToggleButtonGroup } from '../../molecules/ToggleButtonGroup'
 import { ToggleButton } from '../../molecules/ToggleButtonGroup/ToggleButtonGroup'
 import { DayIcons } from '../../molecules/WeekCalendar/WeekCalendar'
 import { Menu } from '../../organisms/Menu'
 import { MenuItem } from '../../organisms/Menu/Menu'
-import { BecomeCook } from '../../organisms/BecomeCook'
 import { selectUid } from '@home-chefs-org/store/user'
-import ZoomControls from '../../organisms/Map/ZoomControls'
 import { DefaultZoomControls } from '../../organisms/Map/ZoomControls/ZoomControls'
-import { LoaderPanel } from '../../molecules/Loader'
 
 const QuillEditor = dynamic(
   () => import('../../organisms/QuillEditor').then((mod) => mod.QuillEditor),
@@ -85,40 +73,6 @@ const QuillEditor = dynamic(
 )
 
 export interface ICookPageProps {}
-
-export const CookPage = () => {
-  const user = useAppSelector((state) => state.user)
-  const [getCook, { loading: cookFetching, data: cookData }] =
-    useGetCookLazyQuery()
-
-  useEffect(() => {
-    if (user.uid)
-      getCook({
-        variables: { where: { uid: user.uid } },
-      })
-  }, [user])
-
-  if (!user.loaded) {
-    return <LoaderPanel />
-  }
-
-  if (!user.uid)
-    return (
-      <>
-        <div>You are not logged in.</div>
-        <Link
-          className="mt-4 font-semibold underline underline-offset-4"
-          href={'/login'}
-        >
-          Login
-        </Link>
-      </>
-    )
-
-  if (!cookData?.cook) return <BecomeCook uid={user.uid} />
-
-  return <CookProfile />
-}
 
 export const DisplayLocation = ({ lat, lng }: { lat: number; lng: number }) => {
   if (!lat || !lng) return null
@@ -144,7 +98,7 @@ export const TitleValue = ({
 )
 
 export type FoodItemInQuery = NonNullable<
-  NonNullable<NonNullable<GetCookQuery['cook']>['kitchen']>['foodItems']
+  NonNullable<NonNullable<CookMeQuery['cookMe']>['kitchen']>['foodItems']
 >[number]
 
 export const groupByTime = (data: FoodItemInQuery[]) =>
@@ -161,15 +115,19 @@ export const groupByTime = (data: FoodItemInQuery[]) =>
     return result
   }, {})
 
-export const UpdateKitchenInfo = ({ className }: { className?: string }) => {
+export const UpdateKitchenInfo = ({
+  cook,
+  className,
+}: {
+  cook: CookMeQuery['cookMe']
+  className?: string
+}) => {
   const [openUpdate, setOpenUpdate] = useState(false)
   const [updateKitchenMutation, { loading }] = useUpdateKitchenMutation()
   const [updateAddressMutation, { loading: updateAddressFetching }] =
     useUpdateAddressMutation()
 
   const uid = useAppSelector(selectUid)
-
-  const { data: cookData } = useGetCookQuery({ variables: { where: { uid } } })
 
   const {
     register,
@@ -179,15 +137,15 @@ export const UpdateKitchenInfo = ({ className }: { className?: string }) => {
     formState: { errors },
   } = useFormUpdateCook({
     defaultValues: {
-      about: cookData?.cook?.kitchen?.about || '',
+      about: cook.kitchen?.about || '',
       address: {
-        address: cookData?.cook?.kitchen?.address?.address || '',
-        zipCode: cookData?.cook?.kitchen?.address?.zipCode || '',
-        lat: cookData?.cook?.kitchen?.address?.lat || 0,
-        lng: cookData?.cook?.kitchen?.address?.lng || 0,
+        address: cook.kitchen?.address?.address || '',
+        zipCode: cook.kitchen?.address?.zipCode || '',
+        lat: cook.kitchen?.address?.lat || 0,
+        lng: cook.kitchen?.address?.lng || 0,
       },
-      image: cookData?.cook?.kitchen?.image || '',
-      name: cookData?.cook?.kitchen?.name || '',
+      image: cook.kitchen?.image || '',
+      name: cook.kitchen?.name || '',
     },
   })
 
@@ -207,7 +165,7 @@ export const UpdateKitchenInfo = ({ className }: { className?: string }) => {
       >
         <IconPencil className="p-1 text-black border rounded hover:bg-gray-200" />
       </Button>
-      <Dialog open={openUpdate} setOpen={setOpenUpdate}>
+      <Dialog open={openUpdate} setOpen={setOpenUpdate} title={'Edit'}>
         <div className="mb-4 font-semibold">Edit cook details</div>
         <Form
           onSubmit={handleSubmit(async ({ name, image, about, address }) => {
@@ -215,7 +173,7 @@ export const UpdateKitchenInfo = ({ className }: { className?: string }) => {
               notification$.next({ message: 'Not logged in.', type: 'error' })
               return
             }
-            if (!cookData?.cook?.kitchen?.id) {
+            if (!cook.kitchen?.id) {
               notification$.next({
                 message: 'Something went wrong. (Kitchen id not received.)',
                 type: 'error',
@@ -225,7 +183,7 @@ export const UpdateKitchenInfo = ({ className }: { className?: string }) => {
             await updateKitchenMutation({
               variables: {
                 updateKitchenInput: {
-                  id: +cookData.cook.kitchen.id,
+                  id: cook.kitchen.id,
                   about,
                   image,
                   name,
@@ -233,11 +191,11 @@ export const UpdateKitchenInfo = ({ className }: { className?: string }) => {
               },
             })
 
-            if (cookData?.cook?.kitchen?.address?.id) {
+            if (cook?.kitchen?.address?.id) {
               await updateAddressMutation({
                 variables: {
                   updateAddressInput: {
-                    id: +cookData.cook.kitchen.address.id,
+                    id: cook.kitchen.address.id,
                     ...(address && {
                       address: address.address,
                       lat: address.lat,
@@ -308,8 +266,8 @@ export const UpdateKitchenInfo = ({ className }: { className?: string }) => {
             <Map
               height="100%"
               initialViewState={{
-                latitude: cookData?.cook?.kitchen?.address?.lat || 80,
-                longitude: cookData?.cook?.kitchen?.address?.lng || 12,
+                latitude: cook.kitchen?.address?.lat || 80,
+                longitude: cook.kitchen?.address?.lng || 12,
                 zoom: 6,
               }}
             >
@@ -348,352 +306,7 @@ export const UpdateKitchenInfo = ({ className }: { className?: string }) => {
   )
 }
 
-export const AddNewFoodItem = () => {
-  const [openUpdate, setOpenUpdate] = useState(false)
-
-  const {
-    register,
-    setValue,
-    handleSubmit,
-    control,
-    formState: { errors },
-  } = useFormCreateFoodItem({
-    defaultValues: {
-      description: '',
-      deliveryAvailable: false,
-      live: false,
-      vegan: false,
-      name: '',
-      price: 0,
-      image: '',
-      maxQuantity: 0,
-      days: [],
-      time: '00:00:00',
-    },
-  })
-
-  const [createFoodItemMutation, { loading }] = useCreateFoodItemMutation()
-
-  const [{ percent }, uploadImages] = useImageUpload()
-  const dispatch = useAppDispatch()
-  const uid = useAppSelector(selectUid)
-
-  const { loading: cookFetching, data: cookData } = useGetCookQuery({
-    variables: { where: { uid } },
-  })
-
-  const formData = useWatch({ control })
-
-  return (
-    <>
-      <Button
-        variant="text"
-        size="none"
-        className="mt-auto"
-        onClick={() => setOpenUpdate(true)}
-      >
-        <div>
-          <IconPlus className="w-6 h-6 p-1 text-white bg-black rounded-full" />
-        </div>
-      </Button>
-
-      <Dialog open={openUpdate} setOpen={setOpenUpdate}>
-        <Form
-          onSubmit={handleSubmit(
-            async ({
-              description,
-              image,
-              maxQuantity,
-              name,
-              price,
-              time,
-              days,
-              vegan,
-              deliveryAvailable,
-              live,
-            }) => {
-              console.log('come on ... ', description, image, maxQuantity)
-              if (!cookData?.cook?.kitchen?.id) {
-                throw 'Kitchen id not found.'
-              }
-              await createFoodItemMutation({
-                variables: {
-                  createFoodItemInput: {
-                    kitchenId: +cookData.cook.kitchen.id,
-                    description,
-                    image: image || '',
-                    days,
-                    maxQuantity,
-                    name,
-                    price,
-                    time: getMsFromString(time),
-                    deliveryAvailable,
-                    live,
-                    vegan,
-                  },
-                },
-              })
-              setOpenUpdate(false)
-            },
-          )}
-        >
-          <HtmlLabel title="Name">
-            <HtmlInput {...register('name')} />
-          </HtmlLabel>
-
-          <HtmlLabel title="Description">
-            <Controller
-              name="description"
-              control={control}
-              render={({ field: { value, onChange } }) => (
-                <QuillEditor value={value} onChange={onChange} />
-              )}
-            />
-          </HtmlLabel>
-          <HtmlLabel title="Days">
-            <Controller
-              name={'days'}
-              control={control}
-              render={({ field: { value, onChange } }) => (
-                <ToggleButtonGroup
-                  value={value}
-                  onChange={(e, value) => onChange(value)}
-                  aria-label="Select days"
-                >
-                  {Object.entries(DayIcons).map(([key, Icon]) => {
-                    return (
-                      <ToggleButton key={key} value={key}>
-                        {Icon}
-                      </ToggleButton>
-                    )
-                  })}
-                </ToggleButtonGroup>
-              )}
-            />
-          </HtmlLabel>
-
-          <HtmlLabel type="number" title="Price">
-            <HtmlInput {...register('price', { valueAsNumber: true })} />
-          </HtmlLabel>
-          <HtmlLabel type="number" title="MaxQuantity">
-            <HtmlInput {...register('maxQuantity', { valueAsNumber: true })} />
-          </HtmlLabel>
-          <HtmlLabel title="Time">
-            <HtmlInput type="time" {...register('time')} />
-          </HtmlLabel>
-          {formData.image ? (
-            <img alt={formData.name} src={formData.image} />
-          ) : null}
-          <HtmlLabel title="Images">
-            <HtmlInput
-              multiple={false}
-              type="file"
-              placeholder="Upload images"
-              accept="image/*"
-              onChange={(e) =>
-                uploadImages(e, (images: string[]) => {
-                  setValue('image', images[0])
-                })
-              }
-            />
-            {percent > 0 ? (
-              <ProgressBar variant="determinate" value={percent} />
-            ) : null}
-          </HtmlLabel>
-          <div className="flex justify-end gap-2">
-            <Button onClick={() => setOpenUpdate(false)} variant="outlined">
-              Close
-            </Button>
-            <Button loading={loading} type="submit">
-              Submit
-            </Button>
-          </div>
-        </Form>
-      </Dialog>
-    </>
-  )
-}
-
-export const UpdateFoodItem = ({ foodItem }: { foodItem: FoodItemInQuery }) => {
-  const [openUpdate, setOpenUpdate] = useState(false)
-
-  const {
-    control,
-    register,
-    setValue,
-    reset,
-    formState: { errors },
-    handleSubmit,
-  } = useFormUpdateFoodItem({
-    defaultValues: {
-      description: foodItem.description || '',
-      name: foodItem.name || '',
-      price: foodItem.price || 0,
-      image: foodItem.image || '',
-      maxQuantity: foodItem.maxQuantity || 0,
-      time: getHHMMSS(foodItem.time) || '',
-      days: foodItem.days || [],
-    },
-  })
-  const formData = useWatch({ control })
-
-  console.log('foodItem.days', foodItem.days, formData)
-
-  const [updateFoodItemMutation, { loading }] = useUpdateFoodItemMutation()
-  const [removeFootItemMutation, { loading: removing }] =
-    useRemoveFoodItemMutation()
-
-  const [{ percent }, uploadImages] = useImageUpload()
-  const dispatch = useAppDispatch()
-  return (
-    <div>
-      <Button
-        variant="text"
-        size="none"
-        color="black"
-        className="mt-auto"
-        onClick={() => setOpenUpdate(true)}
-      >
-        <IconPencil className="p-1 text-black bg-white border rounded hover:bg-gray-200" />
-      </Button>
-      <Dialog open={openUpdate} setOpen={setOpenUpdate}>
-        <Form
-          onSubmit={handleSubmit(
-            async ({
-              description,
-              image,
-              maxQuantity,
-              name,
-              price,
-              time,
-              days,
-            }) => {
-              await updateFoodItemMutation({
-                variables: {
-                  updateFoodItemInput: {
-                    id: +foodItem.id,
-                    description,
-                    image,
-                    maxQuantity,
-                    name,
-                    price,
-                    time: getMsFromString(time),
-                    days,
-                  },
-                },
-              })
-              reset({})
-              setOpenUpdate(false)
-            },
-          )}
-        >
-          <HtmlLabel error={errors.name?.message} title="Name">
-            <HtmlInput {...register('name')} />
-          </HtmlLabel>
-
-          <HtmlLabel title="Description">
-            <Controller
-              name="description"
-              control={control}
-              render={({ field: { value, onChange } }) => (
-                <QuillEditor value={value} onChange={onChange} />
-              )}
-            />
-          </HtmlLabel>
-          <HtmlLabel title="Days">
-            <Controller
-              name="days"
-              control={control}
-              render={({ field: { value, onChange } }) => (
-                <ToggleButtonGroup
-                  value={value}
-                  onChange={(e, v) => onChange(v)}
-                >
-                  {Object.entries(DayIcons).map(([key, Icon]) => {
-                    return (
-                      <ToggleButton
-                        key={key}
-                        selected={value?.includes(key as Day)}
-                        value={key}
-                      >
-                        {Icon}
-                      </ToggleButton>
-                    )
-                  })}
-                </ToggleButtonGroup>
-              )}
-            />
-          </HtmlLabel>
-
-          <HtmlLabel error={errors.price?.message} title="Price">
-            <HtmlInput {...register('price', { valueAsNumber: true })} />
-          </HtmlLabel>
-          <HtmlLabel error={errors.maxQuantity?.message} title="MaxQuantity">
-            <HtmlInput {...register('maxQuantity', { valueAsNumber: true })} />
-          </HtmlLabel>
-          <HtmlLabel error={errors.time?.message} title="Time">
-            <HtmlInput type="time" {...register('time')} />
-          </HtmlLabel>
-          <img
-            alt={formData.name || foodItem.name}
-            src={formData.image || foodItem.image || ''}
-          />
-          <HtmlLabel title="Images" error={errors.image?.message}>
-            <HtmlInput
-              multiple={false}
-              type="file"
-              placeholder="Upload images"
-              accept="image/*"
-              onChange={(e) =>
-                uploadImages(e, (images: string[]) => {
-                  setValue('image', images[0])
-                })
-              }
-            />
-            {percent > 0 ? (
-              <ProgressBar variant="determinate" value={percent} />
-            ) : null}
-          </HtmlLabel>
-
-          <div className="flex gap-2">
-            <Button
-              color="error"
-              loading={removing}
-              onClick={async () => {
-                await removeFootItemMutation({
-                  variables: { where: { id: +foodItem.id } },
-                })
-                setOpenUpdate(false)
-              }}
-              variant="outlined"
-            >
-              Delete
-            </Button>
-            <Button
-              className="ml-auto"
-              onClick={() => {
-                reset({})
-                setOpenUpdate(false)
-              }}
-              variant="outlined"
-            >
-              Close
-            </Button>
-            <Button loading={loading} type="submit">
-              Submit
-            </Button>
-          </div>
-        </Form>
-      </Dialog>
-    </div>
-  )
-}
-
-export const CookInfo = ({
-  kitchen,
-}: {
-  kitchen?: NonNullable<GetCookQuery['cook']>['kitchen']
-}) => {
+export const CookInfo = ({ cook }: { cook: CookMeQuery['cookMe'] }) => {
   return (
     <div className="flex flex-col w-full max-w-[12rem] md:max-w-[16rem] gap-2 ">
       <div className="sticky top-16">
@@ -701,7 +314,7 @@ export const CookInfo = ({
           <Image
             fill
             src={
-              kitchen?.image ||
+              cook.kitchen?.image ||
               'https://images.unsplash.com/photo-1614548539924-5c1f205b3747?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80'
             }
             className="object-cover rounded"
@@ -710,33 +323,37 @@ export const CookInfo = ({
         </div>
         <div className="mt-2">
           <div className="flex justify-between">
-            <div className="font-semibold">{kitchen?.name}</div>
+            <div className="font-semibold">{cook.kitchen?.name}</div>
             <div>
-              {kitchen?.open ? <Badge>Open</Badge> : <Badge>Closed</Badge>}
+              {cook.kitchen?.open ? <Badge>Open</Badge> : <Badge>Closed</Badge>}
             </div>
           </div>
-          <div className="text-sm text-gray-700">{kitchen?.about}</div>
+          <div className="text-sm text-gray-700">{cook.kitchen?.about}</div>
           <div className="text-sm text-gray-700">
-            {kitchen?.address?.address}
+            {cook.kitchen?.address?.address}
           </div>
 
-          <UpdateKitchenInfo className="mt-2" />
+          <UpdateKitchenInfo className="mt-2" cook={cook} />
         </div>
       </div>
     </div>
   )
 }
 
-export const CookProfile = () => {
-  const uid = useAppSelector(selectUid)
-  const { loading, data } = useGetCookQuery({ variables: { where: { uid } } })
-
+export const CookProfile = ({ cook }: { cook: CookMeQuery['cookMe'] }) => {
   return (
     <div className="flex gap-4 ">
-      <CookInfo kitchen={data?.cook?.kitchen} />
-      <div className="space-y-6">
-        <CookOrders kitchenId={data?.cook?.kitchen?.id} />
-        <CookMenu data={data} />
+      <CookInfo cook={cook} />
+      <div className="flex flex-col gap-2">
+        <Link className="underline underline-offset-4" href="/menu">
+          Menu
+        </Link>
+        <Link className="underline underline-offset-4" href="/subscribers">
+          Subscribers
+        </Link>
+        <Link className="underline underline-offset-4" href="/orders">
+          Orders
+        </Link>
       </div>
     </div>
   )
@@ -829,74 +446,6 @@ export const ValueLabel = ({
   </div>
 )
 
-export const CookOrders = ({ kitchenId }: { kitchenId?: number }) => {
-  const { loading, data } = useOrdersForKitchenQuery({
-    variables: { kitchenId: +kitchenId! },
-  })
-
-  const result = groupByDayAndTime(data?.ordersForKitchen || [])
-
-  return (
-    <div>
-      <Heading>Orders</Heading>
-      {result.map((dateItem) => (
-        <div key={dateItem.date}>
-          <Accordion
-            title={
-              <div className="text-xl">
-                {' '}
-                {dateItem.date} (
-                {dateItem.items.reduce(
-                  (total, current) => total + current.items.length,
-                  0,
-                )}
-                )
-              </div>
-            }
-          >
-            <div>
-              {dateItem.items.sort().map((timeItem) => (
-                <div key={timeItem.time}>
-                  <Accordion
-                    title={
-                      <div className="text-lg">
-                        {timeItem.time} ({timeItem.items.length})
-                      </div>
-                    }
-                  >
-                    {groupByCustomers(timeItem.items).map((customerData) => (
-                      <Accordion
-                        key={customerData.uid.toLowerCase()}
-                        title={
-                          <div className="text-lg">{customerData.name}</div>
-                        }
-                      >
-                        <Table>
-                          <TableHead>
-                            <TableRow>
-                              <TableCell>Item</TableCell>
-                              <TableCell align="right">Quantity</TableCell>
-                              <TableCell align="right">Action</TableCell>
-                              <TableCell align="right">Options</TableCell>
-                            </TableRow>
-                          </TableHead>
-                          {customerData.items.map((order) => (
-                            <CustomerFoodItemRow key={order.id} order={order} />
-                          ))}
-                        </Table>
-                      </Accordion>
-                    ))}
-                  </Accordion>
-                </div>
-              ))}
-            </div>
-          </Accordion>
-        </div>
-      ))}
-    </div>
-  )
-}
-
 export const CustomerFoodItemRow = ({
   order,
 }: {
@@ -911,7 +460,7 @@ export const CustomerFoodItemRow = ({
   const dispatch = useAppDispatch()
   return (
     <TableRow key={order.id}>
-      <TableCell>{order.schedule.foodItem.name}</TableCell>
+      <TableCell>{order?.schedule?.foodItem.name}</TableCell>
       <TableCell align="right">{order.quantity}</TableCell>
       <TableCell align="right">
         {order.status === Status.Undelivered ? (
@@ -993,95 +542,3 @@ export const CustomerFoodItemRow = ({
 export const Heading = ({ children }: { children: string }) => (
   <h1 className="text-lg font-semibold ">{children}</h1>
 )
-
-export const CookMenu = ({ data }: { data?: GetCookQuery }) => {
-  if (!data) return null
-  return (
-    <div>
-      <div className="flex items-baseline justify-between">
-        <Heading>Menu</Heading>
-        <AddNewFoodItem />
-      </div>
-
-      <div className="space-y-6">
-        {Object.entries(groupByTime(data?.cook?.kitchen?.foodItems || []) || {})
-          .sort()
-          .map(([time, foodItems]) => (
-            <div key={time} className="space-y-4">
-              <div>{getTimeFromDateTime(time)}</div>
-              <div className="grid grid-cols-1 gap-4 lg:grid-cols-2 xl:grid-cols-3">
-                {foodItems?.map((foodItem) => (
-                  <div key={foodItem.id} className="flex gap-2">
-                    <img
-                      alt={foodItem.name}
-                      className="object-cover w-24 h-24 rounded"
-                      src={
-                        foodItem?.image ||
-                        'https://images.unsplash.com/photo-1614548539924-5c1f205b3747?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80'
-                      }
-                    />
-                    <div className="flex flex-col items-start flex-1 gap-2">
-                      <div className="flex justify-between w-full">
-                        <div className="font-semibold">{foodItem?.name}</div>
-                        <UpdateFoodItem foodItem={foodItem} />
-                      </div>
-                      {/* <div className="flex text-sm">
-                        Subscribers:{' '}
-                        <div>
-                          {foodItem.scheduleCount._count?.foodItemId || 0}
-                        </div>
-                        <div>/</div>
-                        <div>{foodItem.maxQuantity}</div>
-                      </div> */}
-
-                      <Tooltip
-                        placement="top"
-                        arrow
-                        title={`Reached ${
-                          foodItem?.scheduleCount?.count || 0
-                        } of ${foodItem.maxQuantity} subscribers.`}
-                      >
-                        <div className="flex items-center w-full gap-2">
-                          <IconUser className="w-4 h-4" />
-                          <ProgressBar
-                            variant="determinate"
-                            value={
-                              foodItem?.scheduleCount?.count ||
-                              0 / foodItem.maxQuantity
-                            }
-                          />
-                        </div>
-                      </Tooltip>
-
-                      <Price price={foodItem.price} />
-                      <div className="text-gray-600">
-                        <QuillEditor
-                          theme="bubble"
-                          readOnly
-                          value={foodItem.description || ''}
-                        />
-                      </div>
-                      <ToggleButtonGroup>
-                        {Object.entries(DayIcons).map(([key, Icon]) => {
-                          return (
-                            <ToggleButton
-                              key={key}
-                              selected={foodItem.days?.includes(key as Day)}
-                              value={key}
-                              className="cursor-auto"
-                            >
-                              {Icon}
-                            </ToggleButton>
-                          )
-                        })}
-                      </ToggleButtonGroup>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          ))}
-      </div>
-    </div>
-  )
-}

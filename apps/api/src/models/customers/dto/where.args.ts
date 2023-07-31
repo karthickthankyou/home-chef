@@ -19,14 +19,23 @@ export class CustomerWhereUniqueInput {
 
 @InputType()
 export class CustomerWhereInput implements Required<Prisma.CustomerWhereInput> {
+  @Field(() => StringFilter, { nullable: true })
   uid: StringFilter
+  @Field(() => DateTimeFilter, { nullable: true })
   createdAt: DateTimeFilter
+  @Field(() => DateTimeFilter, { nullable: true })
   updatedAt: DateTimeFilter
+  @Field(() => StringFilter, { nullable: true })
   name: StringFilter
+  @Field(() => IntFilter, { nullable: true })
   addressId: IntFilter
+  @Field(() => AddressRelationFilter, { nullable: true })
   address: AddressRelationFilter
+  @Field(() => ScheduleListRelationFilter, { nullable: true })
   schedules: ScheduleListRelationFilter
+  @Field(() => CustomerReviewListRelationFilter, { nullable: true })
   customerReviews: CustomerReviewListRelationFilter
+  @Field(() => OrderListRelationFilter, { nullable: true })
   orders: OrderListRelationFilter
   // @Field(() => StringFilter, { nullable: true })
   // uid: StringFilter
@@ -51,8 +60,8 @@ export class CustomerListRelationFilter {
 
 @InputType()
 export class CustomerRelationFilter {
-  @Field(() => CustomerWhereInput)
+  @Field(() => CustomerWhereInput, { nullable: true })
   is?: CustomerWhereInput
-  @Field(() => CustomerWhereInput)
+  @Field(() => CustomerWhereInput, { nullable: true })
   isNot?: CustomerWhereInput
 }

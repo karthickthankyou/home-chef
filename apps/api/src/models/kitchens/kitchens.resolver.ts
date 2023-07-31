@@ -51,7 +51,7 @@ export class KitchensResolver {
     @Args({ nullable: true })
     { cursor, distinct, orderBy, skip, take, where }: FindManyKitchenArgs,
   ) {
-    const { ne_lat, ne_lng, sw_lat, sw_lng } = locationFilter
+    const { nw_lat, nw_lng, se_lat, se_lng } = locationFilter
 
     return this.prisma.kitchen.findMany({
       cursor,
@@ -63,8 +63,8 @@ export class KitchensResolver {
         ...where,
         // open: { equals: true },
         address: {
-          lat: { lte: ne_lat, gte: sw_lat },
-          lng: { lte: ne_lng, gte: sw_lng },
+          lat: { lte: nw_lat, gte: se_lat },
+          lng: { gte: nw_lng, lte: se_lng },
         },
       },
     })
@@ -97,13 +97,13 @@ export class KitchensResolver {
     return this.kitchensService.remove(args)
   }
 
-  @ResolveField(() => Cook)
+  @ResolveField(() => Cook, { nullable: true })
   cook(@Parent() kitchen: Kitchen) {
     return this.prisma.cook.findUnique({
       where: { uid: kitchen.cookId },
     })
   }
-  @ResolveField(() => Address)
+  @ResolveField(() => Address, { nullable: true })
   address(@Parent() kitchen: Kitchen) {
     console.log('Kitchen ', kitchen)
     return this.prisma.address.findUnique({

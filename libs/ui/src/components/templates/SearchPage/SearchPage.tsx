@@ -1,4 +1,3 @@
-import { useAppDispatch, useAppSelector } from '@home-chefs-org/store'
 import { SearchKitchens } from '../SearchKitchens'
 import { Map } from '../../organisms/Map'
 import { useEffect, useState } from 'react'
@@ -13,40 +12,32 @@ import { Form } from '@home-chefs-org/ui/src/components/atoms/Form'
 import { Button } from '@home-chefs-org/ui/src/components/atoms/Button'
 import { useFormCreateCustomer } from '@home-chefs-org/forms/src/customer/createCustomer'
 
-import Link from 'next/link'
 import { HtmlTextArea } from '@home-chefs-org/ui/src/components/atoms/HtmlTextArea'
 import { notification$ } from '@home-chefs-org/util/subjects'
 import {
   namedOperations,
   useCreateCustomerMutation,
-  useGetCustomerLazyQuery,
+  useCustomerMeQuery,
 } from '@home-chefs-org/network/src/generated'
 import {
   CenterOfMap,
   DefaultZoomControls,
 } from '../../organisms/Map/ZoomControls/ZoomControls'
 import { ISearchPlaceBoxProps } from '../../organisms/SearchPlaceBox/SearchPlaceBox'
+import { LoaderPanel } from '../../molecules/Loader'
 
-export interface ISearchPageProps {}
+export interface ISearchPageProps {
+  uid: string
+}
 
-export const SearchPage = ({}: ISearchPageProps) => {
-  const uid = useAppSelector((state) => state.user.uid)
-  const [getCustomer, { loading: customerFetching, data: customerData }] =
-    useGetCustomerLazyQuery()
-
-  useEffect(() => {
-    if (uid) getCustomer({ variables: { where: { uid } } })
-  }, [uid])
-
-  if (!uid)
-    return (
-      <div>
-        <Link href="/login">Login</Link>
-      </div>
-    )
-  if (!customerFetching && !customerData?.customer)
-    return <RegisterCustomer uid={uid} />
-  return <SearchKitchens />
+export const SearchPage = ({ uid }: ISearchPageProps) => {
+  const { loading, data } = useCustomerMeQuery()
+  if (loading) {
+    return <LoaderPanel />
+  }
+  console.log('data?.customerMe ', data?.customerMe)
+  if (!data?.customerMe) return <RegisterCustomer uid={uid} />
+  return <SearchKitchens customer={data.customerMe} />
 }
 
 export const RegisterCustomer = ({ uid }: { uid: string }) => {
@@ -61,8 +52,6 @@ export const RegisterCustomer = ({ uid }: { uid: string }) => {
     setValue,
     formState: { errors },
   } = useFormCreateCustomer()
-
-  console.log('errors ', errors)
 
   useEffect(() => {
     setValue('address.lat', markerLocation.latitude)
@@ -114,7 +103,8 @@ export const RegisterCustomer = ({ uid }: { uid: string }) => {
                     },
                   },
                 },
-                refetchQueries: [namedOperations.Query.getCustomer],
+                awaitRefetchQueries: true,
+                refetchQueries: [namedOperations.Query.customerMe],
               })
               if (data?.createCustomer) {
                 notification$.next({

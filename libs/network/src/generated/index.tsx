@@ -27,13 +27,14 @@ export type Address = {
   __typename?: 'Address'
   address: Scalars['String']
   createdAt: Scalars['DateTime']
-  customer: Customer
+  customer?: Maybe<Customer>
   id: Scalars['Int']
-  kitchenId: Scalars['Int']
+  kitchen?: Maybe<Kitchen>
+  kitchenId?: Maybe<Scalars['Int']>
   lat: Scalars['Float']
   lng: Scalars['Float']
   updatedAt: Scalars['DateTime']
-  zipCode: Scalars['String']
+  zipCode?: Maybe<Scalars['String']>
 }
 
 export type AddressOrderByWithRelationInput = {
@@ -99,7 +100,7 @@ export type BoolFilter = {
 export type Cook = {
   __typename?: 'Cook'
   createdAt: Scalars['DateTime']
-  kitchen: Kitchen
+  kitchen?: Maybe<Kitchen>
   uid: Scalars['String']
   updatedAt: Scalars['DateTime']
 }
@@ -140,7 +141,7 @@ export type CreateAddressInput = {
   address: Scalars['String']
   lat: Scalars['Float']
   lng: Scalars['Float']
-  zipCode: Scalars['String']
+  zipCode?: InputMaybe<Scalars['String']>
 }
 
 export type CreateCookInput = {
@@ -158,63 +159,64 @@ export type CreateCustomerReviewInput = {
   customerId: Scalars['String']
   foodItemId: Scalars['Int']
   rating: Scalars['Int']
-  text: Scalars['String']
+  text?: InputMaybe<Scalars['String']>
 }
 
 export type CreateFoodItemInput = {
   days: Array<Day>
-  deliveryAvailable: Scalars['Boolean']
-  description: Scalars['String']
-  image: Scalars['String']
+  deliveryAvailable?: InputMaybe<Scalars['Boolean']>
+  description?: InputMaybe<Scalars['String']>
+  image?: InputMaybe<Scalars['String']>
   kitchenId: Scalars['Int']
-  live: Scalars['Boolean']
+  live?: InputMaybe<Scalars['Boolean']>
   maxQuantity: Scalars['Int']
   name: Scalars['String']
   price: Scalars['Int']
   time: Scalars['DateTime']
-  vegan: Scalars['Boolean']
+  vegan?: InputMaybe<Scalars['Boolean']>
 }
 
 export type CreateFoodItemInputWithoutKitchenId = {
   days: Array<Day>
-  deliveryAvailable: Scalars['Boolean']
-  description: Scalars['String']
-  image: Scalars['String']
-  live: Scalars['Boolean']
+  deliveryAvailable?: InputMaybe<Scalars['Boolean']>
+  description?: InputMaybe<Scalars['String']>
+  image?: InputMaybe<Scalars['String']>
+  live?: InputMaybe<Scalars['Boolean']>
   maxQuantity: Scalars['Int']
   name: Scalars['String']
   price: Scalars['Int']
   time: Scalars['DateTime']
-  vegan: Scalars['Boolean']
+  vegan?: InputMaybe<Scalars['Boolean']>
 }
 
 export type CreateKitchenInput = {
-  about: Scalars['String']
+  about?: InputMaybe<Scalars['String']>
   address: CreateAddressInput
-  cookId: Scalars['String']
+  cookId?: InputMaybe<Scalars['String']>
   foodItems: Array<CreateFoodItemInputWithoutKitchenId>
-  image: Scalars['String']
-  name: Scalars['String']
+  image?: InputMaybe<Scalars['String']>
+  name?: InputMaybe<Scalars['String']>
   open: Scalars['Boolean']
 }
 
 export type CreateKitchenInputWithoutCookId = {
-  about: Scalars['String']
+  about?: InputMaybe<Scalars['String']>
   address: CreateAddressInput
   foodItems: Array<CreateFoodItemInputWithoutKitchenId>
-  image: Scalars['String']
-  name: Scalars['String']
+  image?: InputMaybe<Scalars['String']>
+  name?: InputMaybe<Scalars['String']>
   open: Scalars['Boolean']
 }
 
 export type CreateOrderInput = {
   customerId: Scalars['String']
+  passcode: Scalars['String']
   price: Scalars['Int']
   quantity: Scalars['Int']
-  scheduleId: Scalars['Int']
-  status: Status
+  scheduleId?: InputMaybe<Scalars['Int']>
+  status?: InputMaybe<Status>
   time: Scalars['DateTime']
-  tokenNumber: Scalars['Int']
+  tokenNumber?: InputMaybe<Scalars['Int']>
 }
 
 export type CreateScheduleInput = {
@@ -222,13 +224,13 @@ export type CreateScheduleInput = {
   days: Array<Day>
   foodItemId: Scalars['Int']
   live: Scalars['Boolean']
-  quantity: Scalars['Int']
+  quantity?: InputMaybe<Scalars['Int']>
 }
 
 export type Customer = {
   __typename?: 'Customer'
-  address: Address
-  addressId: Scalars['Int']
+  address?: Maybe<Address>
+  addressId?: Maybe<Scalars['Int']>
   createdAt: Scalars['DateTime']
   customerReviews: Array<CustomerReview>
   name: Scalars['String']
@@ -264,7 +266,7 @@ export type CustomerReview = {
   foodItemId: Scalars['Int']
   id: Scalars['Int']
   rating: Scalars['Int']
-  text: Scalars['String']
+  text?: Maybe<Scalars['String']>
   updatedAt: Scalars['DateTime']
 }
 
@@ -331,15 +333,15 @@ export type CustomerWhereInput = {
   AND?: InputMaybe<Array<CustomerWhereInput>>
   NOT?: InputMaybe<Array<CustomerWhereInput>>
   OR?: InputMaybe<Array<CustomerWhereInput>>
-  address: AddressRelationFilter
-  addressId: IntFilter
-  createdAt: DateTimeFilter
-  customerReviews: CustomerReviewListRelationFilter
-  name: StringFilter
-  orders: OrderListRelationFilter
-  schedules: ScheduleListRelationFilter
-  uid: StringFilter
-  updatedAt: DateTimeFilter
+  address?: InputMaybe<AddressRelationFilter>
+  addressId?: InputMaybe<IntFilter>
+  createdAt?: InputMaybe<DateTimeFilter>
+  customerReviews?: InputMaybe<CustomerReviewListRelationFilter>
+  name?: InputMaybe<StringFilter>
+  orders?: InputMaybe<OrderListRelationFilter>
+  schedules?: InputMaybe<ScheduleListRelationFilter>
+  uid?: InputMaybe<StringFilter>
+  updatedAt?: InputMaybe<DateTimeFilter>
 }
 
 export type CustomerWhereUniqueInput = {
@@ -401,15 +403,16 @@ export type FloatFilter = {
 export type FoodItem = {
   __typename?: 'FoodItem'
   createdAt: Scalars['DateTime']
-  customerReview: CustomerReview
+  customerReview?: Maybe<CustomerReview>
+  customerReviews: Array<CustomerReview>
   days: Array<Day>
-  deliveryAvailable: Scalars['Boolean']
-  description: Scalars['String']
+  deliveryAvailable?: Maybe<Scalars['Boolean']>
+  description?: Maybe<Scalars['String']>
   id: Scalars['Int']
-  image: Scalars['String']
+  image?: Maybe<Scalars['String']>
   kitchen: Kitchen
   kitchenId: Scalars['Int']
-  live: Scalars['Boolean']
+  live?: Maybe<Scalars['Boolean']>
   maxQuantity: Scalars['Int']
   name: Scalars['String']
   price: Scalars['Int']
@@ -417,7 +420,7 @@ export type FoodItem = {
   schedules: Array<Schedule>
   time: Scalars['DateTime']
   updatedAt: Scalars['DateTime']
-  vegan: Scalars['Boolean']
+  vegan?: Maybe<Scalars['Boolean']>
 }
 
 export type FoodItemListRelationFilter = {
@@ -512,16 +515,16 @@ export type IntFilter = {
 
 export type Kitchen = {
   __typename?: 'Kitchen'
-  about: Scalars['String']
-  address: Address
+  about?: Maybe<Scalars['String']>
+  address?: Maybe<Address>
   addressId: Scalars['Int']
-  cook: Cook
-  cookId: Scalars['String']
+  cook?: Maybe<Cook>
+  cookId?: Maybe<Scalars['String']>
   createdAt: Scalars['DateTime']
   foodItems: Array<FoodItem>
   id: Scalars['Int']
-  image: Scalars['String']
-  name: Scalars['String']
+  image?: Maybe<Scalars['String']>
+  name?: Maybe<Scalars['String']>
   open: Scalars['Boolean']
   updatedAt: Scalars['DateTime']
 }
@@ -580,10 +583,10 @@ export type KitchenWhereUniqueInput = {
 }
 
 export type LocationFilterInput = {
-  ne_lat: Scalars['Float']
-  ne_lng: Scalars['Float']
-  sw_lat: Scalars['Float']
-  sw_lng: Scalars['Float']
+  nw_lat: Scalars['Float']
+  nw_lng: Scalars['Float']
+  se_lat: Scalars['Float']
+  se_lng: Scalars['Float']
 }
 
 export type LoginInput = {
@@ -623,6 +626,7 @@ export type Mutation = {
   removeKitchen: Kitchen
   removeOrder: Order
   removeSchedule: Schedule
+  runScheduler: Array<Order>
   setAdmin: Scalars['Boolean']
   setRole: Scalars['Boolean']
   updateAddress: Address
@@ -752,13 +756,14 @@ export type Order = {
   customer: Customer
   customerId: Scalars['String']
   id: Scalars['Int']
+  passcode: Scalars['String']
   price: Scalars['Int']
   quantity: Scalars['Int']
-  schedule: Schedule
-  scheduleId: Scalars['Int']
-  status: Status
+  schedule?: Maybe<Schedule>
+  scheduleId?: Maybe<Scalars['Int']>
+  status?: Maybe<Status>
   time: Scalars['DateTime']
-  tokenNumber: Scalars['Int']
+  tokenNumber?: Maybe<Scalars['Int']>
   updatedAt: Scalars['DateTime']
 }
 
@@ -777,6 +782,7 @@ export type OrderOrderByWithRelationInput = {
   customer?: InputMaybe<CustomerOrderByWithRelationInput>
   customerId?: InputMaybe<SortOrder>
   id?: InputMaybe<SortOrder>
+  passcode?: InputMaybe<SortOrder>
   price?: InputMaybe<SortOrder>
   quantity?: InputMaybe<SortOrder>
   schedule?: InputMaybe<ScheduleOrderByWithRelationInput>
@@ -791,6 +797,7 @@ export enum OrderScalarFieldEnum {
   CreatedAt = 'createdAt',
   CustomerId = 'customerId',
   Id = 'id',
+  Passcode = 'passcode',
   Price = 'price',
   Quantity = 'quantity',
   ScheduleId = 'scheduleId',
@@ -808,6 +815,7 @@ export type OrderWhereInput = {
   customer?: InputMaybe<CustomerRelationFilter>
   customerId?: InputMaybe<StringFilter>
   id?: InputMaybe<IntFilter>
+  passcode?: InputMaybe<StringFilter>
   price?: InputMaybe<FloatFilter>
   quantity?: InputMaybe<IntFilter>
   schedule?: InputMaybe<ScheduleRelationFilter>
@@ -835,9 +843,11 @@ export type Query = {
   __typename?: 'Query'
   address: Address
   addresses: Array<Address>
-  cook?: Maybe<Cook>
+  cook: Cook
+  cookMe: Cook
   cooks: Array<Cook>
   customer: Customer
+  customerMe: Customer
   customerReview: CustomerReview
   customerReviews: Array<CustomerReview>
   customers: Array<Customer>
@@ -847,10 +857,12 @@ export type Query = {
   kitchens: Array<Kitchen>
   order: Order
   orders: Array<Order>
+  ordersCount: AggregateCountOutput
   ordersForCustomer: Array<Order>
   ordersForKitchen: Array<Order>
   schedule: Schedule
   schedules: Array<Schedule>
+  schedulesCount: AggregateCountOutput
   schedulesForCustomer: Array<Schedule>
   schedulesForCustomerRaw: Array<SchedulesForKitchenOutput>
   schedulesForKitchen: Array<Schedule>
@@ -949,9 +961,12 @@ export type QueryOrdersArgs = {
   where?: InputMaybe<OrderWhereInput>
 }
 
+export type QueryOrdersCountArgs = {
+  where?: InputMaybe<OrderWhereInput>
+}
+
 export type QueryOrdersForCustomerArgs = {
   cursor?: InputMaybe<WhereUniqueInputNumber>
-  customerId: Scalars['String']
   distinct?: InputMaybe<Array<OrderScalarFieldEnum>>
   orderBy?: InputMaybe<Array<OrderOrderByWithRelationInput>>
   skip?: InputMaybe<Scalars['Int']>
@@ -962,7 +977,6 @@ export type QueryOrdersForCustomerArgs = {
 export type QueryOrdersForKitchenArgs = {
   cursor?: InputMaybe<WhereUniqueInputNumber>
   distinct?: InputMaybe<Array<OrderScalarFieldEnum>>
-  kitchenId: Scalars['Int']
   orderBy?: InputMaybe<Array<OrderOrderByWithRelationInput>>
   skip?: InputMaybe<Scalars['Int']>
   take?: InputMaybe<Scalars['Int']>
@@ -982,9 +996,12 @@ export type QuerySchedulesArgs = {
   where?: InputMaybe<ScheduleWhereInput>
 }
 
+export type QuerySchedulesCountArgs = {
+  where?: InputMaybe<ScheduleWhereInput>
+}
+
 export type QuerySchedulesForCustomerArgs = {
   cursor?: InputMaybe<WhereUniqueInputNumber>
-  customerId: Scalars['String']
   distinct?: InputMaybe<Array<ScheduleScalarFieldEnum>>
   orderBy?: InputMaybe<Array<ScheduleOrderByWithRelationInput>>
   skip?: InputMaybe<Scalars['Int']>
@@ -999,7 +1016,6 @@ export type QuerySchedulesForCustomerRawArgs = {
 export type QuerySchedulesForKitchenArgs = {
   cursor?: InputMaybe<WhereUniqueInputNumber>
   distinct?: InputMaybe<Array<ScheduleScalarFieldEnum>>
-  kitchenId: Scalars['String']
   orderBy?: InputMaybe<Array<ScheduleOrderByWithRelationInput>>
   skip?: InputMaybe<Scalars['Int']>
   take?: InputMaybe<Scalars['Int']>
@@ -1074,7 +1090,7 @@ export type Schedule = {
   id: Scalars['Int']
   live: Scalars['Boolean']
   orders: Array<Order>
-  quantity: Scalars['Int']
+  quantity?: Maybe<Scalars['Int']>
   updatedAt: Scalars['DateTime']
 }
 
@@ -1226,6 +1242,7 @@ export type UpdateKitchenInput = {
 export type UpdateOrderInput = {
   customerId?: InputMaybe<Scalars['String']>
   id: Scalars['Int']
+  passcode?: InputMaybe<Scalars['String']>
   price?: InputMaybe<Scalars['Int']>
   quantity?: InputMaybe<Scalars['Int']>
   scheduleId?: InputMaybe<Scalars['Int']>
@@ -1302,7 +1319,14 @@ export type UpdateScheduleMutation = {
 }
 
 export type OrdersForKitchenQueryVariables = Exact<{
-  kitchenId: Scalars['Int']
+  distinct?: InputMaybe<Array<OrderScalarFieldEnum> | OrderScalarFieldEnum>
+  skip?: InputMaybe<Scalars['Int']>
+  take?: InputMaybe<Scalars['Int']>
+  cursor?: InputMaybe<WhereUniqueInputNumber>
+  orderBy?: InputMaybe<
+    Array<OrderOrderByWithRelationInput> | OrderOrderByWithRelationInput
+  >
+  where?: InputMaybe<OrderWhereInput>
 }>
 
 export type OrdersForKitchenQuery = {
@@ -1311,15 +1335,22 @@ export type OrdersForKitchenQuery = {
     __typename?: 'Order'
     id: number
     time: any
-    status: Status
+    status?: Status | null
     price: number
     quantity: number
+    tokenNumber?: number | null
+    passcode: string
     customer: { __typename?: 'Customer'; uid: string; name: string }
-    schedule: {
+    schedule?: {
       __typename?: 'Schedule'
-      foodItem: { __typename?: 'FoodItem'; name: string; vegan: boolean }
-    }
+      foodItem: {
+        __typename?: 'FoodItem'
+        name: string
+        vegan?: boolean | null
+      }
+    } | null
   }>
+  ordersCount: { __typename?: 'AggregateCountOutput'; count: number }
 }
 
 export type LoginMutationVariables = Exact<{
@@ -1349,13 +1380,13 @@ export type GetKitchenLocationQuery = {
   kitchen: {
     __typename?: 'Kitchen'
     id: number
-    address: {
+    address?: {
       __typename?: 'Address'
       address: string
-      zipCode: string
+      zipCode?: string | null
       lat: number
       lng: number
-    }
+    } | null
   }
 }
 
@@ -1370,25 +1401,25 @@ export type GetKitchenQuery = {
     id: number
     updatedAt: any
     open: boolean
-    name: string
-    image: string
+    name?: string | null
+    image?: string | null
     createdAt: any
-    about: string
-    cook: { __typename?: 'Cook'; uid: string }
-    address: {
+    about?: string | null
+    cook?: { __typename?: 'Cook'; uid: string } | null
+    address?: {
       __typename?: 'Address'
       address: string
-      zipCode: string
+      zipCode?: string | null
       lat: number
       lng: number
-    }
+    } | null
     foodItems: Array<{
       __typename?: 'FoodItem'
       id: number
       days: Array<Day>
       createdAt: any
-      description: string
-      image: string
+      description?: string | null
+      image?: string | null
       maxQuantity: number
       name: string
       price: number
@@ -1412,47 +1443,62 @@ export type GetCustomerQuery = {
     __typename?: 'Customer'
     name: string
     uid: string
-    address: {
+    address?: {
       __typename?: 'Address'
       address: string
       lat: number
       lng: number
-    }
+    } | null
   }
 }
 
-export type GetCookQueryVariables = Exact<{
-  where: CookWhereUniqueInput
-}>
+export type CustomerMeQueryVariables = Exact<{ [key: string]: never }>
 
-export type GetCookQuery = {
+export type CustomerMeQuery = {
   __typename?: 'Query'
-  cook?: {
+  customerMe: {
+    __typename?: 'Customer'
+    name: string
+    uid: string
+    address?: {
+      __typename?: 'Address'
+      address: string
+      lat: number
+      lng: number
+    } | null
+  }
+}
+
+export type CookMeQueryVariables = Exact<{ [key: string]: never }>
+
+export type CookMeQuery = {
+  __typename?: 'Query'
+  cookMe: {
     __typename?: 'Cook'
     uid: string
-    kitchen: {
+    kitchen?: {
       __typename?: 'Kitchen'
       id: number
       updatedAt: any
       open: boolean
-      name: string
-      image: string
+      name?: string | null
+      image?: string | null
       createdAt: any
-      about: string
-      address: {
+      about?: string | null
+      address?: {
         __typename?: 'Address'
         address: string
-        zipCode: string
+        zipCode?: string | null
         lat: number
         lng: number
         id: number
-      }
+      } | null
       foodItems: Array<{
         __typename?: 'FoodItem'
         id: number
         createdAt: any
-        description: string
-        image: string
+        description?: string | null
+        image?: string | null
         maxQuantity: number
         name: string
         days: Array<Day>
@@ -1464,8 +1510,8 @@ export type GetCookQuery = {
           count: number
         } | null
       }>
-    }
-  } | null
+    } | null
+  }
 }
 
 export type UpdateFoodItemMutationVariables = Exact<{
@@ -1477,12 +1523,12 @@ export type UpdateFoodItemMutation = {
   updateFoodItem: {
     __typename?: 'FoodItem'
     id: number
-    image: string
+    image?: string | null
     maxQuantity: number
     name: string
     price: number
     time: any
-    description: string
+    description?: string | null
   }
 }
 
@@ -1529,18 +1575,18 @@ export type SearchKitchensQuery = {
   __typename?: 'Query'
   searchKitchens: Array<{
     __typename?: 'Kitchen'
-    about: string
+    about?: string | null
     id: number
-    image: string
-    name: string
+    image?: string | null
+    name?: string | null
     open: boolean
     createdAt: any
-    address: {
+    address?: {
       __typename?: 'Address'
       lat: number
       lng: number
       address: string
-    }
+    } | null
   }>
 }
 
@@ -1554,7 +1600,6 @@ export type CreateScheduleMutation = {
 }
 
 export type OrdersForCustomerQueryVariables = Exact<{
-  customerId: Scalars['String']
   where?: InputMaybe<OrderWhereInput>
 }>
 
@@ -1565,18 +1610,26 @@ export type OrdersForCustomerQuery = {
     id: number
     quantity: number
     time: any
-    status: Status
+    status?: Status | null
     price: number
-    schedule: {
+    schedule?: {
       __typename?: 'Schedule'
       foodItem: { __typename?: 'FoodItem'; name: string }
-    }
+    } | null
   }>
+  ordersCount: { __typename?: 'AggregateCountOutput'; count: number }
 }
 
 export type SchedulesForCustomerQueryVariables = Exact<{
-  customerId: Scalars['String']
   where?: InputMaybe<ScheduleWhereInput>
+  distinct?: InputMaybe<
+    Array<ScheduleScalarFieldEnum> | ScheduleScalarFieldEnum
+  >
+  skip?: InputMaybe<Scalars['Int']>
+  take?: InputMaybe<Scalars['Int']>
+  orderBy?: InputMaybe<
+    Array<ScheduleOrderByWithRelationInput> | ScheduleOrderByWithRelationInput
+  >
 }>
 
 export type SchedulesForCustomerQuery = {
@@ -1585,7 +1638,7 @@ export type SchedulesForCustomerQuery = {
     __typename?: 'Schedule'
     id: number
     days: Array<Day>
-    quantity: number
+    quantity?: number | null
     live: boolean
     foodItem: {
       __typename?: 'FoodItem'
@@ -1593,14 +1646,15 @@ export type SchedulesForCustomerQuery = {
       name: string
       price: number
       time: any
-      customerReview: {
+      customerReview?: {
         __typename?: 'CustomerReview'
         rating: number
-        text: string
-      }
-      kitchen: { __typename?: 'Kitchen'; name: string }
+        text?: string | null
+      } | null
+      kitchen: { __typename?: 'Kitchen'; name?: string | null }
     }
   }>
+  schedulesCount: { __typename?: 'AggregateCountOutput'; count: number }
 }
 
 export type UpdateAddressMutationVariables = Exact<{
@@ -1613,15 +1667,30 @@ export type UpdateAddressMutation = {
 }
 
 export type SchedulesForKitchenQueryVariables = Exact<{
-  kitchenId: Scalars['String']
+  distinct?: InputMaybe<
+    Array<ScheduleScalarFieldEnum> | ScheduleScalarFieldEnum
+  >
+  skip?: InputMaybe<Scalars['Int']>
+  take?: InputMaybe<Scalars['Int']>
+  cursor?: InputMaybe<WhereUniqueInputNumber>
+  orderBy?: InputMaybe<
+    Array<ScheduleOrderByWithRelationInput> | ScheduleOrderByWithRelationInput
+  >
+  where?: InputMaybe<ScheduleWhereInput>
 }>
 
 export type SchedulesForKitchenQuery = {
   __typename?: 'Query'
   schedulesForKitchen: Array<{
     __typename?: 'Schedule'
-    foodItem: { __typename?: 'FoodItem'; kitchenId: number }
+    id: number
+    live: boolean
+    days: Array<Day>
+    quantity?: number | null
+    customer: { __typename?: 'Customer'; name: string; uid: string }
+    foodItem: { __typename?: 'FoodItem'; name: string }
   }>
+  schedulesCount: { __typename?: 'AggregateCountOutput'; count: number }
 }
 
 export type SchedulesForCustomerRawQueryVariables = Exact<{
@@ -1663,11 +1732,12 @@ export const namedOperations = {
     getKitchenLocation: 'getKitchenLocation',
     getKitchen: 'getKitchen',
     getCustomer: 'getCustomer',
-    getCook: 'getCook',
+    customerMe: 'customerMe',
+    cookMe: 'cookMe',
     SearchKitchens: 'SearchKitchens',
     ordersForCustomer: 'ordersForCustomer',
     schedulesForCustomer: 'schedulesForCustomer',
-    schedulesForKitchen: 'schedulesForKitchen',
+    SchedulesForKitchen: 'SchedulesForKitchen',
     SchedulesForCustomerRaw: 'SchedulesForCustomerRaw',
   },
   Mutation: {
@@ -1988,13 +2058,29 @@ export type UpdateScheduleMutationOptions = Apollo.BaseMutationOptions<
   UpdateScheduleMutationVariables
 >
 export const OrdersForKitchenDocument = /*#__PURE__*/ gql`
-  query OrdersForKitchen($kitchenId: Int!) {
-    ordersForKitchen(kitchenId: $kitchenId) {
+  query OrdersForKitchen(
+    $distinct: [OrderScalarFieldEnum!]
+    $skip: Int
+    $take: Int
+    $cursor: WhereUniqueInputNumber
+    $orderBy: [OrderOrderByWithRelationInput!]
+    $where: OrderWhereInput
+  ) {
+    ordersForKitchen(
+      distinct: $distinct
+      skip: $skip
+      take: $take
+      cursor: $cursor
+      orderBy: $orderBy
+      where: $where
+    ) {
       id
       time
       status
       price
       quantity
+      tokenNumber
+      passcode
       customer {
         uid
         name
@@ -2005,6 +2091,9 @@ export const OrdersForKitchenDocument = /*#__PURE__*/ gql`
           vegan
         }
       }
+    }
+    ordersCount(where: $where) {
+      count
     }
   }
 `
@@ -2021,12 +2110,17 @@ export const OrdersForKitchenDocument = /*#__PURE__*/ gql`
  * @example
  * const { data, loading, error } = useOrdersForKitchenQuery({
  *   variables: {
- *      kitchenId: // value for 'kitchenId'
+ *      distinct: // value for 'distinct'
+ *      skip: // value for 'skip'
+ *      take: // value for 'take'
+ *      cursor: // value for 'cursor'
+ *      orderBy: // value for 'orderBy'
+ *      where: // value for 'where'
  *   },
  * });
  */
 export function useOrdersForKitchenQuery(
-  baseOptions: Apollo.QueryHookOptions<
+  baseOptions?: Apollo.QueryHookOptions<
     OrdersForKitchenQuery,
     OrdersForKitchenQueryVariables
   >,
@@ -2324,9 +2418,70 @@ export type GetCustomerQueryResult = Apollo.QueryResult<
   GetCustomerQuery,
   GetCustomerQueryVariables
 >
-export const GetCookDocument = /*#__PURE__*/ gql`
-  query getCook($where: CookWhereUniqueInput!) {
-    cook(where: $where) {
+export const CustomerMeDocument = /*#__PURE__*/ gql`
+  query customerMe {
+    customerMe {
+      name
+      uid
+      address {
+        address
+        lat
+        lng
+      }
+    }
+  }
+`
+
+/**
+ * __useCustomerMeQuery__
+ *
+ * To run a query within a React component, call `useCustomerMeQuery` and pass it any options that fit your needs.
+ * When your component renders, `useCustomerMeQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useCustomerMeQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useCustomerMeQuery(
+  baseOptions?: Apollo.QueryHookOptions<
+    CustomerMeQuery,
+    CustomerMeQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useQuery<CustomerMeQuery, CustomerMeQueryVariables>(
+    CustomerMeDocument,
+    options,
+  )
+}
+export function useCustomerMeLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    CustomerMeQuery,
+    CustomerMeQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useLazyQuery<CustomerMeQuery, CustomerMeQueryVariables>(
+    CustomerMeDocument,
+    options,
+  )
+}
+export type CustomerMeQueryHookResult = ReturnType<typeof useCustomerMeQuery>
+export type CustomerMeLazyQueryHookResult = ReturnType<
+  typeof useCustomerMeLazyQuery
+>
+export type CustomerMeQueryResult = Apollo.QueryResult<
+  CustomerMeQuery,
+  CustomerMeQueryVariables
+>
+export const CookMeDocument = /*#__PURE__*/ gql`
+  query cookMe {
+    cookMe {
       uid
       kitchen {
         id
@@ -2364,47 +2519,43 @@ export const GetCookDocument = /*#__PURE__*/ gql`
 `
 
 /**
- * __useGetCookQuery__
+ * __useCookMeQuery__
  *
- * To run a query within a React component, call `useGetCookQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetCookQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useCookMeQuery` and pass it any options that fit your needs.
+ * When your component renders, `useCookMeQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useGetCookQuery({
+ * const { data, loading, error } = useCookMeQuery({
  *   variables: {
- *      where: // value for 'where'
  *   },
  * });
  */
-export function useGetCookQuery(
-  baseOptions: Apollo.QueryHookOptions<GetCookQuery, GetCookQueryVariables>,
+export function useCookMeQuery(
+  baseOptions?: Apollo.QueryHookOptions<CookMeQuery, CookMeQueryVariables>,
 ) {
   const options = { ...defaultOptions, ...baseOptions }
-  return Apollo.useQuery<GetCookQuery, GetCookQueryVariables>(
-    GetCookDocument,
+  return Apollo.useQuery<CookMeQuery, CookMeQueryVariables>(
+    CookMeDocument,
     options,
   )
 }
-export function useGetCookLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    GetCookQuery,
-    GetCookQueryVariables
-  >,
+export function useCookMeLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<CookMeQuery, CookMeQueryVariables>,
 ) {
   const options = { ...defaultOptions, ...baseOptions }
-  return Apollo.useLazyQuery<GetCookQuery, GetCookQueryVariables>(
-    GetCookDocument,
+  return Apollo.useLazyQuery<CookMeQuery, CookMeQueryVariables>(
+    CookMeDocument,
     options,
   )
 }
-export type GetCookQueryHookResult = ReturnType<typeof useGetCookQuery>
-export type GetCookLazyQueryHookResult = ReturnType<typeof useGetCookLazyQuery>
-export type GetCookQueryResult = Apollo.QueryResult<
-  GetCookQuery,
-  GetCookQueryVariables
+export type CookMeQueryHookResult = ReturnType<typeof useCookMeQuery>
+export type CookMeLazyQueryHookResult = ReturnType<typeof useCookMeLazyQuery>
+export type CookMeQueryResult = Apollo.QueryResult<
+  CookMeQuery,
+  CookMeQueryVariables
 >
 export const UpdateFoodItemDocument = /*#__PURE__*/ gql`
   mutation updateFoodItem($updateFoodItemInput: UpdateFoodItemInput!) {
@@ -2753,8 +2904,8 @@ export type CreateScheduleMutationOptions = Apollo.BaseMutationOptions<
   CreateScheduleMutationVariables
 >
 export const OrdersForCustomerDocument = /*#__PURE__*/ gql`
-  query ordersForCustomer($customerId: String!, $where: OrderWhereInput) {
-    ordersForCustomer(customerId: $customerId, where: $where) {
+  query ordersForCustomer($where: OrderWhereInput) {
+    ordersForCustomer(where: $where) {
       id
       quantity
       time
@@ -2765,6 +2916,9 @@ export const OrdersForCustomerDocument = /*#__PURE__*/ gql`
           name
         }
       }
+    }
+    ordersCount {
+      count
     }
   }
 `
@@ -2781,13 +2935,12 @@ export const OrdersForCustomerDocument = /*#__PURE__*/ gql`
  * @example
  * const { data, loading, error } = useOrdersForCustomerQuery({
  *   variables: {
- *      customerId: // value for 'customerId'
  *      where: // value for 'where'
  *   },
  * });
  */
 export function useOrdersForCustomerQuery(
-  baseOptions: Apollo.QueryHookOptions<
+  baseOptions?: Apollo.QueryHookOptions<
     OrdersForCustomerQuery,
     OrdersForCustomerQueryVariables
   >,
@@ -2821,8 +2974,20 @@ export type OrdersForCustomerQueryResult = Apollo.QueryResult<
   OrdersForCustomerQueryVariables
 >
 export const SchedulesForCustomerDocument = /*#__PURE__*/ gql`
-  query schedulesForCustomer($customerId: String!, $where: ScheduleWhereInput) {
-    schedulesForCustomer(customerId: $customerId, where: $where) {
+  query schedulesForCustomer(
+    $where: ScheduleWhereInput
+    $distinct: [ScheduleScalarFieldEnum!]
+    $skip: Int
+    $take: Int
+    $orderBy: [ScheduleOrderByWithRelationInput!]
+  ) {
+    schedulesForCustomer(
+      where: $where
+      distinct: $distinct
+      skip: $skip
+      take: $take
+      orderBy: $orderBy
+    ) {
       id
       days
       quantity
@@ -2841,6 +3006,9 @@ export const SchedulesForCustomerDocument = /*#__PURE__*/ gql`
         }
       }
     }
+    schedulesCount(where: $where) {
+      count
+    }
   }
 `
 
@@ -2856,13 +3024,16 @@ export const SchedulesForCustomerDocument = /*#__PURE__*/ gql`
  * @example
  * const { data, loading, error } = useSchedulesForCustomerQuery({
  *   variables: {
- *      customerId: // value for 'customerId'
  *      where: // value for 'where'
+ *      distinct: // value for 'distinct'
+ *      skip: // value for 'skip'
+ *      take: // value for 'take'
+ *      orderBy: // value for 'orderBy'
  *   },
  * });
  */
 export function useSchedulesForCustomerQuery(
-  baseOptions: Apollo.QueryHookOptions<
+  baseOptions?: Apollo.QueryHookOptions<
     SchedulesForCustomerQuery,
     SchedulesForCustomerQueryVariables
   >,
@@ -2946,11 +3117,36 @@ export type UpdateAddressMutationOptions = Apollo.BaseMutationOptions<
   UpdateAddressMutationVariables
 >
 export const SchedulesForKitchenDocument = /*#__PURE__*/ gql`
-  query schedulesForKitchen($kitchenId: String!) {
-    schedulesForKitchen(kitchenId: $kitchenId) {
-      foodItem {
-        kitchenId
+  query SchedulesForKitchen(
+    $distinct: [ScheduleScalarFieldEnum!]
+    $skip: Int
+    $take: Int
+    $cursor: WhereUniqueInputNumber
+    $orderBy: [ScheduleOrderByWithRelationInput!]
+    $where: ScheduleWhereInput
+  ) {
+    schedulesForKitchen(
+      distinct: $distinct
+      skip: $skip
+      take: $take
+      cursor: $cursor
+      orderBy: $orderBy
+      where: $where
+    ) {
+      id
+      customer {
+        name
+        uid
       }
+      live
+      days
+      quantity
+      foodItem {
+        name
+      }
+    }
+    schedulesCount(where: $where) {
+      count
     }
   }
 `
@@ -2967,12 +3163,17 @@ export const SchedulesForKitchenDocument = /*#__PURE__*/ gql`
  * @example
  * const { data, loading, error } = useSchedulesForKitchenQuery({
  *   variables: {
- *      kitchenId: // value for 'kitchenId'
+ *      distinct: // value for 'distinct'
+ *      skip: // value for 'skip'
+ *      take: // value for 'take'
+ *      cursor: // value for 'cursor'
+ *      orderBy: // value for 'orderBy'
+ *      where: // value for 'where'
  *   },
  * });
  */
 export function useSchedulesForKitchenQuery(
-  baseOptions: Apollo.QueryHookOptions<
+  baseOptions?: Apollo.QueryHookOptions<
     SchedulesForKitchenQuery,
     SchedulesForKitchenQueryVariables
   >,

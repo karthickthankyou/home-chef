@@ -50,3 +50,5 @@ export type Viewport = {
   longitude: number
   zoom: number
 }
+
+export type MenuItem = { label: string; href: string; loggedIn: boolean }

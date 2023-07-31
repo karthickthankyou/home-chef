@@ -155,16 +155,16 @@ export class AggregateCountOutput {
 @InputType()
 export class LocationFilterInput {
   @Field(() => Float)
-  ne_lat: number
+  nw_lat: number
 
   @Field(() => Float)
-  ne_lng: number
+  nw_lng: number
 
   @Field(() => Float)
-  sw_lat: number
+  se_lat: number
 
   @Field(() => Float)
-  sw_lng: number
+  se_lng: number
 }
 
 @ObjectType()

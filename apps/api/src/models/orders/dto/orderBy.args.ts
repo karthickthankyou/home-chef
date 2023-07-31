@@ -8,6 +8,8 @@ export class OrderOrderByWithRelationInput
   implements Required<Prisma.OrderOrderByWithRelationInput>
 {
   @Field(() => Prisma.SortOrder, { nullable: true })
+  passcode: Prisma.SortOrder
+  @Field(() => Prisma.SortOrder, { nullable: true })
   id: Prisma.SortOrder
   @Field(() => Prisma.SortOrder, { nullable: true })
   createdAt: Prisma.SortOrder

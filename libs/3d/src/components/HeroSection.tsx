@@ -263,7 +263,7 @@ export const HeroSection: React.FC = () => {
   }
 
   return (
-    <div style={{ width: '100%', height: '100vh' }}>
+    <div className="h-[calc(100vh-4rem)]">
       <Canvas>
         <RotatingCamera />
         <OrbitControls />

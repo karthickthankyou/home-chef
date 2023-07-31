@@ -26,13 +26,14 @@ export type Address = {
   __typename?: 'Address'
   address: Scalars['String']
   createdAt: Scalars['DateTime']
-  customer: Customer
+  customer?: Maybe<Customer>
   id: Scalars['Int']
-  kitchenId: Scalars['Int']
+  kitchen?: Maybe<Kitchen>
+  kitchenId?: Maybe<Scalars['Int']>
   lat: Scalars['Float']
   lng: Scalars['Float']
   updatedAt: Scalars['DateTime']
-  zipCode: Scalars['String']
+  zipCode?: Maybe<Scalars['String']>
 }
 
 export type AddressOrderByWithRelationInput = {
@@ -98,7 +99,7 @@ export type BoolFilter = {
 export type Cook = {
   __typename?: 'Cook'
   createdAt: Scalars['DateTime']
-  kitchen: Kitchen
+  kitchen?: Maybe<Kitchen>
   uid: Scalars['String']
   updatedAt: Scalars['DateTime']
 }
@@ -139,7 +140,7 @@ export type CreateAddressInput = {
   address: Scalars['String']
   lat: Scalars['Float']
   lng: Scalars['Float']
-  zipCode: Scalars['String']
+  zipCode?: InputMaybe<Scalars['String']>
 }
 
 export type CreateCookInput = {
@@ -157,63 +158,64 @@ export type CreateCustomerReviewInput = {
   customerId: Scalars['String']
   foodItemId: Scalars['Int']
   rating: Scalars['Int']
-  text: Scalars['String']
+  text?: InputMaybe<Scalars['String']>
 }
 
 export type CreateFoodItemInput = {
   days: Array<Day>
-  deliveryAvailable: Scalars['Boolean']
-  description: Scalars['String']
-  image: Scalars['String']
+  deliveryAvailable?: InputMaybe<Scalars['Boolean']>
+  description?: InputMaybe<Scalars['String']>
+  image?: InputMaybe<Scalars['String']>
   kitchenId: Scalars['Int']
-  live: Scalars['Boolean']
+  live?: InputMaybe<Scalars['Boolean']>
   maxQuantity: Scalars['Int']
   name: Scalars['String']
   price: Scalars['Int']
   time: Scalars['DateTime']
-  vegan: Scalars['Boolean']
+  vegan?: InputMaybe<Scalars['Boolean']>
 }
 
 export type CreateFoodItemInputWithoutKitchenId = {
   days: Array<Day>
-  deliveryAvailable: Scalars['Boolean']
-  description: Scalars['String']
-  image: Scalars['String']
-  live: Scalars['Boolean']
+  deliveryAvailable?: InputMaybe<Scalars['Boolean']>
+  description?: InputMaybe<Scalars['String']>
+  image?: InputMaybe<Scalars['String']>
+  live?: InputMaybe<Scalars['Boolean']>
   maxQuantity: Scalars['Int']
   name: Scalars['String']
   price: Scalars['Int']
   time: Scalars['DateTime']
-  vegan: Scalars['Boolean']
+  vegan?: InputMaybe<Scalars['Boolean']>
 }
 
 export type CreateKitchenInput = {
-  about: Scalars['String']
+  about?: InputMaybe<Scalars['String']>
   address: CreateAddressInput
-  cookId: Scalars['String']
+  cookId?: InputMaybe<Scalars['String']>
   foodItems: Array<CreateFoodItemInputWithoutKitchenId>
-  image: Scalars['String']
-  name: Scalars['String']
+  image?: InputMaybe<Scalars['String']>
+  name?: InputMaybe<Scalars['String']>
   open: Scalars['Boolean']
 }
 
 export type CreateKitchenInputWithoutCookId = {
-  about: Scalars['String']
+  about?: InputMaybe<Scalars['String']>
   address: CreateAddressInput
   foodItems: Array<CreateFoodItemInputWithoutKitchenId>
-  image: Scalars['String']
-  name: Scalars['String']
+  image?: InputMaybe<Scalars['String']>
+  name?: InputMaybe<Scalars['String']>
   open: Scalars['Boolean']
 }
 
 export type CreateOrderInput = {
   customerId: Scalars['String']
+  passcode: Scalars['String']
   price: Scalars['Int']
   quantity: Scalars['Int']
-  scheduleId: Scalars['Int']
-  status: Status
+  scheduleId?: InputMaybe<Scalars['Int']>
+  status?: InputMaybe<Status>
   time: Scalars['DateTime']
-  tokenNumber: Scalars['Int']
+  tokenNumber?: InputMaybe<Scalars['Int']>
 }
 
 export type CreateScheduleInput = {
@@ -221,13 +223,13 @@ export type CreateScheduleInput = {
   days: Array<Day>
   foodItemId: Scalars['Int']
   live: Scalars['Boolean']
-  quantity: Scalars['Int']
+  quantity?: InputMaybe<Scalars['Int']>
 }
 
 export type Customer = {
   __typename?: 'Customer'
-  address: Address
-  addressId: Scalars['Int']
+  address?: Maybe<Address>
+  addressId?: Maybe<Scalars['Int']>
   createdAt: Scalars['DateTime']
   customerReviews: Array<CustomerReview>
   name: Scalars['String']
@@ -263,7 +265,7 @@ export type CustomerReview = {
   foodItemId: Scalars['Int']
   id: Scalars['Int']
   rating: Scalars['Int']
-  text: Scalars['String']
+  text?: Maybe<Scalars['String']>
   updatedAt: Scalars['DateTime']
 }
 
@@ -330,15 +332,15 @@ export type CustomerWhereInput = {
   AND?: InputMaybe<Array<CustomerWhereInput>>
   NOT?: InputMaybe<Array<CustomerWhereInput>>
   OR?: InputMaybe<Array<CustomerWhereInput>>
-  address: AddressRelationFilter
-  addressId: IntFilter
-  createdAt: DateTimeFilter
-  customerReviews: CustomerReviewListRelationFilter
-  name: StringFilter
-  orders: OrderListRelationFilter
-  schedules: ScheduleListRelationFilter
-  uid: StringFilter
-  updatedAt: DateTimeFilter
+  address?: InputMaybe<AddressRelationFilter>
+  addressId?: InputMaybe<IntFilter>
+  createdAt?: InputMaybe<DateTimeFilter>
+  customerReviews?: InputMaybe<CustomerReviewListRelationFilter>
+  name?: InputMaybe<StringFilter>
+  orders?: InputMaybe<OrderListRelationFilter>
+  schedules?: InputMaybe<ScheduleListRelationFilter>
+  uid?: InputMaybe<StringFilter>
+  updatedAt?: InputMaybe<DateTimeFilter>
 }
 
 export type CustomerWhereUniqueInput = {
@@ -400,15 +402,16 @@ export type FloatFilter = {
 export type FoodItem = {
   __typename?: 'FoodItem'
   createdAt: Scalars['DateTime']
-  customerReview: CustomerReview
+  customerReview?: Maybe<CustomerReview>
+  customerReviews: Array<CustomerReview>
   days: Array<Day>
-  deliveryAvailable: Scalars['Boolean']
-  description: Scalars['String']
+  deliveryAvailable?: Maybe<Scalars['Boolean']>
+  description?: Maybe<Scalars['String']>
   id: Scalars['Int']
-  image: Scalars['String']
+  image?: Maybe<Scalars['String']>
   kitchen: Kitchen
   kitchenId: Scalars['Int']
-  live: Scalars['Boolean']
+  live?: Maybe<Scalars['Boolean']>
   maxQuantity: Scalars['Int']
   name: Scalars['String']
   price: Scalars['Int']
@@ -416,7 +419,7 @@ export type FoodItem = {
   schedules: Array<Schedule>
   time: Scalars['DateTime']
   updatedAt: Scalars['DateTime']
-  vegan: Scalars['Boolean']
+  vegan?: Maybe<Scalars['Boolean']>
 }
 
 export type FoodItemListRelationFilter = {
@@ -511,16 +514,16 @@ export type IntFilter = {
 
 export type Kitchen = {
   __typename?: 'Kitchen'
-  about: Scalars['String']
-  address: Address
+  about?: Maybe<Scalars['String']>
+  address?: Maybe<Address>
   addressId: Scalars['Int']
-  cook: Cook
-  cookId: Scalars['String']
+  cook?: Maybe<Cook>
+  cookId?: Maybe<Scalars['String']>
   createdAt: Scalars['DateTime']
   foodItems: Array<FoodItem>
   id: Scalars['Int']
-  image: Scalars['String']
-  name: Scalars['String']
+  image?: Maybe<Scalars['String']>
+  name?: Maybe<Scalars['String']>
   open: Scalars['Boolean']
   updatedAt: Scalars['DateTime']
 }
@@ -579,10 +582,10 @@ export type KitchenWhereUniqueInput = {
 }
 
 export type LocationFilterInput = {
-  ne_lat: Scalars['Float']
-  ne_lng: Scalars['Float']
-  sw_lat: Scalars['Float']
-  sw_lng: Scalars['Float']
+  nw_lat: Scalars['Float']
+  nw_lng: Scalars['Float']
+  se_lat: Scalars['Float']
+  se_lng: Scalars['Float']
 }
 
 export type LoginInput = {
@@ -622,6 +625,7 @@ export type Mutation = {
   removeKitchen: Kitchen
   removeOrder: Order
   removeSchedule: Schedule
+  runScheduler: Array<Order>
   setAdmin: Scalars['Boolean']
   setRole: Scalars['Boolean']
   updateAddress: Address
@@ -751,13 +755,14 @@ export type Order = {
   customer: Customer
   customerId: Scalars['String']
   id: Scalars['Int']
+  passcode: Scalars['String']
   price: Scalars['Int']
   quantity: Scalars['Int']
-  schedule: Schedule
-  scheduleId: Scalars['Int']
-  status: Status
+  schedule?: Maybe<Schedule>
+  scheduleId?: Maybe<Scalars['Int']>
+  status?: Maybe<Status>
   time: Scalars['DateTime']
-  tokenNumber: Scalars['Int']
+  tokenNumber?: Maybe<Scalars['Int']>
   updatedAt: Scalars['DateTime']
 }
 
@@ -776,6 +781,7 @@ export type OrderOrderByWithRelationInput = {
   customer?: InputMaybe<CustomerOrderByWithRelationInput>
   customerId?: InputMaybe<SortOrder>
   id?: InputMaybe<SortOrder>
+  passcode?: InputMaybe<SortOrder>
   price?: InputMaybe<SortOrder>
   quantity?: InputMaybe<SortOrder>
   schedule?: InputMaybe<ScheduleOrderByWithRelationInput>
@@ -790,6 +796,7 @@ export enum OrderScalarFieldEnum {
   CreatedAt = 'createdAt',
   CustomerId = 'customerId',
   Id = 'id',
+  Passcode = 'passcode',
   Price = 'price',
   Quantity = 'quantity',
   ScheduleId = 'scheduleId',
@@ -807,6 +814,7 @@ export type OrderWhereInput = {
   customer?: InputMaybe<CustomerRelationFilter>
   customerId?: InputMaybe<StringFilter>
   id?: InputMaybe<IntFilter>
+  passcode?: InputMaybe<StringFilter>
   price?: InputMaybe<FloatFilter>
   quantity?: InputMaybe<IntFilter>
   schedule?: InputMaybe<ScheduleRelationFilter>
@@ -834,9 +842,11 @@ export type Query = {
   __typename?: 'Query'
   address: Address
   addresses: Array<Address>
-  cook?: Maybe<Cook>
+  cook: Cook
+  cookMe: Cook
   cooks: Array<Cook>
   customer: Customer
+  customerMe: Customer
   customerReview: CustomerReview
   customerReviews: Array<CustomerReview>
   customers: Array<Customer>
@@ -846,10 +856,12 @@ export type Query = {
   kitchens: Array<Kitchen>
   order: Order
   orders: Array<Order>
+  ordersCount: AggregateCountOutput
   ordersForCustomer: Array<Order>
   ordersForKitchen: Array<Order>
   schedule: Schedule
   schedules: Array<Schedule>
+  schedulesCount: AggregateCountOutput
   schedulesForCustomer: Array<Schedule>
   schedulesForCustomerRaw: Array<SchedulesForKitchenOutput>
   schedulesForKitchen: Array<Schedule>
@@ -948,9 +960,12 @@ export type QueryOrdersArgs = {
   where?: InputMaybe<OrderWhereInput>
 }
 
+export type QueryOrdersCountArgs = {
+  where?: InputMaybe<OrderWhereInput>
+}
+
 export type QueryOrdersForCustomerArgs = {
   cursor?: InputMaybe<WhereUniqueInputNumber>
-  customerId: Scalars['String']
   distinct?: InputMaybe<Array<OrderScalarFieldEnum>>
   orderBy?: InputMaybe<Array<OrderOrderByWithRelationInput>>
   skip?: InputMaybe<Scalars['Int']>
@@ -961,7 +976,6 @@ export type QueryOrdersForCustomerArgs = {
 export type QueryOrdersForKitchenArgs = {
   cursor?: InputMaybe<WhereUniqueInputNumber>
   distinct?: InputMaybe<Array<OrderScalarFieldEnum>>
-  kitchenId: Scalars['Int']
   orderBy?: InputMaybe<Array<OrderOrderByWithRelationInput>>
   skip?: InputMaybe<Scalars['Int']>
   take?: InputMaybe<Scalars['Int']>
@@ -981,9 +995,12 @@ export type QuerySchedulesArgs = {
   where?: InputMaybe<ScheduleWhereInput>
 }
 
+export type QuerySchedulesCountArgs = {
+  where?: InputMaybe<ScheduleWhereInput>
+}
+
 export type QuerySchedulesForCustomerArgs = {
   cursor?: InputMaybe<WhereUniqueInputNumber>
-  customerId: Scalars['String']
   distinct?: InputMaybe<Array<ScheduleScalarFieldEnum>>
   orderBy?: InputMaybe<Array<ScheduleOrderByWithRelationInput>>
   skip?: InputMaybe<Scalars['Int']>
@@ -998,7 +1015,6 @@ export type QuerySchedulesForCustomerRawArgs = {
 export type QuerySchedulesForKitchenArgs = {
   cursor?: InputMaybe<WhereUniqueInputNumber>
   distinct?: InputMaybe<Array<ScheduleScalarFieldEnum>>
-  kitchenId: Scalars['String']
   orderBy?: InputMaybe<Array<ScheduleOrderByWithRelationInput>>
   skip?: InputMaybe<Scalars['Int']>
   take?: InputMaybe<Scalars['Int']>
@@ -1073,7 +1089,7 @@ export type Schedule = {
   id: Scalars['Int']
   live: Scalars['Boolean']
   orders: Array<Order>
-  quantity: Scalars['Int']
+  quantity?: Maybe<Scalars['Int']>
   updatedAt: Scalars['DateTime']
 }
 
@@ -1225,6 +1241,7 @@ export type UpdateKitchenInput = {
 export type UpdateOrderInput = {
   customerId?: InputMaybe<Scalars['String']>
   id: Scalars['Int']
+  passcode?: InputMaybe<Scalars['String']>
   price?: InputMaybe<Scalars['Int']>
   quantity?: InputMaybe<Scalars['Int']>
   scheduleId?: InputMaybe<Scalars['Int']>

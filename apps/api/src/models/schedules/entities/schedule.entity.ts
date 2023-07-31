@@ -9,6 +9,7 @@ export class Schedule implements ScheduleType {
   live: boolean
   customerId: string
   foodItemId: number
+  @Field({ nullable: true })
   quantity: number
   @Field(() => [Day])
   days: Day[]

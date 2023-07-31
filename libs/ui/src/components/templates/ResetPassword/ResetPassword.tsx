@@ -4,7 +4,7 @@ import Link from 'next/link'
 import { Button } from '../../atoms/Button'
 import { HtmlLabel } from '../../atoms/HtmlLabel'
 import { HtmlInput } from '../../atoms/HtmlInput'
-import { Dialog } from '../../molecules/Dialog'
+import { Dialog } from '../../atoms/Dialog'
 import {
   FormTypeResetPassword,
   useFormResetPassword,
@@ -58,7 +58,7 @@ const ResetPassword = () => {
             className="flex flex-col max-w-sm gap-1"
           >
             {error && (
-              <Dialog open={showDialog} setOpen={setShowDialog}>
+              <Dialog open={showDialog} setOpen={setShowDialog} title="Error">
                 <div className="text-red-600">{error}</div>
               </Dialog>
             )}

@@ -20,7 +20,8 @@ import {
 } from 'src/common/decorators/auth/auth.decorator'
 import { GetUserType } from '@home-chefs-org/types'
 import { checkRowLevelPermission } from 'src/common/guards'
-import { SortOrder } from 'src/common/dtos/common.input'
+import { AggregateCountOutput, SortOrder } from 'src/common/dtos/common.input'
+import { OrderWhereInput } from './dto/where.args'
 
 @Resolver(() => Order)
 export class OrdersResolver {
@@ -48,21 +49,17 @@ export class OrdersResolver {
   @Query(() => [Order], { name: 'ordersForCustomer' })
   async ordersForCustomer(
     @Args() { cursor, distinct, orderBy, skip, take, where }: FindManyOrderArgs,
-    @Args('customerId') customerId: string,
     @GetUser() user: GetUserType,
   ) {
-    checkRowLevelPermission(user, customerId)
-
     const orders = await this.prisma.order.findMany({
       cursor,
       distinct,
       orderBy: [{ time: SortOrder.desc }],
       skip,
       take,
-      where: { ...where, customerId: { equals: customerId } },
+      where: { ...where, customerId: { equals: user.uid } },
     })
 
-    console.log('orders', orders)
     return orders
   }
 
@@ -70,28 +67,11 @@ export class OrdersResolver {
   @Query(() => [Order], { name: 'ordersForKitchen' })
   async findAllOrdersForKitchen(
     @Args() { cursor, distinct, orderBy, skip, take, where }: FindManyOrderArgs,
-    @Args('kitchenId') kitchenId: number,
     @GetUser() user: GetUserType,
   ) {
     const kitchen = await this.prisma.kitchen.findUnique({
-      where: { id: kitchenId },
+      where: { cookId: user.uid },
     })
-    // console.log('Starting...')
-    // const orderedOrders = await this.prisma.$queryRaw`SELECT
-    //     DATE_TRUNC('day', time) AS date,
-    //     TO_CHAR(time, 'HH24:MI') AS time,
-    //     JSON_AGG(json_build_object('id', id)) AS items
-    //     FROM
-    //     "Order"
-    //     GROUP BY
-    //         DATE_TRUNC('day', time),
-    //         TO_CHAR(time, 'HH24:MI')
-    //     ORDER BY
-    //         time ASC`
-
-    // console.log('orderedOrders', orderedOrders)
-
-    checkRowLevelPermission(user, kitchen.cookId)
 
     return this.prisma.order.findMany({
       cursor,
@@ -99,7 +79,7 @@ export class OrdersResolver {
       orderBy: [{ time: 'desc' }],
       skip,
       take,
-      where: { ...where, schedule: { foodItem: { kitchenId } } },
+      where: { ...where, schedule: { foodItem: { kitchenId: kitchen.id } } },
     })
   }
 
@@ -120,10 +100,24 @@ export class OrdersResolver {
     })
   }
 
-  @ResolveField(() => Schedule)
+  @ResolveField(() => Schedule, { nullable: true })
   schedule(@Parent() order: Order) {
     return this.prisma.schedule.findUnique({
       where: { id: order.scheduleId },
     })
+  }
+
+  @Query(() => AggregateCountOutput, {
+    name: 'ordersCount',
+  })
+  async ordersCount(
+    @Args('where', { nullable: true })
+    where: OrderWhereInput,
+  ) {
+    const orders = await this.prisma.order.aggregate({
+      _count: { _all: true },
+      where,
+    })
+    return { count: orders._count._all }
   }
 }

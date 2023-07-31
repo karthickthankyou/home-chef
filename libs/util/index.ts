@@ -79,11 +79,11 @@ export const useKeypress = (keys: string[], action: () => void) => {
 }
 
 export const makeId = (length: number = 4) => {
-  var result = ''
-  var characters =
+  let result = ''
+  const characters =
     'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
-  var charactersLength = characters.length
-  for (var i = 0; i < length; i++) {
+  const charactersLength = characters.length
+  for (let i = 0; i < length; i++) {
     result += characters.charAt(Math.floor(Math.random() * charactersLength))
   }
   return result
@@ -104,4 +104,12 @@ export const getHHMMSS = (timestamp: string) => {
   const hours = date.getHours().toString().padStart(2, '0')
   const minutes = date.getMinutes().toString().padStart(2, '0')
   return `${hours}:${minutes}:00`
+}
+
+export const TAKE_COUNT = 12
+export const useTakeSkip = (initialSkip = 0, initialTake = TAKE_COUNT) => {
+  const [skip, setSkip] = useState(() => initialSkip)
+  const [take, setTake] = useState(() => initialTake)
+
+  return { take, skip, setTake, setSkip }
 }

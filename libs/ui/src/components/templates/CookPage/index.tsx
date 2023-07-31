@@ -1,1 +1,1 @@
-export { CookPage } from './CookPage'
+export { CookInfo } from './CookPage'

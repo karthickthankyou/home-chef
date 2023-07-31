@@ -1,0 +1,1 @@
+export { IsCook } from './IsCook'

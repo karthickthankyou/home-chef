@@ -1,4 +1,4 @@
-import { ObjectType } from '@nestjs/graphql'
+import { Field, ObjectType } from '@nestjs/graphql'
 import { Customer as CustomerType } from '@prisma/client'
 
 @ObjectType()
@@ -7,5 +7,6 @@ export class Customer implements CustomerType {
   createdAt: Date
   updatedAt: Date
   name: string
+  @Field({ nullable: true })
   addressId: number
 }

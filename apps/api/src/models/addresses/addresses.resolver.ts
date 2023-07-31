@@ -18,6 +18,7 @@ import {
   GetUser,
 } from 'src/common/decorators/auth/auth.decorator'
 import { GetUserType } from '@home-chefs-org/types'
+import { Kitchen } from '../kitchens/entities/kitchen.entity'
 
 @Resolver(() => Address)
 export class AddressesResolver {
@@ -58,17 +59,17 @@ export class AddressesResolver {
     return this.addressesService.remove(args)
   }
 
-  @ResolveField(() => Customer)
+  @ResolveField(() => Customer, { nullable: true })
   customer(@Parent() address: Address) {
     return this.prisma.customer.findUnique({
       where: { addressId: address.id },
     })
   }
 
-  //   @ResolveField(() => Kitchen)
-  //   kitchen(@Parent() address: Address) {
-  //     return this.prisma.kitchen.findUnique({
-  //       where: { id: address.kitchenId },
-  //     })
-  //   }
+  @ResolveField(() => Kitchen, { nullable: true })
+  kitchen(@Parent() address: Address) {
+    return this.prisma.kitchen.findUnique({
+      where: { id: address.kitchenId },
+    })
+  }
 }

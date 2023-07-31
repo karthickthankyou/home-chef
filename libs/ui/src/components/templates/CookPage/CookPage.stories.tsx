@@ -1,13 +1,15 @@
 import React from 'react'
 import { ComponentStory, ComponentMeta } from '@storybook/react'
-import { CookPage } from './CookPage'
+import { CookInfo } from './CookPage'
 
 export default {
   title: 'src/components/templates/CookPage',
-  component: CookPage,
-} as ComponentMeta<typeof CookPage>
+  component: CookInfo,
+} as ComponentMeta<typeof CookInfo>
 
-const Template: ComponentStory<typeof CookPage> = (args) => <CookPage />
+const Template: ComponentStory<typeof CookInfo> = (args) => (
+  <CookInfo {...args} />
+)
 
 export const Primary = Template.bind({})
 Primary.args = {}

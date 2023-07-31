@@ -30,6 +30,8 @@ export class EnumStatusFilter {
 
 @InputType()
 export class OrderWhereInput implements Required<Prisma.OrderWhereInput> {
+  @Field(() => StringFilter, { nullable: true })
+  passcode: StringFilter
   @Field(() => IntFilter, { nullable: true })
   id: IntFilter
   @Field(() => DateTimeFilter, { nullable: true })
@@ -75,8 +77,8 @@ export class OrderListRelationFilter {
 
 @InputType()
 export class OrderRelationFilter {
-  @Field(() => OrderWhereInput)
+  @Field(() => OrderWhereInput, { nullable: true })
   is?: OrderWhereInput
-  @Field(() => OrderWhereInput)
+  @Field(() => OrderWhereInput, { nullable: true })
   isNot?: OrderWhereInput
 }

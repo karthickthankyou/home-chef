@@ -98,14 +98,23 @@ export class FoodItemsResolver {
     })
   }
 
+  @ResolveField(() => [CustomerReview])
+  customerReviews(@Parent() parent: FoodItem) {
+    return this.prisma.customerReview.findMany({
+      where: {
+        foodItemId: parent.id,
+      },
+    })
+  }
+
   @AllowAuthenticated()
   @ResolveField(() => CustomerReview, { nullable: true })
-  customerReview(@Parent() foodItem: FoodItem, @GetUser() user: GetUserType) {
+  customerReview(@Parent() parent: FoodItem, @GetUser() user: GetUserType) {
     return this.prisma.customerReview.findUnique({
       where: {
         customerId_foodItemId: {
           customerId: user.uid,
-          foodItemId: foodItem.id,
+          foodItemId: parent.id,
         },
       },
     })

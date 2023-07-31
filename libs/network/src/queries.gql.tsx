@@ -46,13 +46,29 @@ export const updateSchedule = gql`
 `
 
 export const ordersForKitchen = gql`
-  query OrdersForKitchen($kitchenId: Int!) {
-    ordersForKitchen(kitchenId: $kitchenId) {
+  query OrdersForKitchen(
+    $distinct: [OrderScalarFieldEnum!]
+    $skip: Int
+    $take: Int
+    $cursor: WhereUniqueInputNumber
+    $orderBy: [OrderOrderByWithRelationInput!]
+    $where: OrderWhereInput
+  ) {
+    ordersForKitchen(
+      distinct: $distinct
+      skip: $skip
+      take: $take
+      cursor: $cursor
+      orderBy: $orderBy
+      where: $where
+    ) {
       id
       time
       status
       price
       quantity
+      tokenNumber
+      passcode
       customer {
         uid
         name
@@ -63,6 +79,9 @@ export const ordersForKitchen = gql`
           vegan
         }
       }
+    }
+    ordersCount(where: $where) {
+      count
     }
   }
 `
@@ -146,9 +165,24 @@ export const getCustomer = gql`
     }
   }
 `
-export const getCook = gql`
-  query getCook($where: CookWhereUniqueInput!) {
-    cook(where: $where) {
+
+export const customerMe = gql`
+  query customerMe {
+    customerMe {
+      name
+      uid
+      address {
+        address
+        lat
+        lng
+      }
+    }
+  }
+`
+
+export const cookMe = gql`
+  query cookMe {
+    cookMe {
       uid
       kitchen {
         id
@@ -266,8 +300,8 @@ export const createSchedule = gql`
 `
 
 export const ordersForCustomer = gql`
-  query ordersForCustomer($customerId: String!, $where: OrderWhereInput) {
-    ordersForCustomer(customerId: $customerId, where: $where) {
+  query ordersForCustomer($where: OrderWhereInput) {
+    ordersForCustomer(where: $where) {
       id
       quantity
       time
@@ -279,12 +313,27 @@ export const ordersForCustomer = gql`
         }
       }
     }
+    ordersCount {
+      count
+    }
   }
 `
 
 export const schedulesForCustomer = gql`
-  query schedulesForCustomer($customerId: String!, $where: ScheduleWhereInput) {
-    schedulesForCustomer(customerId: $customerId, where: $where) {
+  query schedulesForCustomer(
+    $where: ScheduleWhereInput
+    $distinct: [ScheduleScalarFieldEnum!]
+    $skip: Int
+    $take: Int
+    $orderBy: [ScheduleOrderByWithRelationInput!]
+  ) {
+    schedulesForCustomer(
+      where: $where
+      distinct: $distinct
+      skip: $skip
+      take: $take
+      orderBy: $orderBy
+    ) {
       id
       days
       quantity
@@ -303,6 +352,9 @@ export const schedulesForCustomer = gql`
         }
       }
     }
+    schedulesCount(where: $where) {
+      count
+    }
   }
 `
 
@@ -315,11 +367,36 @@ export const updateAddress = gql`
 `
 
 export const schedulesForKitchen = gql`
-  query schedulesForKitchen($kitchenId: String!) {
-    schedulesForKitchen(kitchenId: $kitchenId) {
-      foodItem {
-        kitchenId
+  query SchedulesForKitchen(
+    $distinct: [ScheduleScalarFieldEnum!]
+    $skip: Int
+    $take: Int
+    $cursor: WhereUniqueInputNumber
+    $orderBy: [ScheduleOrderByWithRelationInput!]
+    $where: ScheduleWhereInput
+  ) {
+    schedulesForKitchen(
+      distinct: $distinct
+      skip: $skip
+      take: $take
+      cursor: $cursor
+      orderBy: $orderBy
+      where: $where
+    ) {
+      id
+      customer {
+        name
+        uid
       }
+      live
+      days
+      quantity
+      foodItem {
+        name
+      }
+    }
+    schedulesCount(where: $where) {
+      count
     }
   }
 `

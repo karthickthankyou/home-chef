@@ -10,7 +10,7 @@ import { ProgressBar } from '../../atoms/ProgressBar'
 import { Accordion } from '../../molecules/Accordion'
 
 import { IconPlus } from '@tabler/icons-react'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { Controller, useFieldArray, useWatch } from 'react-hook-form'
 import { Marker, useMap } from 'react-map-gl'
 import { Map } from '../../organisms/Map'
@@ -37,7 +37,6 @@ import { BrandIcon } from '../../atoms/BrandIcon'
 import { SearchPlaceBox } from '../SearchPlaceBox'
 import { LocationInfo } from '@home-chefs-org/hooks/src/location'
 import { Switch } from '../../atoms/Switch'
-import { Dialog2 } from '../../atoms/Dialog2'
 
 export const BecomeCook = ({ uid }: { uid: string }) => {
   const {
@@ -110,7 +109,8 @@ export const BecomeCook = ({ uid }: { uid: string }) => {
                 },
               },
             },
-            refetchQueries: [namedOperations.Query.getCook],
+            refetchQueries: [namedOperations.Query.cookMe],
+            awaitRefetchQueries: true,
           })
         })}
       >
