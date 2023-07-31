@@ -20,7 +20,7 @@ import {
   AllowAuthenticated,
   GetUser,
 } from 'src/common/decorators/auth/auth.decorator'
-import { GetUserType } from '@home-chefs-org/types'
+import { GetUserType } from 'src/common/types'
 import { checkRowLevelPermission } from 'src/common/guards'
 import { Address } from '../addresses/entities/address.entity'
 

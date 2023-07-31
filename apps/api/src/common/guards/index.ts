@@ -1,5 +1,5 @@
 import { ForbiddenException } from '@nestjs/common'
-import { GetUserType, Role } from '@home-chefs-org/types'
+import { GetUserType, Role } from 'src/common/types'
 
 export const checkRowLevelPermission = (
   user: GetUserType,

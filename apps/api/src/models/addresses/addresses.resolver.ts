@@ -17,7 +17,7 @@ import {
   AllowAuthenticated,
   GetUser,
 } from 'src/common/decorators/auth/auth.decorator'
-import { GetUserType } from '@home-chefs-org/types'
+import { GetUserType } from 'src/common/types'
 import { Kitchen } from '../kitchens/entities/kitchen.entity'
 
 @Resolver(() => Address)
