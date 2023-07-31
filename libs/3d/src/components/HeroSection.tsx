@@ -227,7 +227,7 @@ export const HeroSection: React.FC = () => {
 
   console.log('locations: ', kitchens, homes)
 
-  const paths = [...Array(2).keys()].map((id) => ({
+  const paths = [0, 1].map((id) => ({
     id,
     position: createPath(
       kitchens[randomInt(0, kitchens.length - 1)],

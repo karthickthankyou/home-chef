@@ -53,7 +53,7 @@ export const MovingObject: React.FC<MovingObjectProps> = ({ path, speed }) => {
         objectRef.current.position.copy(currentPos.current)
       }
     } else {
-      scene.remove(objectRef.current)
+      if (objectRef.current) scene.remove(objectRef.current)
     }
   })
 

@@ -1,5 +1,4 @@
 import { Container } from '@home-chefs-org/ui/src/components/atoms/Container'
-import { CustomerPage } from '@home-chefs-org/ui/src/components/templates/CustomerPage'
 import Head from 'next/head'
 
 export default function Cook() {
@@ -12,9 +11,7 @@ export default function Cook() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main>
-        <Container>
-          <CustomerPage />
-        </Container>
+        <Container>Customer page</Container>
       </main>
     </>
   )
