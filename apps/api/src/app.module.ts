@@ -29,6 +29,7 @@ import { ScheduleModule } from '@nestjs/schedule'
       buildSchemaOptions: {
         numberScalarMode: 'integer',
       },
+      introspection: true,
     }),
     ScheduleModule.forRoot(),
 
