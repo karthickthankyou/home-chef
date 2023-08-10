@@ -1,11 +1,6 @@
 import Link from 'next/link'
 
-import {
-  IconChevronRight,
-  IconDoorExit,
-  IconMenu2,
-  IconUser,
-} from '@tabler/icons-react'
+import { IconDoorExit, IconMenu2, IconUser } from '@tabler/icons-react'
 
 import { Sidebar } from '../Sidebar'
 
@@ -13,12 +8,12 @@ import { Dispatch, SetStateAction, useState } from 'react'
 
 import { Brand } from '../../atoms/Brand'
 
-import { Button } from '../../atoms/Button'
-import { Container } from '../../atoms/Container'
-import { useAppSelector } from '@home-chefs-org/store'
 import { signOut } from '@home-chefs-org/network/src/auth'
+import { useAppSelector } from '@home-chefs-org/store'
 import { Role, selectUser } from '@home-chefs-org/store/user'
 import { MenuItem } from '@home-chefs-org/types'
+import { Button } from '../../atoms/Button'
+import { Container } from '../../atoms/Container'
 
 export const NavLink = ({ label, href }: { label: string; href: string }) => (
   <Link

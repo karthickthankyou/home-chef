@@ -1,5 +1,5 @@
-import { Button } from '../../atoms/Button'
 import { UseFormSetValue } from 'react-hook-form'
+import { Button } from '../../atoms/Button'
 
 import { Container } from '../../atoms/Container'
 import { Form } from '../../atoms/Form'
@@ -9,34 +9,33 @@ import { HtmlTextArea } from '../../atoms/HtmlTextArea'
 import { ProgressBar } from '../../atoms/ProgressBar'
 import { Accordion } from '../../molecules/Accordion'
 
-import { IconPlus } from '@tabler/icons-react'
-import { useState } from 'react'
-import { Controller, useFieldArray, useWatch } from 'react-hook-form'
-import { Marker, useMap } from 'react-map-gl'
-import { Map } from '../../organisms/Map'
-import { ToggleButtonGroup } from '../../molecules/ToggleButtonGroup'
-import { ToggleButton } from '../../molecules/ToggleButtonGroup/ToggleButtonGroup'
-import { DayIcons } from '../../molecules/WeekCalendar/WeekCalendar'
+import {
+  FormTypeCreateCook,
+  useFormCreateCook,
+} from '@home-chefs-org/forms/src/cook/createCook'
+import { LocationInfo } from '@home-chefs-org/hooks/src/location'
 import {
   Day,
   namedOperations,
   useCreateCookMutation,
 } from '@home-chefs-org/network/src/generated'
-import {
-  FormTypeCreateCook,
-  useFormCreateCook,
-} from '@home-chefs-org/forms/src/cook/createCook'
 import { getMsFromString, useImageUpload } from '@home-chefs-org/util'
-import { useAppDispatch } from '@home-chefs-org/store'
+import { IconPlus } from '@tabler/icons-react'
+import { useState } from 'react'
+import { Controller, useFieldArray, useWatch } from 'react-hook-form'
+import { Marker, useMap } from 'react-map-gl'
+import { BrandIcon } from '../../atoms/BrandIcon'
+import { Switch } from '../../atoms/Switch'
+import { ToggleButtonGroup } from '../../molecules/ToggleButtonGroup'
+import { ToggleButton } from '../../molecules/ToggleButtonGroup/ToggleButtonGroup'
+import { DayIcons } from '../../molecules/WeekCalendar/WeekCalendar'
+import { Map } from '../../organisms/Map'
 import { Panel } from '../Map/Panel'
 import {
   CenterOfMap,
   DefaultZoomControls,
 } from '../Map/ZoomControls/ZoomControls'
-import { BrandIcon } from '../../atoms/BrandIcon'
 import { SearchPlaceBox } from '../SearchPlaceBox'
-import { LocationInfo } from '@home-chefs-org/hooks/src/location'
-import { Switch } from '../../atoms/Switch'
 
 export const BecomeCook = ({ uid }: { uid: string }) => {
   const {

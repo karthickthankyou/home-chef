@@ -1,7 +1,7 @@
 import { DynamicHero } from '@home-chefs-org/ui/src/components/templates/DynamicHero'
+import { IconSearch } from '@tabler/icons-react'
 import dynamic from 'next/dynamic'
 import Link from 'next/link'
-import { IconSearch } from '@tabler/icons-react'
 
 const HeroSection = dynamic(() =>
   import('@home-chefs-org/3d/src/components/HeroSection').then(

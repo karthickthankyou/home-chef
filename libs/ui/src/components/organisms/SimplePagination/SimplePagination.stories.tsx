@@ -1,6 +1,6 @@
+import { useTakeSkip } from '@home-chefs-org/util'
 import type { Meta, StoryObj } from '@storybook/react'
 import { SimplePagination } from './SimplePagination'
-import { useTakeSkip } from '@home-chefs-org/util'
 
 const meta: Meta<typeof SimplePagination> = {
   component: SimplePagination,

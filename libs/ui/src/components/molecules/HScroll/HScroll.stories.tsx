@@ -1,7 +1,6 @@
-import React from 'react'
-import { ComponentStory, ComponentMeta } from '@storybook/react'
-import HScroll from './HScroll'
+import { ComponentMeta, ComponentStory } from '@storybook/react'
 import { Button } from '../../atoms/Button'
+import HScroll from './HScroll'
 
 export default {
   title: 'molecules/HScroll',

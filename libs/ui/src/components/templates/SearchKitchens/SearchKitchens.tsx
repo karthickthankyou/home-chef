@@ -1,3 +1,5 @@
+import { useFormCreateSchedule } from '@home-chefs-org/forms/src/orders/schedule'
+import { FormTypeSearchKitchens } from '@home-chefs-org/forms/src/searchKitchens'
 import {
   CustomerMeQuery,
   Day,
@@ -8,31 +10,7 @@ import {
   useSchedulesForCustomerRawLazyQuery,
   useSearchKitchensLazyQuery,
 } from '@home-chefs-org/network/src/generated'
-import { useFormContext, useWatch } from 'react-hook-form'
-import { useFormCreateSchedule } from '@home-chefs-org/forms/src/orders/schedule'
-import {
-  Dispatch,
-  ReactNode,
-  SetStateAction,
-  useEffect,
-  useMemo,
-  useState,
-} from 'react'
-import {
-  Layer,
-  LngLatBounds,
-  Marker,
-  Source,
-  useMap,
-  ViewState,
-  ViewStateChangeEvent,
-} from 'react-map-gl'
-import { Map } from '../../organisms/Map'
-import { Panel } from '@home-chefs-org/ui/src/components/organisms/Map/Panel'
-import { SearchPlaceBox } from '@home-chefs-org/ui/src/components/organisms/SearchPlaceBox'
-import { BrandIcon } from '@home-chefs-org/ui/src/components/atoms/BrandIcon'
 import { useAppDispatch, useAppSelector } from '@home-chefs-org/store'
-import { FormTypeSearchKitchens } from '@home-chefs-org/forms/src/searchKitchens'
 import {
   LngLatTuple,
   setDirectionEnd,
@@ -41,38 +19,59 @@ import {
   setSelectedKitchen,
   setUpdatedViewState,
 } from '@home-chefs-org/store/map'
-import { FoodItemInQuery, groupByTime } from '../CookPage/CookPage'
-import { getTimeFromDateTime } from '@home-chefs-org/util'
-import { Price } from '@home-chefs-org/ui/src/components/molecules/Price'
+import { BrandIcon } from '@home-chefs-org/ui/src/components/atoms/BrandIcon'
 import { Button } from '@home-chefs-org/ui/src/components/atoms/Button'
+import { Price } from '@home-chefs-org/ui/src/components/molecules/Price'
+import { Panel } from '@home-chefs-org/ui/src/components/organisms/Map/Panel'
+import { SearchPlaceBox } from '@home-chefs-org/ui/src/components/organisms/SearchPlaceBox'
+import { getTimeFromDateTime } from '@home-chefs-org/util'
 import { IconHome, IconNavigation, IconPin } from '@tabler/icons-react'
+import {
+  Dispatch,
+  ReactNode,
+  SetStateAction,
+  useEffect,
+  useMemo,
+  useState,
+} from 'react'
+import { useFormContext, useWatch } from 'react-hook-form'
+import {
+  Layer,
+  Marker,
+  Source,
+  useMap,
+  ViewState,
+  ViewStateChangeEvent,
+} from 'react-map-gl'
+import { Map } from '../../organisms/Map'
+import { FoodItemInQuery, groupByTime } from '../CookPage/CookPage'
 
 import dynamic from 'next/dynamic'
 
-import { HtmlLabel } from '@home-chefs-org/ui/src/components/atoms/HtmlLabel/HtmlLabel'
-import { HtmlInput } from '@home-chefs-org/ui/src/components/atoms/HtmlInput/HtmlInput'
 import { Form } from '@home-chefs-org/ui/src/components/atoms/Form'
-import { DayIcons } from '@home-chefs-org/ui/src/components/molecules/WeekCalendar/WeekCalendar'
+import { HtmlInput } from '@home-chefs-org/ui/src/components/atoms/HtmlInput/HtmlInput'
+import { HtmlLabel } from '@home-chefs-org/ui/src/components/atoms/HtmlLabel/HtmlLabel'
 import {
   ToggleButton,
   ToggleButtonGroup,
 } from '@home-chefs-org/ui/src/components/molecules/ToggleButtonGroup/ToggleButtonGroup'
+import { DayIcons } from '@home-chefs-org/ui/src/components/molecules/WeekCalendar/WeekCalendar'
 
-import { Controller } from 'react-hook-form'
 import { Switch } from '@home-chefs-org/ui/src/components/atoms/Switch'
+import { Controller } from 'react-hook-form'
 
-import { format } from 'date-fns'
+import { selectUid } from '@home-chefs-org/store/user'
+import { PlainButton } from '@home-chefs-org/ui/src/components/atoms/PlainButton'
 import {
   Timeline,
   TimelineItem,
 } from '@home-chefs-org/ui/src/components/molecules/TimelineItem'
-import { PlainButton } from '@home-chefs-org/ui/src/components/atoms/PlainButton'
-import Image from 'next/image'
 import { Sidebar } from '@home-chefs-org/ui/src/components/organisms/Sidebar'
+import { notification$ } from '@home-chefs-org/util/subjects'
+import { format } from 'date-fns'
+import Image from 'next/image'
 import Link from 'next/link'
 import { Dialog } from '../../atoms/Dialog'
-import { notification$ } from '@home-chefs-org/util/subjects'
-import { selectUid } from '@home-chefs-org/store/user'
 import { DefaultZoomControls } from '../../organisms/Map/ZoomControls/ZoomControls'
 
 const QuillEditor = dynamic(

@@ -1,10 +1,9 @@
-import React from 'react'
-import { ComponentStory, ComponentMeta } from '@storybook/react'
-import { Header } from './Header'
+import { ComponentMeta, ComponentStory } from '@storybook/react'
 import { Provider } from 'react-redux'
+import { Header } from './Header'
 
-import { combineReducers, configureStore } from '@reduxjs/toolkit'
 import { userReducer } from '@home-chefs-org/store/user'
+import { combineReducers, configureStore } from '@reduxjs/toolkit'
 
 const reducers = { user: userReducer }
 

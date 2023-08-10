@@ -1,6 +1,5 @@
-import React from 'react'
-import { ComponentStory, ComponentMeta } from '@storybook/react'
-import { userReducer, userInitialState } from '@home-chefs-org/store/user'
+import { userReducer } from '@home-chefs-org/store/user'
+import { ComponentMeta, ComponentStory } from '@storybook/react'
 
 import { combineReducers, createStore } from '@reduxjs/toolkit'
 import { Provider } from 'react-redux'

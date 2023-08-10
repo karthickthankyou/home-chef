@@ -1,16 +1,16 @@
 import '@home-chefs/styles/globals.css'
 import 'mapbox-gl/dist/mapbox-gl.css'
-import 'react-quill/dist/quill.snow.css'
 import 'react-quill/dist/quill.bubble.css'
+import 'react-quill/dist/quill.snow.css'
 
-import type { AppProps } from 'next/app'
-import { ReduxProvider } from '@home-chefs-org/store/provider'
 import { ApolloProvider } from '@home-chefs-org/network/src/config/apollo'
-import { AppLevelListeners } from '@home-chefs-org/ui/src/components/atoms/AppLevelListeners'
-import { Notifications } from '@home-chefs-org/ui/src/components/organisms/Notifications'
+import { ReduxProvider } from '@home-chefs-org/store/provider'
 import { MenuItem } from '@home-chefs-org/types'
-import { Header } from '@home-chefs-org/ui/src/components/organisms/Header'
+import { AppLevelListeners } from '@home-chefs-org/ui/src/components/atoms/AppLevelListeners'
 import { Footer } from '@home-chefs-org/ui/src/components/organisms/Footer'
+import { Header } from '@home-chefs-org/ui/src/components/organisms/Header'
+import { Notifications } from '@home-chefs-org/ui/src/components/organisms/Notifications'
+import type { AppProps } from 'next/app'
 
 const MENUITEMS: MenuItem[] = [
   { label: 'Search', href: '/kitchen', loggedIn: true },

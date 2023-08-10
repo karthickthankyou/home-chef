@@ -1,11 +1,11 @@
 import React, { useEffect, useRef, useState } from 'react'
 
+import { Image, OrbitControls, PerspectiveCamera } from '@react-three/drei'
 import { Canvas, useFrame } from '@react-three/fiber'
-import { SimpleLine } from './SimpleLine'
-import { OrbitControls, PerspectiveCamera, Image } from '@react-three/drei'
-import { Spawner } from './Spawner'
 import { Vector3 } from 'three'
 import { degToRad } from 'three/src/math/MathUtils'
+import { SimpleLine } from './SimpleLine'
+import { Spawner } from './Spawner'
 
 export type LocationVector = { x: number; y: number; z: number }
 export type Path = { id: number; positions: LocationVector[] }

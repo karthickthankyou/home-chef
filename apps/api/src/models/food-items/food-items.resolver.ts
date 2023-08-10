@@ -1,28 +1,28 @@
 import {
-  Resolver,
-  Query,
-  Mutation,
   Args,
+  Mutation,
   Parent,
+  Query,
   ResolveField,
+  Resolver,
 } from '@nestjs/graphql'
 
-import { FoodItemsService } from './food-items.service'
-import { FoodItem } from './entities/food-item.entity'
-import { FindManyFoodItemArgs, FindUniqueFoodItemArgs } from './dto/find.args'
-import { CreateFoodItemInput } from './dto/create-food-item.input'
-import { UpdateFoodItemInput } from './dto/update-food-item.input'
-import { Kitchen } from '../kitchens/entities/kitchen.entity'
-import { PrismaService } from 'src/common/prisma/prisma.service'
-import { Schedule } from '../schedules/entities/schedule.entity'
-import { CustomerReview } from '../customer-reviews/entities/customer-review.entity'
 import {
   AllowAuthenticated,
   GetUser,
 } from 'src/common/decorators/auth/auth.decorator'
-import { GetUserType } from 'src/common/types'
-import { checkRowLevelPermission } from 'src/common/guards'
 import { AggregateCountOutput } from 'src/common/dtos/common.input'
+import { checkRowLevelPermission } from 'src/common/guards'
+import { PrismaService } from 'src/common/prisma/prisma.service'
+import { GetUserType } from 'src/common/types'
+import { CustomerReview } from '../customer-reviews/entities/customer-review.entity'
+import { Kitchen } from '../kitchens/entities/kitchen.entity'
+import { Schedule } from '../schedules/entities/schedule.entity'
+import { CreateFoodItemInput } from './dto/create-food-item.input'
+import { FindManyFoodItemArgs, FindUniqueFoodItemArgs } from './dto/find.args'
+import { UpdateFoodItemInput } from './dto/update-food-item.input'
+import { FoodItem } from './entities/food-item.entity'
+import { FoodItemsService } from './food-items.service'
 
 @Resolver(() => FoodItem)
 export class FoodItemsResolver {

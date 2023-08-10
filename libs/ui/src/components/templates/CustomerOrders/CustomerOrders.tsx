@@ -1,9 +1,9 @@
 import { useState } from 'react'
 
 import {
-  Tabs,
   Tab,
   TabPanel,
+  Tabs,
 } from '@home-chefs-org/ui/src/components/molecules/Tabs/Tabs'
 import { CustomerOrderData, LayoutWithHeader } from './components'
 export interface ICustomerOrdersProps {}

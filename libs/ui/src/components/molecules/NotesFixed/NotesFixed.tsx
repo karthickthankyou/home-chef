@@ -1,7 +1,7 @@
 import { ReactNode, useState } from 'react'
 
-import { ShowHide } from '../ShowHide/ShowHide'
 import { IconInfoCircle, IconX } from '@tabler/icons-react'
+import { ShowHide } from '../ShowHide/ShowHide'
 
 export interface INotesFixedProps {
   children: ReactNode

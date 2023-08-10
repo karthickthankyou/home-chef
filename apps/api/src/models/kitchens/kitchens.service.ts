@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common'
-import { FindManyKitchenArgs, FindUniqueKitchenArgs } from './dto/find.args'
 import { PrismaService } from 'src/common/prisma/prisma.service'
 import { CreateKitchenInput } from './dto/create-kitchen.input'
+import { FindManyKitchenArgs, FindUniqueKitchenArgs } from './dto/find.args'
 import { UpdateKitchenInput } from './dto/update-kitchen.input'
 
 @Injectable()

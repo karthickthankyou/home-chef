@@ -1,32 +1,32 @@
 import {
-  Resolver,
-  Query,
-  Mutation,
   Args,
+  Mutation,
   Parent,
+  Query,
   ResolveField,
+  Resolver,
 } from '@nestjs/graphql'
-import { SchedulesService } from './schedules.service'
-import { Schedule } from './entities/schedule.entity'
-import { FindManyScheduleArgs, FindUniqueScheduleArgs } from './dto/find.args'
 import { CreateScheduleInput } from './dto/create-schedule.input'
+import { FindManyScheduleArgs, FindUniqueScheduleArgs } from './dto/find.args'
 import { UpdateScheduleInput } from './dto/update-schedule.input'
+import { Schedule } from './entities/schedule.entity'
+import { SchedulesService } from './schedules.service'
 
-import { Order } from '../orders/entities/order.entity'
-import { PrismaService } from 'src/common/prisma/prisma.service'
-import { FoodItem } from '../food-items/entities/food-item.entity'
-import { Customer } from '../customers/entities/customer.entity'
+import { BadRequestException } from '@nestjs/common'
 import {
   AllowAuthenticated,
   GetUser,
 } from 'src/common/decorators/auth/auth.decorator'
-import { GetUserType } from 'src/common/types'
-import { checkRowLevelPermission } from 'src/common/guards'
-import { BadRequestException } from '@nestjs/common'
 import {
   AggregateCountOutput,
   SchedulesForKitchenOutput,
 } from 'src/common/dtos/common.input'
+import { checkRowLevelPermission } from 'src/common/guards'
+import { PrismaService } from 'src/common/prisma/prisma.service'
+import { GetUserType } from 'src/common/types'
+import { Customer } from '../customers/entities/customer.entity'
+import { FoodItem } from '../food-items/entities/food-item.entity'
+import { Order } from '../orders/entities/order.entity'
 import { ScheduleWhereInput } from './dto/where.args'
 
 @Resolver(() => Schedule)

@@ -1,12 +1,12 @@
-import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit'
+import { Action, configureStore, ThunkAction } from '@reduxjs/toolkit'
 import { from } from 'rxjs'
 
-import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux'
 import { composeWithDevTools } from '@redux-devtools/extension'
+import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux'
 import { userReducer } from './user'
 
-import utilReducer from './utils/utilsStore'
 import { mapReducer } from './map'
+import utilReducer from './utils/utilsStore'
 
 export const store = configureStore({
   reducer: {

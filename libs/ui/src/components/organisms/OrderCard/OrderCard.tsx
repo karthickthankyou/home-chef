@@ -1,7 +1,7 @@
 import { OrdersForKitchenQuery } from '@home-chefs-org/network/src/generated'
+import { IconX } from '@tabler/icons-react'
 import { format } from 'date-fns'
 import { Reveal } from '../../molecules/Reveal'
-import { IconX } from '@tabler/icons-react'
 
 export interface IOrderCardProps {
   order: OrdersForKitchenQuery['ordersForKitchen'][0]

@@ -1,8 +1,8 @@
 import { Mutation, Resolver } from '@nestjs/graphql'
 
 import { AllowAuthenticated } from 'src/common/decorators/auth/auth.decorator'
-import { SchedulerService } from './scheduler.service'
 import { Order } from 'src/models/orders/entities/order.entity'
+import { SchedulerService } from './scheduler.service'
 
 @AllowAuthenticated('admin')
 @Resolver()

@@ -1,18 +1,18 @@
 import { useAppDispatch } from '@home-chefs-org/store'
 import {
-  removeNotification,
   addNotification,
+  removeNotification,
 } from '@home-chefs-org/store/utils/utilsStore'
 import { notification$ } from '@home-chefs-org/util/subjects'
 import { useEffect } from 'react'
 import {
+  catchError,
   debounceTime,
+  delay,
   distinctUntilChanged,
+  EMPTY,
   map,
   tap,
-  delay,
-  catchError,
-  EMPTY,
 } from 'rxjs'
 
 export const useNotification = () => {

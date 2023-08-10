@@ -1,11 +1,11 @@
 import {
-  SchedulesForKitchenQuery,
   Day,
+  SchedulesForKitchenQuery,
 } from '@home-chefs-org/network/src/generated'
-import { ToggleButtonGroup } from '../../molecules/ToggleButtonGroup'
-import { DayIcons } from '../../molecules/WeekCalendar/WeekCalendar'
-import { ToggleButton } from '../../molecules/ToggleButtonGroup/ToggleButtonGroup'
 import { IconX } from '@tabler/icons-react'
+import { ToggleButtonGroup } from '../../molecules/ToggleButtonGroup'
+import { ToggleButton } from '../../molecules/ToggleButtonGroup/ToggleButtonGroup'
+import { DayIcons } from '../../molecules/WeekCalendar/WeekCalendar'
 
 export interface ISubscriberCardProps {
   subscriber: SchedulesForKitchenQuery['schedulesForKitchen'][0]

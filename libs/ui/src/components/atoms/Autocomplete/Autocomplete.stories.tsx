@@ -1,5 +1,4 @@
-import React from 'react'
-import { ComponentStory, ComponentMeta } from '@storybook/react'
+import { ComponentMeta, ComponentStory } from '@storybook/react'
 import { Autocomplete } from './Autocomplete'
 
 export default {

@@ -1,8 +1,8 @@
-import React, { useState } from 'react'
-import { ComponentStory, ComponentMeta } from '@storybook/react'
+import { ComponentMeta, ComponentStory } from '@storybook/react'
+import { useState } from 'react'
 
-import { Marker } from './MapMarker'
 import { Map } from '../Map'
+import { Marker } from './MapMarker'
 
 export default {
   title: 'molecules/MapMarker',

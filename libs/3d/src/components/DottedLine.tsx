@@ -1,12 +1,6 @@
 import React, { useMemo } from 'react'
 import * as THREE from 'three'
-import { useThree, useFrame } from '@react-three/fiber'
-import {
-  Vector3,
-  CatmullRomCurve3,
-  BufferGeometry,
-  LineBasicMaterial,
-} from 'three'
+import { BufferGeometry, CatmullRomCurve3, Vector3 } from 'three'
 
 interface DottedLineProps {
   points: [number, number][]

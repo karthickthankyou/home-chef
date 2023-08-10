@@ -1,3 +1,4 @@
+import { Day, FoodItem } from '@home-chefs-org/network/src/generated'
 import {
   IconLetterF,
   IconLetterM,
@@ -7,7 +8,6 @@ import {
 } from '@tabler/icons-react'
 import { ToggleButtonGroup } from '../ToggleButtonGroup'
 import { ToggleButton } from '../ToggleButtonGroup/ToggleButtonGroup'
-import { FoodItem, Day } from '@home-chefs-org/network/src/generated'
 
 export interface IWeekCalendarProps {
   days: FoodItem['days']

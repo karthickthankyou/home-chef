@@ -1,7 +1,6 @@
-import React from 'react'
-import { ComponentStory, ComponentMeta } from '@storybook/react'
-import { Pagination } from './Pagination'
 import { TablePaginationProps } from '@mui/material'
+import { ComponentMeta, ComponentStory } from '@storybook/react'
+import { Pagination } from './Pagination'
 
 export default {
   title: 'molecules/Pagination',

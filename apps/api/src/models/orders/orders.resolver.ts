@@ -1,26 +1,26 @@
 import {
-  Resolver,
-  Query,
-  Mutation,
   Args,
-  ResolveField,
+  Mutation,
   Parent,
+  Query,
+  ResolveField,
+  Resolver,
 } from '@nestjs/graphql'
-import { OrdersService } from './orders.service'
-import { Order } from './entities/order.entity'
-import { FindManyOrderArgs, FindUniqueOrderArgs } from './dto/find.args'
-import { CreateOrderInput } from './dto/create-order.input'
-import { UpdateOrderInput } from './dto/update-order.input'
-import { Customer } from '../customers/entities/customer.entity'
-import { PrismaService } from 'src/common/prisma/prisma.service'
-import { Schedule } from '../schedules/entities/schedule.entity'
 import {
   AllowAuthenticated,
   GetUser,
 } from 'src/common/decorators/auth/auth.decorator'
-import { GetUserType } from 'src/common/types'
 import { AggregateCountOutput, SortOrder } from 'src/common/dtos/common.input'
+import { PrismaService } from 'src/common/prisma/prisma.service'
+import { GetUserType } from 'src/common/types'
+import { Customer } from '../customers/entities/customer.entity'
+import { Schedule } from '../schedules/entities/schedule.entity'
+import { CreateOrderInput } from './dto/create-order.input'
+import { FindManyOrderArgs, FindUniqueOrderArgs } from './dto/find.args'
+import { UpdateOrderInput } from './dto/update-order.input'
 import { OrderWhereInput } from './dto/where.args'
+import { Order } from './entities/order.entity'
+import { OrdersService } from './orders.service'
 
 @Resolver(() => Order)
 export class OrdersResolver {

@@ -1,7 +1,7 @@
 import { BadRequestException, Injectable } from '@nestjs/common'
-import { FindManyCookArgs, FindUniqueCookArgs } from './dto/find.args'
 import { PrismaService } from 'src/common/prisma/prisma.service'
 import { CreateCookInput } from './dto/create-cook.input'
+import { FindManyCookArgs, FindUniqueCookArgs } from './dto/find.args'
 
 @Injectable()
 export class CooksService {

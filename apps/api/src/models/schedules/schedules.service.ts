@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common'
-import { FindManyScheduleArgs, FindUniqueScheduleArgs } from './dto/find.args'
 import { PrismaService } from 'src/common/prisma/prisma.service'
 import { CreateScheduleInput } from './dto/create-schedule.input'
+import { FindManyScheduleArgs, FindUniqueScheduleArgs } from './dto/find.args'
 import { UpdateScheduleInput } from './dto/update-schedule.input'
 
 @Injectable()

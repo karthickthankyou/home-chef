@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common'
-import { FindManyOrderArgs, FindUniqueOrderArgs } from './dto/find.args'
 import { PrismaService } from 'src/common/prisma/prisma.service'
 import { CreateOrderInput } from './dto/create-order.input'
+import { FindManyOrderArgs, FindUniqueOrderArgs } from './dto/find.args'
 import { UpdateOrderInput } from './dto/update-order.input'
 
 @Injectable()

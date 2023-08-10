@@ -2,9 +2,9 @@ import {
   CookMeQuery,
   useCookMeQuery,
 } from '@home-chefs-org/network/src/generated'
-import { LoaderPanel } from '../Loader'
 import { ReactNode } from 'react'
 import { BecomeCook } from '../../organisms/BecomeCook'
+import { LoaderPanel } from '../Loader'
 
 type RenderPropChild = (cook: CookMeQuery['cookMe']) => ReactNode
 

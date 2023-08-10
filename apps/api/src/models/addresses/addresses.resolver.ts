@@ -1,24 +1,24 @@
 import {
-  Resolver,
-  Query,
-  Mutation,
   Args,
+  Mutation,
   Parent,
+  Query,
   ResolveField,
+  Resolver,
 } from '@nestjs/graphql'
-import { AddressesService } from './addresses.service'
-import { Address } from './entities/address.entity'
-import { FindManyAddressArgs, FindUniqueAddressArgs } from './dto/find.args'
-import { CreateAddressInput } from './dto/create-address.input'
-import { UpdateAddressInput } from './dto/update-address.input'
-import { Customer } from '../customers/entities/customer.entity'
-import { PrismaService } from 'src/common/prisma/prisma.service'
 import {
   AllowAuthenticated,
   GetUser,
 } from 'src/common/decorators/auth/auth.decorator'
+import { PrismaService } from 'src/common/prisma/prisma.service'
 import { GetUserType } from 'src/common/types'
+import { Customer } from '../customers/entities/customer.entity'
 import { Kitchen } from '../kitchens/entities/kitchen.entity'
+import { AddressesService } from './addresses.service'
+import { CreateAddressInput } from './dto/create-address.input'
+import { FindManyAddressArgs, FindUniqueAddressArgs } from './dto/find.args'
+import { UpdateAddressInput } from './dto/update-address.input'
+import { Address } from './entities/address.entity'
 
 @Resolver(() => Address)
 export class AddressesResolver {

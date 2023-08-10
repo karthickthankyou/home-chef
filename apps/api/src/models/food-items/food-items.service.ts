@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common'
-import { FindManyFoodItemArgs, FindUniqueFoodItemArgs } from './dto/find.args'
 import { PrismaService } from 'src/common/prisma/prisma.service'
 import { CreateFoodItemInput } from './dto/create-food-item.input'
+import { FindManyFoodItemArgs, FindUniqueFoodItemArgs } from './dto/find.args'
 import { UpdateFoodItemInput } from './dto/update-food-item.input'
 
 @Injectable()

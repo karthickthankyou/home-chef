@@ -1,6 +1,6 @@
-import React, { forwardRef } from 'react'
 import { useLoader } from '@react-three/fiber'
-import { TextureLoader, Mesh, PlaneGeometry, MeshStandardMaterial } from 'three'
+import { forwardRef } from 'react'
+import { Mesh, TextureLoader } from 'three'
 
 interface DishIconProps {
   textureURL: string

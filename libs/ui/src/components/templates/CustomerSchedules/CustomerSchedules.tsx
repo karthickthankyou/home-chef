@@ -1,13 +1,9 @@
-import {
-  useSchedulesForCustomerLazyQuery,
-  useSchedulesForCustomerQuery,
-} from '@home-chefs-org/network/src/generated'
+import { useSchedulesForCustomerQuery } from '@home-chefs-org/network/src/generated'
 import { useTakeSkip } from '@home-chefs-org/util'
+import { Pagination } from '../../molecules/Pagination'
 import { Table } from '../../organisms/Table'
 import { TableCell, TableHead, TableRow } from '../../organisms/Table/Table'
 import { CustomerSubscriptionRow } from './components'
-import { Pagination } from '../../molecules/Pagination'
-import { ShowData } from '../../organisms/ShowData'
 
 export interface ICustomerSchedulesProps {}
 

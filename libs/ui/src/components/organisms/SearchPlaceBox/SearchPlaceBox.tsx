@@ -1,4 +1,3 @@
-import { useAppSelector } from '@home-chefs-org/store'
 import {
   LocationInfo,
   useSearchLocation,

@@ -1,16 +1,15 @@
-import * as React from 'react'
 import Timeline, { TimelineProps } from '@mui/lab/Timeline'
-import TimelineItem from '@mui/lab/TimelineItem'
-import TimelineSeparator from '@mui/lab/TimelineSeparator'
 import TimelineConnector from '@mui/lab/TimelineConnector'
 import TimelineContent from '@mui/lab/TimelineContent'
+import TimelineItem from '@mui/lab/TimelineItem'
+import TimelineSeparator from '@mui/lab/TimelineSeparator'
 import {
-  IconInfoSquareRounded,
   IconMoonStars,
   IconSun,
   IconSunrise,
   IconSunset,
 } from '@tabler/icons-react'
+import * as React from 'react'
 
 export type TimelineStepType = {
   children: React.ReactNode

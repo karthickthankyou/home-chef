@@ -1,12 +1,12 @@
-import { ReactElement } from 'react'
-import { SkipNavContent, SkipNavLink } from '@reach/skip-nav'
 import { Footer } from '@home-chefs-org/ui/src/components/organisms/Footer'
 import { Header } from '@home-chefs-org/ui/src/components/organisms/Header'
+import { SkipNavContent, SkipNavLink } from '@reach/skip-nav'
 import { useRouter } from 'next/router'
+import { ReactElement } from 'react'
 
-import { IconArrowsDoubleSeNw } from '@tabler/icons-react'
 import { AppLevelListeners } from '@home-chefs-org/ui/src/components/atoms/AppLevelListeners'
 import { Notifications } from '@home-chefs-org/ui/src/components/organisms/Notifications'
+import { IconArrowsDoubleSeNw } from '@tabler/icons-react'
 
 interface ILayoutProps {
   children: ReactElement | ReactElement[]

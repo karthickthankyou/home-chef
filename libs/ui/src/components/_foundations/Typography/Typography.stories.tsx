@@ -1,6 +1,5 @@
-import React from 'react'
-import { ComponentStory, ComponentMeta } from '@storybook/react'
-import { Typography, RenderScale } from './Typography'
+import { ComponentMeta, ComponentStory } from '@storybook/react'
+import { RenderScale, Typography } from './Typography'
 
 export default {
   title: '_foundations/Typography',

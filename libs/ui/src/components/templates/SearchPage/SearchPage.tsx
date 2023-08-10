@@ -1,30 +1,30 @@
-import { SearchKitchens } from '../SearchKitchens'
-import { Map } from '../../organisms/Map'
-import { useEffect, useState } from 'react'
 import { Panel } from '@home-chefs-org/ui/src/components/organisms/Map/Panel'
 import { SearchPlaceBox } from '@home-chefs-org/ui/src/components/organisms/SearchPlaceBox'
+import { useEffect, useState } from 'react'
+import { Map } from '../../organisms/Map'
+import { SearchKitchens } from '../SearchKitchens'
 
+import { useFormCreateCustomer } from '@home-chefs-org/forms/src/customer/createCustomer'
+import { Button } from '@home-chefs-org/ui/src/components/atoms/Button'
+import { Form } from '@home-chefs-org/ui/src/components/atoms/Form'
+import { HtmlInput } from '@home-chefs-org/ui/src/components/atoms/HtmlInput'
+import { HtmlLabel } from '@home-chefs-org/ui/src/components/atoms/HtmlLabel'
 import { IconHome, IconTriangleInvertedFilled } from '@tabler/icons-react'
 import { Marker, Popup, useMap } from 'react-map-gl'
-import { HtmlLabel } from '@home-chefs-org/ui/src/components/atoms/HtmlLabel'
-import { HtmlInput } from '@home-chefs-org/ui/src/components/atoms/HtmlInput'
-import { Form } from '@home-chefs-org/ui/src/components/atoms/Form'
-import { Button } from '@home-chefs-org/ui/src/components/atoms/Button'
-import { useFormCreateCustomer } from '@home-chefs-org/forms/src/customer/createCustomer'
 
-import { HtmlTextArea } from '@home-chefs-org/ui/src/components/atoms/HtmlTextArea'
-import { notification$ } from '@home-chefs-org/util/subjects'
 import {
   namedOperations,
   useCreateCustomerMutation,
   useCustomerMeQuery,
 } from '@home-chefs-org/network/src/generated'
+import { HtmlTextArea } from '@home-chefs-org/ui/src/components/atoms/HtmlTextArea'
+import { notification$ } from '@home-chefs-org/util/subjects'
+import { LoaderPanel } from '../../molecules/Loader'
 import {
   CenterOfMap,
   DefaultZoomControls,
 } from '../../organisms/Map/ZoomControls/ZoomControls'
 import { ISearchPlaceBoxProps } from '../../organisms/SearchPlaceBox/SearchPlaceBox'
-import { LoaderPanel } from '../../molecules/Loader'
 
 export interface ISearchPageProps {
   uid: string

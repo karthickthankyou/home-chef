@@ -1,6 +1,6 @@
-import { GetUserType, Role } from 'src/common/types'
 import { Injectable } from '@nestjs/common'
 import * as admin from 'firebase-admin'
+import { GetUserType, Role } from 'src/common/types'
 import { PrismaService } from '../prisma/prisma.service'
 
 @Injectable()

@@ -1,28 +1,27 @@
 import {
-  Resolver,
-  Query,
-  Mutation,
   Args,
-  ResolveField,
+  Mutation,
   Parent,
+  Query,
+  ResolveField,
+  Resolver,
 } from '@nestjs/graphql'
-import { CustomersService } from './customers.service'
-import { Customer } from './entities/customer.entity'
-import { FindManyCustomerArgs, FindUniqueCustomerArgs } from './dto/find.args'
-import { CreateCustomerInput } from './dto/create-customer.input'
-import { UpdateCustomerInput } from './dto/update-customer.input'
-import { Schedule } from '../schedules/entities/schedule.entity'
-import { PrismaService } from 'src/common/prisma/prisma.service'
-import { CustomerReview } from '../customer-reviews/entities/customer-review.entity'
-import { Order } from '../orders/entities/order.entity'
-import { FoodItem } from '../food-items/entities/food-item.entity'
 import {
   AllowAuthenticated,
   GetUser,
 } from 'src/common/decorators/auth/auth.decorator'
-import { GetUserType } from 'src/common/types'
 import { checkRowLevelPermission } from 'src/common/guards'
+import { PrismaService } from 'src/common/prisma/prisma.service'
+import { GetUserType } from 'src/common/types'
 import { Address } from '../addresses/entities/address.entity'
+import { CustomerReview } from '../customer-reviews/entities/customer-review.entity'
+import { Order } from '../orders/entities/order.entity'
+import { Schedule } from '../schedules/entities/schedule.entity'
+import { CustomersService } from './customers.service'
+import { CreateCustomerInput } from './dto/create-customer.input'
+import { FindManyCustomerArgs, FindUniqueCustomerArgs } from './dto/find.args'
+import { UpdateCustomerInput } from './dto/update-customer.input'
+import { Customer } from './entities/customer.entity'
 
 @Resolver(() => Customer)
 export class CustomersResolver {

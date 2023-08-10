@@ -1,6 +1,6 @@
+import { Day } from '@home-chefs-org/network/src/generated'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
-import { Day } from '@home-chefs-org/network/src/generated'
 import { z } from 'zod'
 
 export const createFoodItemFormSchema = z.object({

@@ -1,22 +1,22 @@
 import {
-  Resolver,
-  Query,
-  Mutation,
   Args,
+  Mutation,
   Parent,
+  Query,
   ResolveField,
+  Resolver,
 } from '@nestjs/graphql'
+import { PrismaService } from 'src/common/prisma/prisma.service'
+import { Customer } from '../customers/entities/customer.entity'
+import { FoodItem } from '../food-items/entities/food-item.entity'
 import { CustomerReviewsService } from './customer-reviews.service'
-import { CustomerReview } from './entities/customer-review.entity'
+import { CreateCustomerReviewInput } from './dto/create-customer-review.input'
 import {
   FindManyCustomerReviewArgs,
   FindUniqueCustomerReviewArgs,
 } from './dto/find.args'
-import { CreateCustomerReviewInput } from './dto/create-customer-review.input'
 import { UpdateCustomerReviewInput } from './dto/update-customer-review.input'
-import { Customer } from '../customers/entities/customer.entity'
-import { PrismaService } from 'src/common/prisma/prisma.service'
-import { FoodItem } from '../food-items/entities/food-item.entity'
+import { CustomerReview } from './entities/customer-review.entity'
 
 @Resolver(() => CustomerReview)
 export class CustomerReviewsResolver {

@@ -1,14 +1,14 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 
-import Link from 'next/link'
-import { Button } from '../../atoms/Button'
-import { HtmlLabel } from '../../atoms/HtmlLabel'
-import { HtmlInput } from '../../atoms/HtmlInput'
-import { Dialog } from '../../atoms/Dialog'
 import {
   FormTypeResetPassword,
   useFormResetPassword,
 } from '@home-chefs-org/forms/src/resetPassword'
+import Link from 'next/link'
+import { Button } from '../../atoms/Button'
+import { Dialog } from '../../atoms/Dialog'
+import { HtmlInput } from '../../atoms/HtmlInput'
+import { HtmlLabel } from '../../atoms/HtmlLabel'
 
 import { useAsync } from '@home-chefs-org/hooks/src/fetcher'
 import { resetPassword } from '@home-chefs-org/network/src/auth'

@@ -1,8 +1,8 @@
-import { SearchPage } from '@home-chefs-org/ui/src/components/templates/SearchPage'
-import { IsLoggedIn } from '@home-chefs-org/ui/src/components/organisms/IsLoggedIn'
-import Head from 'next/head'
-import { Container } from '@home-chefs-org/ui/src/components/atoms/Container'
 import { FormProviderSearchKitchens } from '@home-chefs-org/forms/src/searchKitchens'
+import { Container } from '@home-chefs-org/ui/src/components/atoms/Container'
+import { IsLoggedIn } from '@home-chefs-org/ui/src/components/organisms/IsLoggedIn'
+import { SearchPage } from '@home-chefs-org/ui/src/components/templates/SearchPage'
+import Head from 'next/head'
 
 export default function Search() {
   return (

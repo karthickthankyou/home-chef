@@ -11,8 +11,8 @@ import {
   RegisterOutput,
 } from './dto/auth.input'
 
-import { Role } from 'src/common/types'
 import { FirebaseService } from 'src/common/firebase/firebase.service'
+import { Role } from 'src/common/types'
 
 @Injectable()
 export class AuthService {

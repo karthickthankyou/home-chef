@@ -1,9 +1,7 @@
-import React, { useEffect, useState } from 'react'
-import { Canvas } from '@react-three/fiber'
 import { Plane } from '@react-three/drei'
-import { useLoader } from '@react-three/fiber'
+import { useEffect, useState } from 'react'
+import { Group, MeshBasicMaterial, Vector3 } from 'three'
 import { SVGLoader } from 'three/examples/jsm/loaders/SVGLoader'
-import { TextureLoader, MeshBasicMaterial, Vector3, Group } from 'three'
 
 export function ClientSideSvg({ position }: { position: Vector3 }) {
   const [material, setMaterial] = useState<MeshBasicMaterial>()

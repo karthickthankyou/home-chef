@@ -1,5 +1,5 @@
+import { ComponentMeta, ComponentStory } from '@storybook/react'
 import React from 'react'
-import { ComponentStory, ComponentMeta } from '@storybook/react'
 import Shadows from './Shadows'
 
 export default {

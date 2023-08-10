@@ -1,7 +1,7 @@
+import { TAKE_COUNT } from '@home-chefs-org/util'
+import { IconArrowLeft, IconArrowRight } from '@tabler/icons-react'
 import React from 'react'
 import { PlainButton } from '../../atoms/PlainButton'
-import { IconArrowLeft, IconArrowRight } from '@tabler/icons-react'
-import { TAKE_COUNT } from '@home-chefs-org/util'
 export interface SimplePaginationProps {
   setSkip: React.Dispatch<React.SetStateAction<number>>
   setTake: React.Dispatch<React.SetStateAction<number>>

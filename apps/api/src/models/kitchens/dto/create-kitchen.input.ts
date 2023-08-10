@@ -1,7 +1,7 @@
 import { Field, InputType, OmitType, PickType } from '@nestjs/graphql'
-import { Kitchen } from '../entities/kitchen.entity'
-import { CreateFoodItemInput } from 'src/models/food-items/dto/create-food-item.input'
 import { CreateAddressInput } from 'src/models/addresses/dto/create-address.input'
+import { CreateFoodItemInput } from 'src/models/food-items/dto/create-food-item.input'
+import { Kitchen } from '../entities/kitchen.entity'
 
 @InputType()
 export class CreateKitchenInput extends PickType(

@@ -1,12 +1,7 @@
-import React, { useEffect, useRef } from 'react'
+import { Image } from '@react-three/drei'
 import { useFrame, useThree } from '@react-three/fiber'
+import React, { useEffect, useRef } from 'react'
 import { Vector3 } from 'three'
-import {
-  OrbitControls,
-  PerspectiveCamera,
-  Plane,
-  Image,
-} from '@react-three/drei'
 import { degToRad } from 'three/src/math/MathUtils'
 
 interface MovingObjectProps {

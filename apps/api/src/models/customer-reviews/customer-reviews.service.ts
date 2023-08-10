@@ -1,10 +1,10 @@
 import { Injectable } from '@nestjs/common'
+import { PrismaService } from 'src/common/prisma/prisma.service'
+import { CreateCustomerReviewInput } from './dto/create-customer-review.input'
 import {
   FindManyCustomerReviewArgs,
   FindUniqueCustomerReviewArgs,
 } from './dto/find.args'
-import { PrismaService } from 'src/common/prisma/prisma.service'
-import { CreateCustomerReviewInput } from './dto/create-customer-review.input'
 import { UpdateCustomerReviewInput } from './dto/update-customer-review.input'
 
 @Injectable()

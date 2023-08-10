@@ -1,12 +1,7 @@
-import React, { ReactNode } from 'react'
+import { ReactNode } from 'react'
 
-import {
-  IconFloatCenter,
-  IconMinus,
-  IconPlus,
-  IconSoup,
-} from '@tabler/icons-react'
-import { LngLat, useMap } from 'react-map-gl'
+import { IconMinus, IconPlus, IconSoup } from '@tabler/icons-react'
+import { useMap } from 'react-map-gl'
 
 export interface IZoomControlsProps {}
 

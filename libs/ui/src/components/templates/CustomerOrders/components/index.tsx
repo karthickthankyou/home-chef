@@ -3,14 +3,12 @@ import {
   InputMaybe,
   useOrdersForCustomerLazyQuery,
 } from '@home-chefs-org/network/src/generated'
-import { ReactNode } from 'react'
+import { format } from 'date-fns'
+import React, { ReactNode, useEffect } from 'react'
+import Badge from '../../../atoms/Badge'
+import { PlainButton } from '../../../atoms/PlainButton'
 import { Table } from '../../../organisms/Table'
 import { TableCell, TableHead, TableRow } from '../../../organisms/Table/Table'
-import { useEffect } from 'react'
-import { PlainButton } from '../../../atoms/PlainButton'
-import { format } from 'date-fns'
-import Badge from '../../../atoms/Badge'
-import React from 'react'
 
 export const getDatesFilter = ({
   type,

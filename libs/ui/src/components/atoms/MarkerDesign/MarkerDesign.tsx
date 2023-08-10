@@ -1,4 +1,4 @@
-import { IconDoor, IconKeyboard, IconKeyboardHide } from '@tabler/icons-react'
+import { IconKeyboardHide } from '@tabler/icons-react'
 import { ReactNode } from 'react'
 
 export interface IMarkerDesignProps {

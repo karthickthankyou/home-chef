@@ -1,16 +1,16 @@
+import { useFormReviewFoodItem } from '@home-chefs-org/forms/src/customer/reviewFoodItem'
 import {
-  SchedulesForCustomerQuery,
   namedOperations,
+  SchedulesForCustomerQuery,
   useCreateCustomerReviewMutation,
   useUpdateScheduleMutation,
 } from '@home-chefs-org/network/src/generated'
 import { Controller } from 'react-hook-form'
-import { useFormReviewFoodItem } from '@home-chefs-org/forms/src/customer/reviewFoodItem'
 
 import {
+  IconMessageCircle,
   IconPlayerPause,
   IconPlayerPlay,
-  IconMessageCircle,
   IconStar,
 } from '@tabler/icons-react'
 import { format } from 'date-fns'
@@ -19,18 +19,18 @@ import { PlainButton } from '../../../atoms/PlainButton'
 import { IconType } from '../../../molecules/TimelineItem/TimelineItem'
 import { WeekCalendar } from '../../../molecules/WeekCalendar'
 
-import { Loader } from '../../../molecules/Loader'
-import { TableCell, TableRow } from '../../../organisms/Table/Table'
-import Badge from '../../../atoms/Badge'
-import Tooltip from '../../../atoms/Tooltip'
-import { Rating } from '../../../molecules/Rating'
 import { useAppSelector } from '@home-chefs-org/store'
+import { selectUid } from '@home-chefs-org/store/user'
+import Badge from '../../../atoms/Badge'
+import { Button } from '../../../atoms/Button'
 import { Dialog } from '../../../atoms/Dialog'
 import { Form } from '../../../atoms/Form'
-import { selectUid } from '@home-chefs-org/store/user'
 import { HtmlLabel } from '../../../atoms/HtmlLabel'
 import { HtmlTextArea } from '../../../atoms/HtmlTextArea'
-import { Button } from '../../../atoms/Button'
+import Tooltip from '../../../atoms/Tooltip'
+import { Loader } from '../../../molecules/Loader'
+import { Rating } from '../../../molecules/Rating'
+import { TableCell, TableRow } from '../../../organisms/Table/Table'
 
 export const CustomerSubscriptionRow = ({
   schedule,

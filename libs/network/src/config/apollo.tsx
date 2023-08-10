@@ -1,19 +1,19 @@
 import {
   ApolloClient,
-  InMemoryCache,
   ApolloProvider as Provider,
   createHttpLink,
+  InMemoryCache,
 } from '@apollo/client'
 import { setContext } from '@apollo/client/link/context'
-import { useAppSelector } from '@home-chefs-org/store'
-import { selectUser } from '@home-chefs-org/store/user'
-import { ReactNode } from 'react'
-import jwtDecode from 'jwt-decode'
 import {
   LoginDocument,
   LoginMutation,
   LoginMutationVariables,
 } from '@home-chefs-org/network/src/generated'
+import { useAppSelector } from '@home-chefs-org/store'
+import { selectUser } from '@home-chefs-org/store/user'
+import jwtDecode from 'jwt-decode'
+import { ReactNode } from 'react'
 
 export interface IApolloProviderProps {
   children: ReactNode

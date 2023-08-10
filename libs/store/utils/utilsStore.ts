@@ -1,5 +1,5 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { NotificationType } from '@home-chefs-org/types'
+import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
 import { RootState } from '..'
 

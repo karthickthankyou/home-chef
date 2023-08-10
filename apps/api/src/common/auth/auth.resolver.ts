@@ -1,5 +1,5 @@
 import { BadRequestException } from '@nestjs/common'
-import { Resolver, Mutation, Args } from '@nestjs/graphql'
+import { Args, Mutation, Resolver } from '@nestjs/graphql'
 import {
   AllowAuthenticated,
   GetUser,
@@ -8,6 +8,7 @@ import { GetUserType, Role } from 'src/common/types'
 
 import { AuthService } from './auth.service'
 
+import { checkRowLevelPermission } from 'src/common/guards'
 import {
   LoginInput,
   LoginOutput,
@@ -17,7 +18,6 @@ import {
   RegisterOutput,
   SetRoleInput,
 } from './dto/auth.input'
-import { checkRowLevelPermission } from 'src/common/guards'
 
 @Resolver(() => LoginOutput)
 export class AuthResolver {

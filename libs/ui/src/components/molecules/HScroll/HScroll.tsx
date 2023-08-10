@@ -1,12 +1,12 @@
+import { useScroll } from '@home-chefs-org/hooks/src'
 import { IconChevronLeft } from '@tabler/icons-react'
-import React, {
+import {
   createContext,
   ReactElement,
   ReactNode,
   useContext,
   useMemo,
 } from 'react'
-import { useScroll } from '@home-chefs-org/hooks/src'
 
 export interface IHScrollProps {
   children: ReactNode
